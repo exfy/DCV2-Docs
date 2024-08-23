@@ -44,6 +44,23 @@
         }
         .permissions-list {
             background-color: #e9e9e9;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .permissions-list .description {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+        .permissions-list .permission {
+            padding: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
+            text-align: center;
         }
         .user-list {
             background-color: #f9f9f9;
@@ -55,16 +72,39 @@
             flex-direction: column;
             justify-content: space-between;
         }
-        .user, .permission {
+        .user {
             padding: 5px;
-            margin: 5px;
+            margin: 10px 0;
             border: 1px solid #ccc;
             background-color: #fff;
-            cursor: pointer;
+            cursor: default;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
             user-select: none; /* Verhindert das Markieren von Text */
+        }
+        .user-header {
+            background-color: #4CAF50;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 5px;
+            border-radius: 5px 5px 0 0;
+            position: relative;
+        }
+        .edit-icon {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .user img {
+            margin-top: 5px;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            pointer-events: none; /* Verhindert Drag-and-Drop des Avatars */
         }
         .dropzone {
             border: 2px dashed #ccc;
@@ -75,6 +115,23 @@
             display: flex;
             flex-direction: column;
             gap: 5px;
+            width: 100%;
+        }
+        .permission {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+        .remove-permission {
+            color: red;
+            cursor: pointer;
+            margin-left: 10px;
+            font-weight: bold;
         }
         .json-output {
             flex-grow: 1;
@@ -120,6 +177,7 @@
 <div class="container">
     <div class="column permissions-list" id="permissionsList">
         <h2>Available Permissions</h2>
+        <div class="description">Du kannst die Permissions mit Drag&Drop einem User zuweißen.</div>
     </div>
 
     <div class="column user-list" id="userList">
@@ -138,14 +196,14 @@
 
 <script>
     const permissionMapping = {
-        "main.botcontroller.screenshare": "Screenshare",
+        "main.botcontroller.screenshare": "Screensharer",
         "main.botcontroller.join": "Joiner",
-        "main.botcontroller.shutdown": "Minecraft Beenden",
-        "main.botcontroller.disconnect": "Disconnect Server",
-        "main.botcontroller.restartdcbot": "Restart DC-Bot",
-        "main.botcontroller.reloadconfig": "Config Reload",
-        "main.botcontroller.login": "MC-Account Login/Session",
-        "main.botcontroller.status": "Status On/Off"
+        "main.botcontroller.shutdown": "Shutdowner",
+        "main.botcontroller.disconnect": "Disconnector",
+        "main.botcontroller.restartdcbot": "Restarter",
+        "main.botcontroller.reloadconfig": "Config Reloader",
+        "main.botcontroller.login": "Loginer",
+        "main.botcontroller.status": "Status Checker"
     };
 
     let users = [];
@@ -181,7 +239,7 @@
 
     function loadPermissions() {
         const permissionsList = document.getElementById('permissionsList');
-        permissionsList.innerHTML = '';
+        permissionsList.innerHTML = '<h2>Available Permissions</h2><div class="description">Drag and drop the permissions to assign them to users.</div>';
         for (let fullPermission in permissionMapping) {
             const permissionDiv = document.createElement('div');
             permissionDiv.className = 'permission';
@@ -200,7 +258,20 @@
             const userDiv = document.createElement('div');
             userDiv.className = 'user';
             userDiv.setAttribute('data-index', index);
-            userDiv.textContent = `${user.username} (${user.dcId})`;
+
+            const userHeader = document.createElement('div');
+            userHeader.className = 'user-header';
+            userHeader.innerHTML = `
+                ${user.username} (${user.dcId})
+                <span class="edit-icon" onclick="editUser(${index})">✎</span>
+            `;
+
+            const avatar = document.createElement('img');
+            avatar.src = `https://mc-heads.net/avatar/${user.username}/80`;
+            avatar.alt = `${user.username}'s Avatar`;
+
+            userDiv.appendChild(userHeader);
+            userDiv.appendChild(avatar);
 
             userDiv.addEventListener('dragover', dragOver);
             userDiv.addEventListener('drop', dropPermission);
@@ -212,8 +283,7 @@
             user.permissions.forEach((fullPermission, pIndex) => {
                 const permissionDiv = document.createElement('div');
                 permissionDiv.className = 'permission';
-                permissionDiv.textContent = permissionMapping[fullPermission];
-                permissionDiv.addEventListener('click', () => removePermission(index, pIndex));
+                permissionDiv.innerHTML = `${permissionMapping[fullPermission]} <span class="remove-permission" onclick="removePermission(${index}, ${pIndex})">&times;</span>`;
                 dropzone.appendChild(permissionDiv);
             });
 
@@ -232,16 +302,39 @@
     }
 
     function addUser() {
-        const dcId = prompt('Enter Discord ID:');
-        const username = prompt('Enter Username:');
-        if (dcId && username) {
-            users.push({
-                dcId: dcId,
-                username: username,
-                permissions: []
-            });
-            loadUsers();
+        const dcId = prompt('Enter Discord ID (numbers only, no spaces):');
+        if (!/^\d+$/.test(dcId)) {
+            alert('Invalid Discord ID. It must contain only numbers without spaces.');
+            return;
         }
+        const username = prompt('Enter Username (only letters, numbers, ! and _ allowed):');
+        if (!/^[a-zA-Z0-9_!]+$/.test(username)) {
+            alert('Invalid Username. It can only contain letters, numbers, ! and _.');
+            return;
+        }
+        users.push({
+            dcId: dcId,
+            username: username,
+            permissions: []
+        });
+        loadUsers();
+    }
+
+    function editUser(index) {
+        const user = users[index];
+        const newDcId = prompt('Edit Discord ID (numbers only, no spaces):', user.dcId);
+        if (!/^\d+$/.test(newDcId)) {
+            alert('Invalid Discord ID. It must contain only numbers without spaces.');
+            return;
+        }
+        const newUsername = prompt('Edit Username (only letters, numbers, ! and _ allowed):', user.username);
+        if (!/^[a-zA-Z0-9_!]+$/.test(newUsername)) {
+            alert('Invalid Username. It can only contain letters, numbers, ! and _.');
+            return;
+        }
+        user.dcId = newDcId;
+        user.username = newUsername;
+        loadUsers();
     }
 
     function deleteUser(index) {
@@ -270,8 +363,7 @@
 
             const permissionDiv = document.createElement('div');
             permissionDiv.className = 'permission';
-            permissionDiv.textContent = permissionMapping[fullPermission];
-            permissionDiv.addEventListener('click', () => removePermission(userIndex, user.permissions.length - 1));
+            permissionDiv.innerHTML = `${permissionMapping[fullPermission]} <span class="remove-permission" onclick="removePermission(${userIndex}, ${user.permissions.length - 1})">&times;</span>`;
             event.currentTarget.querySelector('.dropzone').appendChild(permissionDiv);
 
             updateJsonOutput();
@@ -304,7 +396,7 @@
     function copyToClipboard() {
         const jsonOutput = document.getElementById('jsonOutput');
         navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
-            alert('JSON copied to clipboard!');
+            alert('Du kannst die Json nun mit STRG + V einfügen.');
         });
     }
 
