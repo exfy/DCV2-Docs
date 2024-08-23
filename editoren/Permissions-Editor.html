@@ -239,7 +239,7 @@
 
     function loadPermissions() {
         const permissionsList = document.getElementById('permissionsList');
-        permissionsList.innerHTML = '<h2>Available Permissions</h2><div class="description">Drag and drop the permissions to assign them to users.</div>';
+        permissionsList.innerHTML = '<h2>mögliche Permissions:</h2><div class="description">Du kannst die Permissions mit Drag&Drop einem User zuweisen..</div>';
         for (let fullPermission in permissionMapping) {
             const permissionDiv = document.createElement('div');
             permissionDiv.className = 'permission';
