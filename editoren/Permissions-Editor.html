@@ -137,13 +137,15 @@
 </div>
 
 <script>
-    const permissions = {
-        "main.botcontroller": [
-            "screenshare", "join", "shutdown", "disconnect", "restartdcbot", "reloadconfig", "login", "status"
-        ],
-        "main.otherh": [
-            "scrasdasdare"
-        ]
+    const permissionMapping = {
+        "main.botcontroller.screenshare": "Screenshare",
+        "main.botcontroller.join": "Joiner",
+        "main.botcontroller.shutdown": "Minecraft Beenden",
+        "main.botcontroller.disconnect": "Disconnect Server",
+        "main.botcontroller.restartdcbot": "Restart DC-Bot",
+        "main.botcontroller.reloadconfig": "Config Reload",
+        "main.botcontroller.login": "MC-Account Login/Session",
+        "main.botcontroller.status": "Status On/Off"
     };
 
     let users = [];
@@ -180,18 +182,14 @@
     function loadPermissions() {
         const permissionsList = document.getElementById('permissionsList');
         permissionsList.innerHTML = '';
-        for (let category in permissions) {
-            const categoryDiv = document.createElement('div');
-            categoryDiv.innerHTML = `<strong>${category}</strong>`;
-            permissions[category].forEach(permission => {
-                const permissionDiv = document.createElement('div');
-                permissionDiv.className = 'permission';
-                permissionDiv.draggable = true;
-                permissionDiv.textContent = `${category}.${permission}`;
-                permissionDiv.addEventListener('dragstart', dragStart);
-                categoryDiv.appendChild(permissionDiv);
-            });
-            permissionsList.appendChild(categoryDiv);
+        for (let fullPermission in permissionMapping) {
+            const permissionDiv = document.createElement('div');
+            permissionDiv.className = 'permission';
+            permissionDiv.draggable = true;
+            permissionDiv.textContent = permissionMapping[fullPermission];
+            permissionDiv.setAttribute('data-full-permission', fullPermission);
+            permissionDiv.addEventListener('dragstart', dragStart);
+            permissionsList.appendChild(permissionDiv);
         }
     }
 
@@ -211,10 +209,10 @@
             dropzone.className = 'dropzone';
             dropzone.setAttribute('data-index', index);
 
-            user.permissions.forEach((permission, pIndex) => {
+            user.permissions.forEach((fullPermission, pIndex) => {
                 const permissionDiv = document.createElement('div');
                 permissionDiv.className = 'permission';
-                permissionDiv.textContent = permission;
+                permissionDiv.textContent = permissionMapping[fullPermission];
                 permissionDiv.addEventListener('click', () => removePermission(index, pIndex));
                 dropzone.appendChild(permissionDiv);
             });
@@ -254,7 +252,7 @@
     }
 
     function dragStart(event) {
-        event.dataTransfer.setData('text', event.target.textContent);
+        event.dataTransfer.setData('text', event.target.getAttribute('data-full-permission'));
     }
 
     function dragOver(event) {
@@ -263,16 +261,16 @@
 
     function dropPermission(event) {
         event.preventDefault();
-        const permission = event.dataTransfer.getData('text');
+        const fullPermission = event.dataTransfer.getData('text');
         const userIndex = event.currentTarget.getAttribute('data-index');
         const user = users[userIndex];
 
-        if (!user.permissions.includes(permission)) {
-            user.permissions.push(permission);
+        if (!user.permissions.includes(fullPermission)) {
+            user.permissions.push(fullPermission);
 
             const permissionDiv = document.createElement('div');
             permissionDiv.className = 'permission';
-            permissionDiv.textContent = permission;
+            permissionDiv.textContent = permissionMapping[fullPermission];
             permissionDiv.addEventListener('click', () => removePermission(userIndex, user.permissions.length - 1));
             event.currentTarget.querySelector('.dropzone').appendChild(permissionDiv);
 
