@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeEvents Editor</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>TimeEvents Editor</h1>
+    <div class="buttons">
+        <button id="importBtn">Import JSON</button>
+        <input type="file" id="fileInput" accept=".json">
+        <button id="saveBtn">Save to File</button>
+
+
+    </div>
+</div>
+
+<div class="container">
+    <!-- Left: Available Actions -->
+    <div class="column" id="actionList">
+        <h2>Available Actions</h2>
+        <div class="action" draggable="true" data-action="ChatMessageAction">Chat Message</div>
+        <div class="action" draggable="true" data-action="CommandAction">Command</div>
+        <div class="action" draggable="true" data-action="QuitClientAction">Quit Client</div>
+        <div class="action" draggable="true" data-action="QuitServerAction">Quit Server</div>
+        <div class="action" draggable="true" data-action="PrivateMessageAction">Private Message</div>
+        <div class="action" draggable="true" data-action="SendSimpleMessageWebhookAction">Send Webhook Message</div>
+        <div class="action" draggable="true" data-action="EmbedDiscordAction">Embed to Discord</div>
+        <div class="action" draggable="true" data-action="OfflinePayAction">Offline Pay</div>
+        <div class="action" draggable="true" data-action="OfflineMsgAction">Offline Message</div>
+        <div class="action" draggable="true" data-action="SetString">Set String</div>
+    </div>
+
+    <!-- Middle: Event Creation & Assignment -->
+    <div class="column" id="eventEditor">
+        <h2>Create Event</h2>
+        <form id="eventForm">
+            <div>
+                <label for="displayname">Display Name:</label>
+                <input type="text" id="displayname" required>
+            </div>
+            <div>
+                <label for="comment">Comment (optional):</label>
+                <input type="text" id="comment">
+            </div>
+            <div>
+                <label for="time">Time (HH:MM):</label>
+                <input type="time" id="time" required>
+            </div>
+            <button type="submit" id="createEventBtn">Create Event</button>
+        </form>
+        <h2>Created Events</h2>
+        <div id="eventList"></div>
+
+        <!-- Füge den Container für das Action-Formular hinzu -->
+        <div id="actionPopup" class="popup">
+            <div class="popup-content">
+                <span id="closePopup" class="close">&times;</span>
+                <div id="actionFormContainer"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Right: JSON Output -->
+    <div class="column">
+        <h2>Generated JSON</h2>
+        <div class="json-output" id="jsonOutput"></div>
+        <button id="copyBtn">Copy JSON to Clipboard</button>
+    </div>
+
+
+</div>
+
+<!-- JavaScript Dateien -->
+<script src="js/eventEditor.js"></script>
+<script src="js/eventList.js"></script>
+<script src="js/actionForm.js"></script>
+<script src="js/jsonOutput.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
