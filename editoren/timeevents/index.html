@@ -11,9 +11,9 @@
 <div class="header">
     <h1>TimeEvents Editor</h1>
     <div class="buttons">
-        <button id="importBtn">Import JSON</button>
-        <input type="file" id="fileInput" accept=".json">
-        <button id="saveBtn">Save to File</button>
+
+      <span>  <input type="file" id="fileInput" accept=".json"><button id="importBtn">Import JSON</button></span>
+       <span> <button id="saveBtn">Save to File</button></span>
 
 
     </div>
@@ -48,7 +48,7 @@
                 <input type="text" id="comment">
             </div>
             <div>
-                <label for="time">Time (HH:MM):</label>
+                <label for="time">Zeit (HH:MM):</label>
                 <input type="time" id="time" required>
             </div>
             <button type="submit" id="createEventBtn">Create Event</button>
@@ -56,7 +56,7 @@
         <h2>Created Events</h2>
         <div id="eventList"></div>
 
-        <script src="js/eventList.js"></script>
+
 
         <!-- Füge den Container für das Action-Formular hinzu -->
         <div id="actionPopup" class="popup">
@@ -79,10 +79,6 @@
 </div>
 
 <!-- JavaScript Dateien -->
-<script src="js/eventEditor.js"></script>
-<script src="js/eventList.js"></script>
-<script src="js/actionForm.js"></script>
-<script src="js/jsonOutput.js"></script>
 <script src="js/main.js"></script>
 
 </body>

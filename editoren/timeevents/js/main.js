@@ -411,12 +411,15 @@ document.getElementById('saveBtn').addEventListener('click', saveToFile);
 
 
 
-function showEventDetails(eventIndex) {
+/*function showEventDetails(eventIndex) {
     const event = events[eventIndex];
     alert(`Details für Event: ${event.displayname} (Zeit: ${event.time})`);
     // Hier könntest du weitere Logik einfügen, um ein Bearbeitungsformular anzuzeigen
-}
+}*/
 // Function to render the event list with delete, edit, and copy options
+
+
+
 function renderEventList() {
     const eventList = document.getElementById('eventList');
     eventList.innerHTML = ''; // Clear previous content
@@ -425,16 +428,16 @@ function renderEventList() {
         const eventDiv = document.createElement('div');
         eventDiv.className = 'event drop-target';
 
-        eventDiv.textContent = `${event.displayname} (${event.time})`;
-        eventDiv.setAttribute('data-index', index);
-
         const eventDetails = document.createElement('div');
-        eventDetails.innerHTML = `<strong>${event.displayname}</strong> (${event.time}) <br> <small>${event.comment}</small>`;
+        //eventDetails.innerHTML = `<strong>${event.displayname}</strong> (${event.time}) <br> ${event.comment} `;
+        eventDiv.innerHTML = `<strong>${event.displayname}</strong> (${event.time}) <br> ${event.comment} <br> <br> <br> `;
+
         eventDiv.appendChild(eventDetails);
+        eventDiv.setAttribute('data-index', index);
 
         // Edit button
         const editButton = document.createElement('button');
-        editButton.textContent = 'Edit';
+        editButton.textContent = 'ändern';
         editButton.onclick = () => {
             editEvent(index);
         };
@@ -442,7 +445,7 @@ function renderEventList() {
 
         // Delete button
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
+        deleteButton.textContent = 'löschen';
         deleteButton.onclick = () => {
             deleteEvent(index);
         };
@@ -450,7 +453,7 @@ function renderEventList() {
 
         // Copy to clipboard button
         const copyButton = document.createElement('button');
-        copyButton.textContent = 'Copy';
+        copyButton.textContent = 'kopieren';
         copyButton.onclick = () => {
             copyEventToClipboard(event);
         };
@@ -462,8 +465,8 @@ function renderEventList() {
             const actionItem = document.createElement('li');
             actionItem.innerHTML = `
                 ${action.actiondisplayname} 
-                <button class="editAction" data-event-index="${index}" data-action-index="${actionIndex}">Edit</button>
-                <button class="deleteAction" data-event-index="${index}" data-action-index="${actionIndex}">Delete</button>
+                <button class="editAction" data-event-index="${index}" data-action-index="${actionIndex}">ändern</button>
+                <button class="deleteAction" data-event-index="${index}" data-action-index="${actionIndex}">löschen</button>
             `;
             actionList.appendChild(actionItem);
         });

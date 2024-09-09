@@ -1,4 +1,4 @@
-body {
+/*body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -6,56 +6,106 @@ body {
     flex-direction: column;
     height: 100vh;
     user-select: none;
+    background-color: #36393f;
+    color: #dcddde;
 }
+
 .header {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #2f3136;
+    color: #ffffff;
     padding: 10px;
-    text-align: center;
+    text-align: end;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #202225;
 }
+
 .container {
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
     padding: 20px;
 }
+
 .column {
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #202225;
     display: flex;
     flex-direction: column;
     width: 30%;
+    background-color: #2f3136;
     overflow-y: auto;
 }
+
 .json-output {
     flex-grow: 1;
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
+    border: 1px solid #202225;
+    background-color: #2f3136;
     white-space: pre-wrap;
     overflow-y: auto;
+    color: #b9bbbe;
+    font-size: 12px;
 }
+
+
+input, select, textarea {
+    background-color: #40444b;
+    color: #dcddde;
+    border: 1px solid #202225;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #5865f2;
+    background-color: #2f3136;
+}
+
 .event, .action {
-    padding: 8px;
+    padding: 10px;
     margin-bottom: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: white;
+    border: 1px solid #202225;
+    background-color: #40444b;
+    color: #dcddde;
     cursor: pointer;
     text-align: center;
+    transition: background-color 0.3s;
+    user-select: none;
 }
+
+.event:hover, .action:hover {
+    background-color: #2c2f35;
+}
+
 button {
     padding: 10px;
+    background-color: #5865f2;
+    color: #ffffff;
+    border: none;
     cursor: pointer;
+    transition: background-color 0.3s;
+    user-select: none;
 }
+
+button:hover {
+    background-color: #4752c4;
+}
+
 .drop-target {
-    background-color: #f0f0f0;
-    border: 2px dashed #ccc;
+    background-color: #2f3136;
+    border: 2px dashed #6a6c82;
+    color: #dcddde;
+    padding: 20px;
 }
+
 .popup {
     display: none;
     position: fixed;
@@ -64,36 +114,207 @@ button {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .popup-content {
-    background-color: white;
+    background-color: #2f3136;
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid #202225;
     width: 50%;
+    color: #dcddde;
 }
 
 .close {
-    color: #aaa;
+    color: #dcddde;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
 .close:hover, .close:focus {
-    color: black;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+}
+li {
+    background-color: #3a3e44;
+    list-style: disclosure-closed;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: end;
+    margin-top: 8px;
+}
+#actionList {
+    width: 15%;
+}
+#eventEditor {
+    width: 45%;
+}*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    user-select: none;
+    background-color: #36393f;
+    color: #dcddde;
+}
+
+.header {
+    background-color: #2f3136;
+    color: #ffffff;
+    padding: 10px;
+    text-align: end;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #202225;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding: 80px 20px 20px 20px; /* adjust padding to account for the fixed header */
+}
+
+.column {
+    padding: 10px;
+    border: 1px solid #202225;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    background-color: #2f3136;
+    overflow-y: auto;
+}
+
+#actionList {
+    position: sticky;
+    top: 80px; /* adjust for header height */
+    width: 15%;
+    padding: 10px;
+    border: 1px solid #202225;
+    background-color: #2f3136;
+}
+
+#eventEditor {
+    width: 45%;
+}
+
+.json-output {
+    flex-grow: 1;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #202225;
+    background-color: #2f3136;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    color: #b9bbbe;
+    font-size: 12px;
+}
+
+/* Style for form elements */
+input, select, textarea {
+    background-color: #40444b;
+    color: #dcddde;
+    border: 1px solid #202225;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #5865f2;
+    background-color: #2f3136;
+}
+
+.event, .action {
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #202225;
+    background-color: #40444b;
+    color: #dcddde;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+    user-select: none;
+}
+
+.event:hover, .action:hover {
+    background-color: #2c2f35;
+}
+
+button {
+    padding: 10px;
+    background-color: #5865f2;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    user-select: none;
+}
+
+button:hover {
+    background-color: #4752c4;
+}
+
+.drop-target {
+    background-color: #2f3136;
+    border: 2px dashed #6a6c82;
+    color: #dcddde;
+    padding: 20px;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.popup-content {
+    background-color: #2f3136;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #202225;
+    width: 50%;
+    color: #dcddde;
+}
+
+.close {
+    color: #dcddde;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #ffffff;
     text-decoration: none;
     cursor: pointer;
 }
 
-.event, .action {
-    padding: 8px;
-    margin-bottom: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: white;
-    cursor: pointer;
-    text-align: center;
+li {
+    background-color: #3a3e44;
+    list-style: disclosure-closed;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: end;
+    margin-top: 8px;
 }
