@@ -88,3 +88,12 @@ button {
     cursor: pointer;
 }
 
+.event, .action {
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    cursor: pointer;
+    text-align: center;
+}
