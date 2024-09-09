@@ -111,10 +111,10 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
             `;
             break;
         case 'QuitClientAction':
-            actionForm = 'This action does not require additional fields.';
+            actionForm = 'Keine weiteren Eingabefelder nötig!';
             break;
         case 'QuitServerAction':
-            actionForm = 'This action does not require additional fields.';
+            actionForm = 'Keine weiteren Eingabefelder nötig!';
             break;
         case 'SendSimpleMessageWebhookAction':
             actionForm = `
@@ -159,10 +159,10 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
     // Popup-Feld für die Formulareingabe
     const formContainer = document.getElementById('actionFormContainer');
     formContainer.innerHTML = `
-        <h3>Fill Action: ${actionType}</h3>
+        <h3>Einfügen: ${actionType}</h3>
         <form id="actionForm">
             ${actionForm}
-            <button type="submit">Save Action</button>
+            <button type="submit">erstelle Action im Event</button>
         </form>
     `;
 
@@ -242,7 +242,7 @@ function saveActionToEvent(actionType, eventIndex, actionIndex = null) {
             break;
         case 'ChatMessageAction':
             actionData = {
-                command: document.getElementById('message').value,
+                message: document.getElementById('message').value,
                 cmdPrio: document.getElementById('cmdPrio').value
             };
             break;
@@ -325,7 +325,7 @@ function closePopup() {
     popup.style.display = 'none';
 }
 
-function setupPopupHandling() {
+/*function setupPopupHandling() {
     const popup = document.getElementById('actionPopup');
     const closeButton = document.getElementById('closePopup');
 
@@ -340,7 +340,35 @@ function setupPopupHandling() {
             closePopup();
         }
     };
+}*/
+function setupPopupHandling() {
+    const popup = document.getElementById('actionPopup');
+    const closeButton = document.getElementById('closePopup');
+
+    // Ensure popup is hidden on page load
+    popup.style.display = 'none';
+
+    // Function to show popup (you can trigger this with a specific event like a button click)
+    function showPopup() {
+        popup.style.display = 'block';
+    }
+
+    // Function to close the popup
+    function closePopup() {
+        popup.style.display = 'none';
+    }
+
+    // Close the popup when clicking the close button
+    closeButton.onclick = function () {
+        closePopup();
+    }
+
+    // Example of how to trigger the popup (you can replace this with your actual trigger logic)
+    document.getElementById('someTriggerButton').onclick = function () {
+        showPopup();
+    }
 }
+
 function importJsonFile() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
@@ -484,16 +512,64 @@ function renderEventList() {
 
 // Function to delete an event
 function deleteEvent(eventIndex) {
-    if (confirm('Are you sure you want to delete this event?')) {
+    if (confirm('Willst du das Event wirklich löschen?')) {
         events.splice(eventIndex, 1); // Remove event from array
         renderEventList(); // Re-render event list
         updateJsonOutput(); // Update JSON output
     }
 }
+function editEvent(eventIndex) {
+    const event = events[eventIndex];
+
+    // Create the popup structure
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+
+    const popupContent = `
+        <div class="popup-content">
+            <h3>Event editieren</h3>
+            <label for="popup-displayname">Anzeige Name:</label>
+            <input type="text" id="popup-displayname" value="${event.displayname}">
+            <label for="popup-comment">Kommentar:</label>
+            <input type="text" id="popup-comment" value="${event.comment}">
+            <label for="popup-time">Zeit:</label>
+            <input type="time" id="popup-time" value="${event.time}">
+            <div class="popup-buttons">
+                <button id="popup-save">Speichern</button>
+                <button id="popup-cancel">Abbrechen</button>
+            </div>
+        </div>
+    `;
+
+    popup.innerHTML = popupContent;
+    document.body.appendChild(popup);
+
+    // Handle Save button
+    document.getElementById('popup-save').onclick = function() {
+        event.displayname = document.getElementById('popup-displayname').value;
+        event.comment = document.getElementById('popup-comment').value;
+        event.time = document.getElementById('popup-time').value;
+
+        renderEventList(); // Re-render the updated list
+        updateJsonOutput();
+
+        closePopup();
+    };
+
+    // Handle Cancel button
+    document.getElementById('popup-cancel').onclick = function() {
+        closePopup();
+    };
+
+    // Function to close the popup
+    function closePopup() {
+        document.body.removeChild(popup);
+    }
+}
 
 
 // Function to edit an event
-function editEvent(eventIndex) {
+/*function editEvent(eventIndex) {
     const event = events[eventIndex];
     document.getElementById('displayname').value = event.displayname;
     document.getElementById('comment').value = event.comment;
@@ -509,7 +585,7 @@ function editEvent(eventIndex) {
         updateJsonOutput();
         document.getElementById('eventForm').reset();
     };
-}
+}*/
 
 // Function to copy event details to clipboard
 function copyEventToClipboard(event) {
