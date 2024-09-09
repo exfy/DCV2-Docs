@@ -361,7 +361,7 @@ function importJsonFile() {
                 events = importedData.timeevents; // Importierte Events in das events-Array laden
                 renderEventList(); // Liste der Events neu rendern
                 updateJsonOutput(); // Aktualisiere die JSON-Ausgabe
-                alert('JSON erfolgreich importiert.');
+               // alert('JSON erfolgreich importiert.');
             } else {
                 alert('Ungültiges JSON-Format.');
             }

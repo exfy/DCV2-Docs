@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TimeEvents Editor</title>
+    <title>DCV2 Zeit-Event Editor</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="header">
-    <h1>TimeEvents Editor</h1>
+    <img src = "https://api.qq4.de/dcv2/dcv2-zeit-event-editor.png" alt="DCV2 Zeit-Event Editor">
+
     <div class="buttons">
 
       <span>  <input type="file" id="fileInput" accept=".json"><button id="importBtn">Import JSON</button></span>
@@ -22,7 +23,7 @@
 <div class="container">
     <!-- Left: Available Actions -->
     <div class="column" id="actionList">
-        <h2>Available Actions</h2>
+        <h2>mögliche Aktionen</h2>
         <div class="action" draggable="true" data-action="ChatMessageAction">Chat Message</div>
         <div class="action" draggable="true" data-action="CommandAction">Command</div>
         <div class="action" draggable="true" data-action="QuitClientAction">Quit Client</div>
@@ -37,7 +38,7 @@
 
     <!-- Middle: Event Creation & Assignment -->
     <div class="column" id="eventEditor">
-        <h2>Create Event</h2>
+        <h2>Event erstellen</h2>
         <form id="eventForm">
             <div>
                 <label for="displayname">Display Name:</label>
@@ -51,7 +52,7 @@
                 <label for="time">Zeit (HH:MM):</label>
                 <input type="time" id="time" required>
             </div>
-            <button type="submit" id="createEventBtn">Create Event</button>
+            <button type="submit" id="createEventBtn">Zeitevent erstellen</button>
         </form>
         <h2>Created Events</h2>
         <div id="eventList"></div>
@@ -70,9 +71,9 @@
 
     <!-- Right: JSON Output -->
     <div class="column">
-        <h2>Generated JSON</h2>
+        <h2>TimeEvents.json</h2>
         <div class="json-output" id="jsonOutput"></div>
-        <button id="copyBtn">Copy JSON to Clipboard</button>
+        <button id="copyBtn">STRG + C</button>
     </div>
 
 
