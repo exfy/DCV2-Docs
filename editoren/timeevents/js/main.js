@@ -529,8 +529,13 @@ function initEventEditor() {
     document.getElementById('eventForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Prevents the form from refreshing the page
 
-        const displayname = document.getElementById('displayname').value;
-        const comment = document.getElementById('comment').value;
+        const displaynametemp = document.getElementById('displayname').value;
+        const displayname = displaynametemp.replace(/[^a-zA-Z0-9 _-]/g, '');
+
+        const commenttemp = document.getElementById('comment').value;
+        const comment = commenttemp.replace(/[^a-zA-Z0-9 _-]/g, '');
+
+
         const time = document.getElementById('time').value;
 
         const systemname = displayname.toLowerCase().replace(/[^a-z]/g, '');
