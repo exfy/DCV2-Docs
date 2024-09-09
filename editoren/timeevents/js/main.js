@@ -405,19 +405,35 @@ function importJsonFile() {
 // Event-Listener für den Import-Button
 document.getElementById('importBtn').addEventListener('click', importJsonFile);
 
-if (importedData && Array.isArray(importedData.timeevents)) {
-    events = importedData.timeevents;
-}
-
 function saveToFile() {
+    // Überprüfen, ob Events vorhanden sind
+    if (events.length === 0) {
+        alert('Es gibt keine Events zum Speichern.');
+        return;
+    }
+
+    // Konvertiere die Events in das richtige JSON-Format
     const data = JSON.stringify({ timeevents: events }, null, 4);
+
+    // Erstelle ein Blob-Objekt mit den JSON-Daten
     const blob = new Blob([data], { type: 'application/json' });
+
+    // Erstelle eine temporäre URL für die Datei
     const url = URL.createObjectURL(blob);
+
+    // Erstelle ein verstecktes Download-Element
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'TimeEvents.json';
+    a.download = 'TimeEvents.json';  // Name der exportierten Datei
+
+    // Füge das Download-Element zum DOM hinzu, klicke es, und entferne es dann
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
+
+    // Gib die URL frei
     URL.revokeObjectURL(url);
 }
 
+// Event-Listener für den Speichern-Button
 document.getElementById('saveBtn').addEventListener('click', saveToFile);
