@@ -657,3 +657,4 @@ function copyToClipboard() {
         console.error('Fehler beim Kopieren in die Zwischenablage:  ', err);
     });
 }
+

@@ -84,3 +84,11 @@
 
 </body>
 </html>
+<script>
+    window.addEventListener('beforeunload', function (e) {
+        var confirmationMessage = 'Durch den Reload der Seite geht der aktuelle Stand verloren. Exporiere die Daten oben mit speichern.';
+
+        e.returnValue = confirmationMessage; // Standard für ältere Browser
+        return confirmationMessage;          // Für neuere Browser
+    });
+</script>
