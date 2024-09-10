@@ -32,7 +32,6 @@ function initEventEditor() {
 }
 
 
-
 // Funktion zum Bearbeiten und Löschen von Actions
 function setupActionButtons() {
     // Bearbeiten-Button
@@ -95,19 +94,34 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
             actionForm = `
                 <label>Player:</label><input type="text" id="player" required>
                 <label>Message:</label><input type="text" id="message" required>
-                <label>Command Priority:</label><input type="text" id="cmdPrio" required>
+                <label for="cmdPrio">Command Priority:</label>
+<select id="cmdPrio" required>
+  <option value="NORMAL">NORMAL</option>
+  <option value="HIGH">HIGH</option>
+  <option value="LOW">LOW</option>
+</select>
             `;
             break;
         case 'CommandAction':
             actionForm = `
                 <label>Command:</label><input type="text" id="command" required>
-                <label>Command Priority:</label><input type="text" id="cmdPrio" required>
+                <label for="cmdPrio">Command Priority:</label>
+<select id="cmdPrio" required>
+  <option value="NORMAL">NORMAL</option>
+  <option value="HIGH">HIGH</option>
+  <option value="LOW">LOW</option>
+</select>
             `;
             break;
         case 'ChatMessageAction':
             actionForm = `
                 <label>Message:</label><input type="text" id="message" required>
-                <label>Command Priority:</label><input type="text" id="cmdPrio" required>
+              <label for="cmdPrio">Command Priority:</label>
+<select id="cmdPrio" required>
+<option value="NORMAL">NORMAL</option>
+  <option value="HIGH">HIGH</option>
+  <option value="LOW">LOW</option>
+</select>
             `;
             break;
         case 'QuitClientAction':
@@ -128,7 +142,7 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 <label>Description:</label><input type="text" id="description" required>
                 <label>Content:</label><input type="text" id="content" required>
                 <label>Webhook URL:</label><input type="url" id="webhookUrl" required>
-                <label>Color:</label><input type="text" id="color">
+                <label>Color:</label><input type="color" id="color" value="#ff0000">
             `;
             break;
         case 'OfflinePayAction':
@@ -159,10 +173,10 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
     // Popup-Feld für die Formulareingabe
     const formContainer = document.getElementById('actionFormContainer');
     formContainer.innerHTML = `
-        <h3>Einfügen: ${actionType}</h3>
+        <h3>Erstellen/Ändern: ${actionType}</h3>
         <form id="actionForm">
             ${actionForm}
-            <button type="submit">erstelle Action im Event</button>
+            <button type="submit">speichern</button>
         </form>
     `;
 
@@ -380,7 +394,7 @@ function importJsonFile() {
 
     const reader = new FileReader();
 
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         try {
             const importedData = JSON.parse(e.target.result);
 
@@ -389,7 +403,7 @@ function importJsonFile() {
                 events = importedData.timeevents; // Importierte Events in das events-Array laden
                 renderEventList(); // Liste der Events neu rendern
                 updateJsonOutput(); // Aktualisiere die JSON-Ausgabe
-               // alert('JSON erfolgreich importiert.');
+                // alert('JSON erfolgreich importiert.');
             } else {
                 alert('Ungültiges JSON-Format.');
             }
@@ -412,10 +426,10 @@ function saveToFile() {
     }
 
     // Konvertiere die Events in das richtige JSON-Format
-    const data = JSON.stringify({ timeevents: events }, null, 4);
+    const data = JSON.stringify({timeevents: events}, null, 4);
 
     // Erstelle ein Blob-Objekt mit den JSON-Daten
-    const blob = new Blob([data], { type: 'application/json' });
+    const blob = new Blob([data], {type: 'application/json'});
 
     // Erstelle eine temporäre URL für die Datei
     const url = URL.createObjectURL(blob);
@@ -438,14 +452,13 @@ function saveToFile() {
 document.getElementById('saveBtn').addEventListener('click', saveToFile);
 
 
-
 /*function showEventDetails(eventIndex) {
     const event = events[eventIndex];
     alert(`Details für Event: ${event.displayname} (Zeit: ${event.time})`);
     // Hier könntest du weitere Logik einfügen, um ein Bearbeitungsformular anzuzeigen
 }*/
-// Function to render the event list with delete, edit, and copy options
 
+// Function to render the event list with delete, edit, and copy options
 
 
 function renderEventList() {
@@ -518,6 +531,7 @@ function deleteEvent(eventIndex) {
         updateJsonOutput(); // Update JSON output
     }
 }
+
 function editEvent(eventIndex) {
     const event = events[eventIndex];
 
@@ -545,7 +559,7 @@ function editEvent(eventIndex) {
     document.body.appendChild(popup);
 
     // Handle Save button
-    document.getElementById('popup-save').onclick = function() {
+    document.getElementById('popup-save').onclick = function () {
         event.displayname = document.getElementById('popup-displayname').value;
         event.comment = document.getElementById('popup-comment').value;
         event.time = document.getElementById('popup-time').value;
@@ -557,7 +571,7 @@ function editEvent(eventIndex) {
     };
 
     // Handle Cancel button
-    document.getElementById('popup-cancel').onclick = function() {
+    document.getElementById('popup-cancel').onclick = function () {
         closePopup();
     };
 
@@ -596,9 +610,10 @@ function copyEventToClipboard(event) {
         alert('Failed to copy: ' + err);
     });
 }
+
 function updateJsonOutput() {
     const jsonOutput = document.getElementById('jsonOutput');
-    jsonOutput.textContent = JSON.stringify({ timeevents: events }, null, 4);
+    jsonOutput.textContent = JSON.stringify({timeevents: events}, null, 4);
 }
 
 function initEventEditor() {
@@ -633,6 +648,7 @@ function initEventEditor() {
         document.getElementById('eventForm').reset();
     });
 }
+
 function copyToClipboard() {
     const jsonOutput = document.getElementById('jsonOutput');
     navigator.clipboard.writeText(jsonOutput.textContent).then(() => {
