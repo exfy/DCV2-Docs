@@ -160,14 +160,14 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
         case 'OfflinePayAction':
             actionForm = `
                 <label>Player:</label><input type="text" id="player" required>
-                <label>UUID:</label><input type="text" id="uuid" required>
+                <label>UUID:<button type="button" onclick="fetchUUID()">UUID von Minecraftname</button></label><input type="text" id="uuid" required><br>
                 <label>Betrag:</label><input type="number" id="betrag" required>
             `;
             break;
         case 'OfflineMsgAction':
             actionForm = `
-                <label>Player:</label><input type="text" id="player" required>
-                <label>UUID:</label><input type="text" id="uuid" required>
+                <label>Minecraftname:</label><input type="text" id="player" required>
+                <label>UUID: <button type="button" onclick="fetchUUID()">UUID von Minecraftname</button></label><input type="text" id="uuid" required> <br>
                 <label>Message:</label><input type="text" id="message" required>
             `;
             break;
@@ -786,3 +786,22 @@ function copyToClipboard() {
     });
 }
 
+function fetchUUID() {
+    const playerName = document.getElementById('player').value;
+    if (!playerName) {
+        alert('Please enter a player name');
+        return;
+    }
+
+    const apiUrl = `https://api.qq4.de/uuid/api.php?name=${playerName}&bot=webeditor`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('uuid').value = data.uuid;
+        })
+        .catch(error => {
+            console.error('Error fetching UUID:', error);
+            alert('Failed to fetch UUID.');
+        });
+}
