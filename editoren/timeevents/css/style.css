@@ -241,7 +241,23 @@ li {
     text-align: left;
     background-color: #5865f2;
     margin-top: -5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 4px;
+
     font-size: large;
+    padding-left: 10px;
+}
+.action-buttons-header {
+    text-align: right;
+    margin-top: -25px;
+}
+.editAction {
+    font-size: 13px;
+}
+.deleteAction{
+    background-color: #6f0000;
+    font-size: 13px;
+}
+
+.deleteEvent {
+    background-color: #6f0000;
 }

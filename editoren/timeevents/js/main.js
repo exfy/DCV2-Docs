@@ -45,13 +45,24 @@ function setupActionButtons() {
     });
 
     // Löschen-Button
-    document.querySelectorAll('.deleteAction').forEach(button => {
+   /* document.querySelectorAll('.deleteAction').forEach(button => {
         button.addEventListener('click', (e) => {
             const eventIndex = e.target.getAttribute('data-event-index');
             const actionIndex = e.target.getAttribute('data-action-index');
             events[eventIndex].actions.splice(actionIndex, 1);
             renderEventList(); // Neu rendern, nachdem die Action gelöscht wurde
             updateJsonOutput(); // JSON-Ausgabe aktualisieren
+        });
+    });*/
+    document.querySelectorAll('.deleteAction').forEach(button => {
+        button.addEventListener('click', (e) => {
+            if (confirm('Bist du sicher, dass du diese Aktion löschen möchtest?')) {
+                const eventIndex = e.target.getAttribute('data-event-index');
+                const actionIndex = e.target.getAttribute('data-action-index');
+                events[eventIndex].actions.splice(actionIndex, 1);
+                renderEventList(); // Neu rendern, nachdem die Action gelöscht wurde
+                updateJsonOutput(); // JSON-Ausgabe aktualisieren
+            }
         });
     });
 }
@@ -517,6 +528,7 @@ function renderEventList() {
     eventList.innerHTML = ''; // Clear previous content
 
     events.forEach((event, index) => {
+
         const eventDiv = document.createElement('div');
         eventDiv.className = 'event drop-target';
 
@@ -529,7 +541,8 @@ function renderEventList() {
 
         // Edit button
         const editButton = document.createElement('button');
-        editButton.textContent = 'ändern';
+        editButton.textContent = 'Event editieren';
+        editButton.className = 'editEvent';
         editButton.onclick = () => {
             editEvent(index);
         };
@@ -537,7 +550,8 @@ function renderEventList() {
 
         // Delete button
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'löschen';
+        deleteButton.textContent = 'Event löschen';
+        deleteButton.className = 'deleteEvent';
         deleteButton.onclick = () => {
             deleteEvent(index);
         };
@@ -614,17 +628,14 @@ function renderEventList() {
             }
 
             actionItem.innerHTML = `
-<div class="detailsheader"><b>${detailActionName}</b>   </div>
+<div class="detailsheader"><b>${detailActionName}</b>
+<div class="action-buttons-header">
+ <button class="editAction" data-event-index="${index}" data-action-index="${actionIndex}">✎</button>
+                <button class="deleteAction" data-event-index="${index}" data-action-index="${actionIndex}">🗑</button> </div></div>
                <div class="details">
                 ${details}
                 <p>Type: ${action.actiondisplayname}</p>
                 </div>
-                
-                
-                
-                
-                <button class="editAction" data-event-index="${index}" data-action-index="${actionIndex}">ändern</button>
-                <button class="deleteAction" data-event-index="${index}" data-action-index="${actionIndex}">löschen</button>
             `;
             actionList.appendChild(actionItem);
         });
