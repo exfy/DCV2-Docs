@@ -232,3 +232,6 @@ li {
     gap: 10px;
 }
 
+.details {
+    text-align: left;
+}

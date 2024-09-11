@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setupPopupHandling();
 });
 
-function initEventEditor() {
+/*function initEventEditor() {
     document.getElementById('eventForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
         const displayname = document.getElementById('displayname').value;
         const time = document.getElementById('time').value;
 
-        const systemname = displayname.toLowerCase().replace(/[^a-z]/g, '');
+        const systemname = "sys_" + displayname.toLowerCase().replace(/[^a-z0-9]/g, '');
 
         const newEvent = {
             systemname: systemname,
@@ -29,7 +29,7 @@ function initEventEditor() {
         updateJsonOutput();
         document.getElementById('eventForm').reset();
     });
-}
+}*/
 
 
 // Funktion zum Bearbeiten und Löschen von Actions
@@ -138,9 +138,10 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
             break;
         case 'EmbedDiscordAction':
             actionForm = `
-                <label>Title:</label><input type="text" id="title" required>
-                <label>Description:</label><input type="text" id="description" required>
-                <label>Content:</label><input type="text" id="content" required>
+                <p>Alles ausfüllen oder nur content oder Mindestens ein title oder eine description ist möglich. </p>
+                <label>Titel:</label><input type="text" id="title">
+                <label>Beschreibung:</label><input type="text" id="description">
+                <label>Content:</label><input type="text" id="content">
                 <label>Webhook URL:</label><input type="url" id="webhookUrl" required>
                 <label>Color:</label><input type="color" id="color" value="#ff0000">
             `;
@@ -187,7 +188,7 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 <label>IngameChat angezeigte Nachricht:</label><input type="text" id="message" required>
             `;
             break;
-        case 'SystemPintOutAction':
+        case 'SystemPrintOutAction':
             actionForm = `
               
                 <label>Log-Eintrag:</label><input type="text" id="message" required>
@@ -255,7 +256,7 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 document.getElementById('uuid').value = action.data.uuid;
                 document.getElementById('message').value = action.data.message;
                 break;
-            case 'SystemPintOutAction':
+            case 'SystemPrintOutAction':
                 document.getElementById('message').value = action.data.message;
                 break;
             case 'DisplayMessageInChatAction':
@@ -340,7 +341,7 @@ function saveActionToEvent(actionType, eventIndex, actionIndex = null) {
                 message: document.getElementById('message').value
             };
             break;
-        case 'SystemPintOutAction':
+        case 'SystemPrintOutAction':
             actionData = {
                 message: document.getElementById('message').value
             };
@@ -554,8 +555,58 @@ function renderEventList() {
         const actionList = document.createElement('ul');
         event.actions.forEach((action, actionIndex) => {
             const actionItem = document.createElement('li');
+            var details = "?";
+            if (action !== null) {
+                switch (action.actionname) {
+                    case 'PrivateMessageAction':
+                        details = `<b>Player:</b> ${action.data.player}, <br><b>Message:</b></b> ${action.data.message}`;
+
+                        break;
+                    case 'ChatMessageAction':
+                        details = `<b>Message:</b> ${action.data.message}`;
+                        break;
+                    case 'CommandAction':
+                        details = `<b>Command:</b> ${action.data.command}`;
+                        break;
+                    case 'SendSimpleMessageWebhookAction':
+                        details = `<b>Content:</b> ${action.data.content},<br> <b>Webhook URL:</b></b> ${action.data.webhookUrl}`;
+
+                        break;
+                    case 'EmbedDiscordAction':
+                        details = `<b>Title:</b> ${action.data.title}, <br><b>Description:</b> ${action.data.description}, <br><b>Content:</b> ${action.data.content}, <br><b>Webhook URL:</b> ${action.data.webhookUrl}, <br><b>Color:</b> ${action.data.color}`;
+
+                        break;
+                    case 'OfflinePayAction':
+                        details = `<b>Player:</b> ${action.data.player},<br> <b>UUID:</b> ${action.data.uuid},<br> <b>Betrag:</b> ${action.data.betrag}`;
+
+                        break;
+                    case 'OfflineMsgAction':
+                        details = `<b>Player:</b> ${action.data.player}, <br><b>UUID:</b> ${action.data.uuid}, <br><b>Message:</b> ${action.data.message}`;
+                        break;
+                    case 'SystemPrintOutAction':
+                        details = `<b>Log-Eintrag:</b> ${action.data.message}`;
+
+                        break;
+                    case 'DisplayMessageInChatAction':
+                        details = `<b>IngameAnzeige:</b> ${action.data.message}`;
+
+                        break;
+                    case 'SetString':
+                        details = `<b>Variable Name:</b> ${action.data.varname}, <b>Value:</b> ${action.data.value}`;
+
+
+                        break;
+                }
+            }
+
             actionItem.innerHTML = `
-                ${action.actiondisplayname} 
+               <div class="details">
+                ${details}<br>
+                </div>
+                ${action.actiondisplayname}: 
+                
+                
+                
                 <button class="editAction" data-event-index="${index}" data-action-index="${actionIndex}">ändern</button>
                 <button class="deleteAction" data-event-index="${index}" data-action-index="${actionIndex}">löschen</button>
             `;
@@ -679,7 +730,7 @@ function initEventEditor() {
 
         const time = document.getElementById('time').value;
 
-        const systemname = displayname.toLowerCase().replace(/[^a-z]/g, '');
+        const systemname = displayname.toLowerCase().replace(/[^a-z00-9]/g, '');
 
         const newEvent = {
             systemname: systemname,
