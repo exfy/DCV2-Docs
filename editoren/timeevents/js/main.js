@@ -544,66 +544,82 @@ function renderEventList() {
         eventDiv.appendChild(deleteButton);
 
         // Copy to clipboard button
-        const copyButton = document.createElement('button');
+       /* const copyButton = document.createElement('button');
         copyButton.textContent = 'kopieren';
         copyButton.onclick = () => {
             copyEventToClipboard(event);
         };
-        eventDiv.appendChild(copyButton);
+        eventDiv.appendChild(copyButton);*/
 
         // Liste der Actions für dieses Event rendern
         const actionList = document.createElement('ul');
         event.actions.forEach((action, actionIndex) => {
             const actionItem = document.createElement('li');
-            var details = "?";
+            var details = "keine Details verfügbar";
+            var detailActionName = "?";
             if (action !== null) {
                 switch (action.actionname) {
                     case 'PrivateMessageAction':
                         details = `<b>Player:</b> ${action.data.player}, <br><b>Message:</b></b> ${action.data.message}`;
-
+                        detailActionName = "Private Nachricht";
                         break;
                     case 'ChatMessageAction':
                         details = `<b>Message:</b> ${action.data.message}`;
+                        detailActionName = "Chat Nachricht";
                         break;
                     case 'CommandAction':
                         details = `<b>Command:</b> ${action.data.command}`;
+                        detailActionName = "Command";
                         break;
                     case 'SendSimpleMessageWebhookAction':
                         details = `<b>Content:</b> ${action.data.content},<br> <b>Webhook URL:</b></b> ${action.data.webhookUrl}`;
+                        detailActionName = "Webhook Nachricht";
 
                         break;
                     case 'EmbedDiscordAction':
                         details = `<b>Title:</b> ${action.data.title}, <br><b>Description:</b> ${action.data.description}, <br><b>Content:</b> ${action.data.content}, <br><b>Webhook URL:</b> ${action.data.webhookUrl}, <br><b>Color:</b> ${action.data.color}`;
+                        detailActionName = "Discord Embed";
 
                         break;
                     case 'OfflinePayAction':
                         details = `<b>Player:</b> ${action.data.player},<br> <b>UUID:</b> ${action.data.uuid},<br> <b>Betrag:</b> ${action.data.betrag}`;
+                        detailActionName = "Offline Pay";
 
                         break;
                     case 'OfflineMsgAction':
                         details = `<b>Player:</b> ${action.data.player}, <br><b>UUID:</b> ${action.data.uuid}, <br><b>Message:</b> ${action.data.message}`;
+                        detailActionName = "Offline Nachricht";
                         break;
                     case 'SystemPrintOutAction':
                         details = `<b>Log-Eintrag:</b> ${action.data.message}`;
+                        detailActionName = "Log-Eintrag";
 
                         break;
                     case 'DisplayMessageInChatAction':
                         details = `<b>IngameAnzeige:</b> ${action.data.message}`;
+                        detailActionName = "Ingame Nachricht";
 
                         break;
                     case 'SetString':
                         details = `<b>Variable Name:</b> ${action.data.varname}, <b>Value:</b> ${action.data.value}`;
-
-
+                        detailActionName = "Variable setzen";
+                        break;
+                    case "QuitClientAction":
+                        detailActionName = "Client beenden";
+                        break;
+                    case "QuitServerAction":
+                        detailActionName = "Server beenden";
                         break;
                 }
             }
 
             actionItem.innerHTML = `
+<div class="detailsheader"><b>${detailActionName}</b>   </div>
                <div class="details">
-                ${details}<br>
+                ${details}
+                <p>Type: ${action.actiondisplayname}</p>
                 </div>
-                ${action.actiondisplayname}: 
+                
                 
                 
                 

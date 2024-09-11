@@ -234,4 +234,14 @@ li {
 
 .details {
     text-align: left;
+    padding-left: 5px;
+    padding-top: 5px;
+}
+.detailsheader {
+    text-align: left;
+    background-color: #5865f2;
+    margin-top: -5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: large;
 }
