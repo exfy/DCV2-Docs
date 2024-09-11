@@ -224,3 +224,11 @@ li {
     background-color: #5a6268; /* Hover-Effekt für den Abbrechen-Button */
 }
 
+
+/* Color DisplayChat Message */
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+

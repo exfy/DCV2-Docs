@@ -159,6 +159,40 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 <label>Message:</label><input type="text" id="message" required>
             `;
             break;
+        case 'DisplayMessageInChatAction':
+            actionForm = `
+                   <div class="color-grid">
+        <div><span class="color-code" style="color: #000000;">§0</span> Schwarz</div>
+        <div><span class="color-code" style="color: #0000AA;">§1</span> Dunkelblau</div>
+        <div><span class="color-code" style="color: #00AA00;">§2</span> Dunkelgrün</div>
+        <div><span class="color-code" style="color: #00AAAA;">§3</span> Dunkelaqua</div>
+        <div><span class="color-code" style="color: #AA0000;">§4</span> Dunkelrot</div>
+        <div><span class="color-code" style="color: #AA00AA;">§5</span> Dunkellila</div>
+        <div><span class="color-code" style="color: #FFAA00;">§6</span> Gold</div>
+        <div><span class="color-code" style="color: #AAAAAA;">§7</span> Grau</div>
+        <div><span class="color-code" style="color: #555555;">§8</span> Dunkelgrau</div>
+        <div><span class="color-code" style="color: #5555FF;">§9</span> Blau</div>
+        <div><span class="color-code" style="color: #55FF55;">§a</span> Grün</div>
+        <div><span class="color-code" style="color: #55FFFF;">§b</span> Aqua</div>
+        <div><span class="color-code" style="color: #FF5555;">§c</span> Rot</div>
+        <div><span class="color-code" style="color: #FF55FF;">§d</span> Lila</div>
+        <div><span class="color-code" style="color: #FFFF55;">§e</span> Gelb</div>
+        <div><span class="color-code" style="color: #FFFFFF;">§f</span> Weiß</div>
+          <div><span class="obfuscated"</span>§k Obfuscated Text</div>
+         <div><span  class="bold"</span>§l Fett</div>
+         <div><span  class="strikethrough"</span>§m Durchgestrichen</div>
+         <div><span  class="underline"</span>§n Unterstrichen</div>
+         <div><span  class="italic"</span>§o Kursiv</div>
+    </div><br>
+                <label>IngameChat angezeigte Nachricht:</label><input type="text" id="message" required>
+            `;
+            break;
+        case 'SystemPintOutAction':
+            actionForm = `
+              
+                <label>Log-Eintrag:</label><input type="text" id="message" required>
+            `;
+            break;
         case 'SetString':
             actionForm = `
                 <label>Variable Name:</label><input type="text" id="varname" required>
@@ -219,6 +253,12 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
             case 'OfflineMsgAction':
                 document.getElementById('player').value = action.data.player;
                 document.getElementById('uuid').value = action.data.uuid;
+                document.getElementById('message').value = action.data.message;
+                break;
+            case 'SystemPintOutAction':
+                document.getElementById('message').value = action.data.message;
+                break;
+            case 'DisplayMessageInChatAction':
                 document.getElementById('message').value = action.data.message;
                 break;
             case 'SetString':
@@ -292,6 +332,16 @@ function saveActionToEvent(actionType, eventIndex, actionIndex = null) {
             actionData = {
                 player: document.getElementById('player').value,
                 uuid: document.getElementById('uuid').value,
+                message: document.getElementById('message').value
+            };
+            break;
+        case 'DisplayMessageInChatAction':
+            actionData = {
+                message: document.getElementById('message').value
+            };
+            break;
+        case 'SystemPintOutAction':
+            actionData = {
                 message: document.getElementById('message').value
             };
             break;
