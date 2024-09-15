@@ -789,7 +789,7 @@ function copyToClipboard() {
 function fetchUUID() {
     const playerName = document.getElementById('player').value;
     if (!playerName) {
-        alert('Please enter a player name');
+        alert('Bitte gebe einen gültigen Spielernamen ein.');
         return;
     }
 
@@ -801,7 +801,7 @@ function fetchUUID() {
             document.getElementById('uuid').value = data.uuid;
         })
         .catch(error => {
-            console.error('Error fetching UUID:', error);
-            alert('Failed to fetch UUID.');
+            console.error('Zu diesem Namen haben wir keine UUID, bitte finde diese selber raus!:', error);
+            alert('Zu diesem Namen haben wir keine UUID, bitte finde diese selber raus!');
         });
 }
