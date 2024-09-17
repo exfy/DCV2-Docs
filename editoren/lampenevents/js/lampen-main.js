@@ -534,7 +534,7 @@ function renderEventList() {
 
         const eventDetails = document.createElement('div');
         //eventDetails.innerHTML = `<strong>${event.displayname}</strong> (${event.time}) <br> ${event.comment} `;
-        eventDiv.innerHTML = `<strong>${event.displayname}</strong> (${event.time}) <br> ${event.comment} <br> <br> <br> `;
+        eventDiv.innerHTML = `<strong>${event.displayname}</strong> ( ${event.lampeX},{event.lampeY},{event.lampeZ}) <br> ${event.comment} <br> <br> <br> `;
 
         eventDiv.appendChild(eventDetails);
         eventDiv.setAttribute('data-index', index);
@@ -836,4 +836,12 @@ function fetchUUID() {
             console.error('Zu diesem Namen haben wir keine UUID, bitte finde diese selber raus!:', error);
             alert('Zu diesem Namen haben wir keine UUID, bitte finde diese selber raus!');
         });
+}
+
+function openURL() {
+    var selectElement = document.getElementById("dropdown");
+    var selectedValue = selectElement.value;
+    if (selectedValue) {
+        window.open(selectedValue, '_blank');
+    }
 }

@@ -805,3 +805,10 @@ function fetchUUID() {
             alert('Zu diesem Namen haben wir keine UUID, bitte finde diese selber raus!');
         });
 }
+function openURL() {
+    var selectElement = document.getElementById("dropdown");
+    var selectedValue = selectElement.value;
+    if (selectedValue) {
+        window.open(selectedValue, '_blank');
+    }
+}

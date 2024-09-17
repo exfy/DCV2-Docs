@@ -261,3 +261,6 @@ li {
 .deleteEvent {
     background-color: #6f0000;
 }
+#dropdown {
+    width: 250px;
+}

@@ -11,6 +11,15 @@
 <div class="header">
     <img src = "https://api.qq4.de/dcv2/dcv2-zeit-event-editor.png" alt="DCV2 Zeit-Event Editor">
 
+    <div class="editorenchange"><label for="dropdown">Editor wechseln:</label>
+        <select id="dropdown" onchange="openURL()" >
+            <option value="">--Bitte wählen--</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/lampenevents/index.html">Lampen-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/timeevents/index.html">Zeit-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/chatevents/index.html">Chat-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/ankaufevents/index.html">Ankaufs-Events</option>
+        </select></div>
+
     <div class="links">
         <button id="doku" onclick="window.open('https://exfy.github.io/DCV2-PublicDocs/docs/category/events', '_blank');">DCV2 Dokumentation</button>
         <button id="zeitevent" onclick="window.open('https://exfy.github.io/DCV2-PublicDocs/docs/doc-events/ZeitEvent', '_blank');">Zeit-Event Doku</button>
