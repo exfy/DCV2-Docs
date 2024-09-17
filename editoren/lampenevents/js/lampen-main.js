@@ -534,7 +534,7 @@ function renderEventList() {
 
         const eventDetails = document.createElement('div');
         //eventDetails.innerHTML = `<strong>${event.displayname}</strong> (${event.time}) <br> ${event.comment} `;
-        eventDiv.innerHTML = `<strong>${event.displayname}</strong> ( ${event.lampeX},{event.lampeY},{event.lampeZ}) <br> ${event.comment} <br> <br> <br> `;
+        eventDiv.innerHTML = `<strong>${event.displayname}</strong> (X: ${event.lampX}, Y: ${event.lampY}, Z: ${event.lampZ}) <br> ${event.comment} <br> <br> <br> `;
 
         eventDiv.appendChild(eventDetails);
         eventDiv.setAttribute('data-index', index);
