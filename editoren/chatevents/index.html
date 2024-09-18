@@ -12,13 +12,13 @@
     <img src = "https://api.qq4.de/dcv2/dcv2-lamp-event-editor.png" alt="DCV2 Zeit-Event Editor">
 
     <div class="editorenchange"><label for="dropdown">Editor wechseln:</label>
-    <select id="dropdown" onchange="openURL()" >
-        <option value="">--Bitte wählen--</option>
-        <option value="https://exfy.github.io/DCV2-Docs/editoren/lampenevents/index.html">Lampen-Events</option>
-        <option value="https://exfy.github.io/DCV2-Docs/editoren/timeevents/index.html">Zeit-Events</option>
-        <option value="https://exfy.github.io/DCV2-Docs/editoren/chatevents/index.html">Chat-Events</option>
-        <option value="https://exfy.github.io/DCV2-Docs/editoren/ankaufevents/index.html">Ankaufs-Events</option>
-    </select></div>
+        <select id="dropdown" onchange="openURL()" >
+            <option value="">--Bitte wählen--</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/lampenevents/index.html">Lampen-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/timeevents/index.html">Zeit-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/chatevents/index.html">Chat-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/ankaufevents/index.html">Ankaufs-Events</option>
+        </select></div>
 
     <div class="links">
         <button id="doku" onclick="window.open('https://exfy.github.io/DCV2-PublicDocs/docs/category/events', '_blank');">DCV2 Dokumentation</button>
@@ -77,37 +77,37 @@
             </div><br>
             <div style="display: flex; gap: 10px;>
                 <label for="secCooldown">Cooldown in Sekunden:</label>
-                <input type="number"  value="1" id="secCooldown" required>
+            <input type="number"  value="1" id="secCooldown" required>
 
-                <label for="allowLoop">Loop Erkennung:</label>
-                <select id="allowLoop" required>
-                    <option value="true">True</option>
-                    <option value="false">False</option>
-                </select>
-            </div>
-            <button type="submit" id="createEventBtn">Lampenevent erstellen</button>
-        </form>
-        <h2>Deine Events</h2>
-        <div id="eventList"></div>
+            <label for="allowLoop">Loop Erkennung:</label>
+            <select id="allowLoop" required>
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select>
+    </div>
+    <button type="submit" id="createEventBtn">Lampenevent erstellen</button>
+    </form>
+    <h2>Deine Events</h2>
+    <div id="eventList"></div>
 
 
 
-        <!-- Füge den Container für das Action-Formular hinzu -->
-        <div id="actionPopup" class="popup">
-            <div class="popup-content">
-                <span id="closePopup" class="close">&times;</span>
-                <div id="actionFormContainer"></div>
-            </div>
+    <!-- Füge den Container für das Action-Formular hinzu -->
+    <div id="actionPopup" class="popup">
+        <div class="popup-content">
+            <span id="closePopup" class="close">&times;</span>
+            <div id="actionFormContainer"></div>
         </div>
     </div>
+</div>
 
 
-    <!-- Right: JSON Output -->
-    <div class="column">
-        <h2>LampenEvents.json</h2>
-        <div class="json-output" id="jsonOutput"></div>
-        <button id="copyBtn">STRG + C</button>
-    </div>
+<!-- Right: JSON Output -->
+<div class="column">
+    <h2>LampenEvents.json</h2>
+    <div class="json-output" id="jsonOutput"></div>
+    <button id="copyBtn">STRG + C</button>
+</div>
 
 
 </div>

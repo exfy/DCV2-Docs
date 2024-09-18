@@ -147,6 +147,13 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 <label>Webhook URL:</label><input type="url" id="webhookUrl" required>
             `;
             break;
+        case 'BlockInteractAction':
+            actionForm = `
+                <label>BlockX:</label><input type="text" id="blockX" required>
+                <label>BlockY:</label><input type="text" id="blockY" required>
+                <label>BlockZ:</label><input type="text" id="blockZ" required>
+            `;
+            break;
         case 'EmbedDiscordAction':
             actionForm = `
                 <p>Alles ausfüllen oder nur content oder Mindestens ein title oder eine description ist möglich. </p>
@@ -169,13 +176,6 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 <label>Minecraftname:</label><input type="text" id="player" required>
                 <label>UUID: <button type="button" onclick="fetchUUID()">UUID von Minecraftname</button></label><input type="text" id="uuid" required> <br>
                 <label>Message:</label><input type="text" id="message" required>
-            `;
-            break;
-        case 'BlockInteractAction':
-            actionForm = `
-                <label>BlockX:</label><input type="text" id="blockX" required>
-                <label>BlockY:</label><input type="text" id="blockY" required>
-                <label>BlockZ:</label><input type="text" id="blockZ" required>
             `;
             break;
         case 'DisplayMessageInChatAction':
@@ -269,11 +269,6 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 document.getElementById('uuid').value = action.data.uuid;
                 document.getElementById('betrag').value = action.data.betrag;
                 break;
-            case "BlockInteractAction":
-                document.getElementById('blockX').value = action.data.blockX;
-                document.getElementById('blockY').value = action.data.blockY;
-                document.getElementById('blockZ').value = action.data.blockZ;
-                break;
             case 'OfflineMsgAction':
                 document.getElementById('player').value = action.data.player;
                 document.getElementById('uuid').value = action.data.uuid;
@@ -285,6 +280,12 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
             case 'DisplayMessageInChatAction':
                 document.getElementById('message').value = action.data.message;
                 break;
+            case "BlockInteractAction":
+                document.getElementById('blockX').value = action.data.blockX;
+                document.getElementById('blockY').value = action.data.blockY;
+                document.getElementById('blockZ').value = action.data.blockZ;
+                break;
+
             case 'SetString':
                 document.getElementById('varname').value = action.data.varname;
                 document.getElementById('value').value = action.data.value;
@@ -345,13 +346,6 @@ function saveActionToEvent(actionType, eventIndex, actionIndex = null) {
                 color: document.getElementById('color').value
             };
             break;
-        case 'BlockInteractAction':
-            actionData = {
-                blockX: document.getElementById('blockX').value,
-                blockY: document.getElementById('blockY').value,
-                blockZ: document.getElementById('blockZ').value
-            }
-            break;
         case 'OfflinePayAction':
             actionData = {
                 player: document.getElementById('player').value,
@@ -374,6 +368,13 @@ function saveActionToEvent(actionType, eventIndex, actionIndex = null) {
         case 'SystemPrintOutAction':
             actionData = {
                 message: document.getElementById('message').value
+            };
+            break;
+        case 'BlockInteractAction':
+            actionData = {
+                blockX: document.getElementById('blockX').value,
+                blockY: document.getElementById('blockY').value,
+                blockZ: document.getElementById('blockZ').value
             };
             break;
         case 'SetString':
@@ -633,10 +634,6 @@ function renderEventList() {
                         detailActionName = "Ingame Nachricht";
 
                         break;
-                    case 'BlockInteractAction':
-                        details = `<b>BlockX:</b> ${action.data.blockX}, <b>BlockY:</b> ${action.data.blockY}, <b>BlockZ:</b> ${action.data.blockZ}`;
-                        detailActionName = "Block Interaktion";
-                        break;
                     case 'SetString':
                         details = `<b>Variable Name:</b> ${action.data.varname}, <b>Value:</b> ${action.data.value}`;
                         detailActionName = "Variable setzen";
@@ -646,6 +643,10 @@ function renderEventList() {
                         break;
                     case "QuitServerAction":
                         detailActionName = "Server beenden";
+                        break;
+                    case "BlockInteractAction":
+                        details = `<b>BlockX:</b> ${action.data.blockX}, <b>BlockY:</b> ${action.data.blockY}, <b>BlockZ:</b> ${action.data.blockZ}`;
+                        detailActionName = "Block Interaktion";
                         break;
                 }
             }

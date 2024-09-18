@@ -45,15 +45,15 @@ function setupActionButtons() {
     });
 
     // Löschen-Button
-   /* document.querySelectorAll('.deleteAction').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const eventIndex = e.target.getAttribute('data-event-index');
-            const actionIndex = e.target.getAttribute('data-action-index');
-            events[eventIndex].actions.splice(actionIndex, 1);
-            renderEventList(); // Neu rendern, nachdem die Action gelöscht wurde
-            updateJsonOutput(); // JSON-Ausgabe aktualisieren
-        });
-    });*/
+    /* document.querySelectorAll('.deleteAction').forEach(button => {
+         button.addEventListener('click', (e) => {
+             const eventIndex = e.target.getAttribute('data-event-index');
+             const actionIndex = e.target.getAttribute('data-action-index');
+             events[eventIndex].actions.splice(actionIndex, 1);
+             renderEventList(); // Neu rendern, nachdem die Action gelöscht wurde
+             updateJsonOutput(); // JSON-Ausgabe aktualisieren
+         });
+     });*/
     document.querySelectorAll('.deleteAction').forEach(button => {
         button.addEventListener('click', (e) => {
             if (confirm('Bist du sicher, dass du diese Aktion löschen möchtest?')) {
@@ -171,6 +171,13 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 <label>Message:</label><input type="text" id="message" required>
             `;
             break;
+        case 'BlockInteractAction':
+            actionForm = `
+                <label>BlockX:</label><input type="text" id="blockX" required>
+                <label>BlockY:</label><input type="text" id="blockY" required>
+                <label>BlockZ:</label><input type="text" id="blockZ" required>
+            `;
+            break;
         case 'DisplayMessageInChatAction':
             actionForm = `
                    <div class="color-grid">
@@ -273,6 +280,12 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
             case 'DisplayMessageInChatAction':
                 document.getElementById('message').value = action.data.message;
                 break;
+            case 'BlockInteractAction':
+                document.getElementById('blockX').value = action.data.blockX;
+                document.getElementById('blockY').value = action.data.blockY;
+                document.getElementById('blockZ').value = action.data.blockZ;
+                break;
+
             case 'SetString':
                 document.getElementById('varname').value = action.data.varname;
                 document.getElementById('value').value = action.data.value;
@@ -355,6 +368,13 @@ function saveActionToEvent(actionType, eventIndex, actionIndex = null) {
         case 'SystemPrintOutAction':
             actionData = {
                 message: document.getElementById('message').value
+            };
+            break;
+        case 'BlockInteractAction':
+            actionData = {
+                blockX: document.getElementById('blockX').value,
+                blockY: document.getElementById('blockY').value,
+                blockZ: document.getElementById('blockZ').value
             };
             break;
         case 'SetString':
@@ -558,12 +578,12 @@ function renderEventList() {
         eventDiv.appendChild(deleteButton);
 
         // Copy to clipboard button
-       /* const copyButton = document.createElement('button');
-        copyButton.textContent = 'kopieren';
-        copyButton.onclick = () => {
-            copyEventToClipboard(event);
-        };
-        eventDiv.appendChild(copyButton);*/
+        /* const copyButton = document.createElement('button');
+         copyButton.textContent = 'kopieren';
+         copyButton.onclick = () => {
+             copyEventToClipboard(event);
+         };
+         eventDiv.appendChild(copyButton);*/
 
         // Liste der Actions für dieses Event rendern
         const actionList = document.createElement('ul');
@@ -624,6 +644,11 @@ function renderEventList() {
                     case "QuitServerAction":
                         detailActionName = "Server beenden";
                         break;
+                    case "BlockInteractAction":
+                        details = `<b>BlockX:</b> ${action.data.blockX}, <b>BlockY:</b> ${action.data.blockY}, <b>BlockZ:</b> ${action.data.blockZ}`;
+                        detailActionName = "Block Interaktion";
+                        break;
+
                 }
             }
 
@@ -805,6 +830,7 @@ function fetchUUID() {
             alert('Zu diesem Namen haben wir keine UUID, bitte finde diese selber raus!');
         });
 }
+
 function openURL() {
     var selectElement = document.getElementById("dropdown");
     var selectedValue = selectElement.value;
