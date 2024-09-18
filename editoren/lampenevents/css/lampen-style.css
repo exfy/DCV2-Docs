@@ -32,7 +32,7 @@ body {
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
-    padding: 80px 20px 20px 20px; /* adjust padding to account for the fixed header */
+    padding: 20px 20px 20px 20px; /* adjust padding to account for the fixed header */
 }
 
 .column {
@@ -52,10 +52,12 @@ body {
     padding: 10px;
     border: 1px solid #202225;
     background-color: #2f3136;
+    max-height: 1100px;
 }
 
 #eventEditor {
     width: 53%;
+
 }
 
 .json-output {
@@ -68,6 +70,7 @@ body {
     overflow-y: auto;
     color: #b9bbbe;
     font-size: 12px;
+    max-height: 910px;
 }
 
 /* Style for form elements */
@@ -264,7 +267,7 @@ li {
 #dropdown {
     width: 250px;
 }
-#operation {
+[id^="operation"] {
     padding: 10px;
     margin-bottom: 5px;
     border: 1px solid #202225;
@@ -285,4 +288,74 @@ li {
     text-align: center;
     transition: background-color 0.3s;
     user-select: none;
+}
+#eventForm {
+    display: none;
+}
+#toggleEventForm {
+    padding: 10px;
+    background-color: #5865f2;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    user-select: none;
+    margin-left: 4px;
+    text-align: center;
+}
+.tab-menu {
+    display: flex;
+    padding-left: 20px;
+}
+
+.tablink {
+    background-color: #f1f1f1;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: none;
+}
+
+.tablink:hover {
+    background-color: #4752c4;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content h2 {
+    margin-top: 0;
+}
+.tablink {
+    padding: 10px;
+    background-color: #5865f2;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    user-select: none;
+    margin-left: 4px;
+}
+#conditions {
+    position: sticky;
+    top: 80px;
+    width: 15%;
+    padding: 10px;
+    border: 1px solid #202225;
+    background-color: #2f3136;
+}
+.condition {
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #202225;
+    background-color: #40444b;
+    color: #dcddde;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+    user-select: none;
+}
+#eventList {
+    max-height: 900px;
 }

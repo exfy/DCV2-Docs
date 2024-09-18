@@ -718,8 +718,9 @@ function editEvent(eventIndex) {
             <label for="popup-time">Zeit:</label>
             <input type="time" id="popup-time" value="${event.time}">
             <div class="popup-buttons">
-                <button id="popup-save">Speichern</button>
+               
                 <button id="popup-cancel">Abbrechen</button>
+                 <button id="popup-save">Speichern</button>
             </div>
         </div>
     `;
@@ -788,7 +789,7 @@ function updateJsonOutput() {
 function initEventEditor() {
     document.getElementById('eventForm').addEventListener('submit', function (event) {
         event.preventDefault(); // Prevents the form from refreshing the page
-
+        eventForm.style.display = 'none';
         const displaynametemp = document.getElementById('displayname').value;
         const displayname = displaynametemp.replace(/[^a-zA-Z0-9 _-]/g, '');
 
@@ -992,3 +993,33 @@ document.getElementById('copyBtn').onclick = function() {
 };
 
 
+document.getElementById('toggleEventForm').addEventListener('click', function() {
+    const eventForm = document.getElementById('eventForm');
+    if (eventForm.style.display === 'none' || eventForm.style.display === '') {
+        eventForm.style.display = 'block';
+    } else {
+        eventForm.style.display = 'none';
+    }
+});
+
+function openTab(tabName) {
+    // Alle tab-content-Elemente ausblenden
+    var i, tabcontent;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Spalten ausblenden oder anzeigen
+    if (tabName === 'actions') {
+        document.getElementById("actionList").style.display = "block";  // Zeige mögliche Aktionen
+    } else {
+        document.getElementById("actionList").style.display = "none";   // Verstecke mögliche Aktionen
+    }
+
+    // Das ausgewählte Tab anzeigen
+    document.getElementById(tabName).style.display = "block";
+}
+
+// Standardmäßig den "Mögliche Aktionen"-Tab anzeigen
+document.getElementById("actions").style.display = "block";

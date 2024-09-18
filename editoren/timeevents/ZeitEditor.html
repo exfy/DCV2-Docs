@@ -14,10 +14,10 @@
     <div class="editorenchange"><label for="dropdown">Editor wechseln:</label>
         <select id="dropdown" onchange="openURL()" >
             <option value="">--Bitte wählen--</option>
-            <option value="https://exfy.github.io/DCV2-Docs/editoren/lampenevents/index.html">Lampen-Events</option>
-            <option value="https://exfy.github.io/DCV2-Docs/editoren/timeevents/index.html">Zeit-Events</option>
-            <option value="https://exfy.github.io/DCV2-Docs/editoren/chatevents/index.html">Chat-Events</option>
-            <option value="https://exfy.github.io/DCV2-Docs/editoren/ankaufevents/index.html">Ankaufs-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/lampenevents/LampenEditor.html">Lampen-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/timeevents/ZeitEditor.html">Zeit-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/chatevents/ChatEditor.html">Chat-Events</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/ankaufevents/AnkaufEditor.html">Ankaufs-Events</option>
         </select></div>
 
     <div class="links">
@@ -34,10 +34,16 @@
     </div>
 </div>
 
+<div class="tab-menu">
+    <button class="tablink" onclick="openTab('actions')">Mögliche Aktionen</button>
+    <button class="tablink" onclick="openTab('conditions')">Conditions</button>
+</div>
 <div class="container">
     <!-- Left: Available Actions -->
+
+
     <div class="column" id="actionList">
-        <h2>mögliche Aktionen</h2>
+        <h2>Aktionen</h2>
         <div class="action" draggable="true" data-action="ChatMessageAction">Chat Message</div>
         <div class="action" draggable="true" data-action="CommandAction">Command</div>
         <div class="action" draggable="true" data-action="QuitClientAction">Quit Client</div>
@@ -52,10 +58,23 @@
         <div id="movement-block-interaktion" class="action" draggable="true" data-action="BlockInteractAction">Block Interaktion</div>
         <div id="operation" class="action" draggable="true" data-action="SetString">Set String</div>
     </div>
+    <!-- Left: Conditions (Initially Hidden) -->
+    <div id="conditions" class="tab-content" style="display:none;">
+        <br>
+        <h2>Bedingungen</h2>
+        <div class="condition" draggable="true" data-action="isOnBotPos">ist auf Bot-Position</div>
+        <div class="condition" draggable="true" data-action="isOnBotPos">ist nicht auf Bot-Position</div>
+        <div class="condition" draggable="true" data-action="isOnBotPos">ist Online</div>
+        <div class="condition" draggable="true" data-action="isOnBotPos">ist Offline</div>
+
+    </div>
 
     <!-- Middle: Event Creation & Assignment -->
     <div class="column" id="eventEditor">
-        <h2>Event erstellen</h2>
+        <div style="display: flex; gap: 10px;">
+            <button id="toggleEventForm" style="cursor: pointer;">Neues Event</button>
+            <button class="pasteEvent" onclick="showPasteEventPopup()">Event einfügen</button>
+        </div>
         <form id="eventForm">
             <div>
                 <label for="displayname">Anzeige Name:</label>
@@ -70,7 +89,7 @@
                 <input type="time" id="time" required>
             </div>
             <button type="submit" id="createEventBtn">Zeitevent erstellen</button>
-            <button class="pasteEvent" onclick="showPasteEventPopup()">Event einfügen</button>
+
 
         </form>
 
