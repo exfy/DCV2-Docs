@@ -65,6 +65,16 @@ function setupActionButtons() {
             }
         });
     });
+
+    document.querySelectorAll('.moveActionUp').forEach(button => {
+        //  console.log("Binding move up button", button); // Debugging Ausgabe
+        button.addEventListener('click', (e) => {
+            const eventIndex = e.target.getAttribute('data-event-index');
+            const actionIndex = e.target.getAttribute('data-action-index');
+            //  console.log('Move Up Clicked:', eventIndex, actionIndex);  // Weitere Debugging-Ausgabe
+            moveActionUp(eventIndex, actionIndex);
+        });
+    });
 }
 
 function setupDragAndDrop() {
@@ -173,9 +183,9 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
             break;
         case 'BlockInteractAction':
             actionForm = `
-                <label>BlockX:</label><input type="text" id="blockX" required>
-                <label>BlockY:</label><input type="text" id="blockY" required>
-                <label>BlockZ:</label><input type="text" id="blockZ" required>
+                <label>BlockX:</label><input type="number" id="blockX" required>
+                <label>BlockY:</label><input type="number" id="blockY" required>
+                <label>BlockZ:</label><input type="number" id="blockZ" required>
             `;
             break;
         case 'DisplayMessageInChatAction':
@@ -577,13 +587,16 @@ function renderEventList() {
         };
         eventDiv.appendChild(deleteButton);
 
-        // Copy to clipboard button
-        /* const copyButton = document.createElement('button');
-         copyButton.textContent = 'kopieren';
-         copyButton.onclick = () => {
-             copyEventToClipboard(event);
-         };
-         eventDiv.appendChild(copyButton);*/
+        // Copy Event button
+        const copyButton = document.createElement('button');
+        copyButton.textContent = 'Event kopieren';
+        copyButton.className = 'copyEvent';
+        copyButton.onclick = () => {
+            copyEventToClipboard(index);
+        };
+        eventDiv.appendChild(copyButton);
+
+
 
         // Liste der Actions für dieses Event rendern
         const actionList = document.createElement('ul');
@@ -655,6 +668,9 @@ function renderEventList() {
             actionItem.innerHTML = `
 <div class="detailsheader"><b>${detailActionName}</b>
 <div class="action-buttons-header">
+
+${actionIndex > 0 ? `<button class="moveActionUp" data-event-index="${index}" data-action-index="${actionIndex}" title="Aktion Reihenfolge nach oben schieben">▲</button>` : ''}
+
  <button class="editAction" data-event-index="${index}" data-action-index="${actionIndex}">✎</button>
                 <button class="deleteAction" data-event-index="${index}" data-action-index="${actionIndex}">🗑</button> </div></div>
                <div class="details">
@@ -838,3 +854,141 @@ function openURL() {
         window.open(selectedValue, '_blank');
     }
 }
+function showPasteEventPopup() {
+    const popupHtml = `
+        <div class="popup-content">
+            <h3>Event einfügen</h3>
+            <label for="pastedEvent">Füge das kopierte JSON hier ein:</label>
+            <textarea id="pastedEvent" rows="10" cols="50"></textarea>
+            <div class="popup-buttons">
+                
+                <button id="popup-cancel">Abbrechen</button>
+                <button id="popup-ok">OK</button>
+            </div>
+        </div>
+    `;
+
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+    popup.innerHTML = popupHtml;
+    document.body.appendChild(popup);
+
+    document.getElementById('popup-ok').onclick = function () {
+        const pastedEventJson = document.getElementById('pastedEvent').value;
+        try {
+            const newEvent = JSON.parse(pastedEventJson);
+            events.push(newEvent);
+            renderEventList();
+            updateJsonOutput();
+            closePopup();
+        } catch (error) {
+            alert('Ungültiges JSON: ' + error.message);
+        }
+    };
+
+    document.getElementById('popup-cancel').onclick = function () {
+        closePopup();
+    };
+
+    function closePopup() {
+        document.body.removeChild(popup);
+    }
+}
+
+function copyEventToClipboard(eventIndex) {
+    const event = events[eventIndex];
+    const eventText = JSON.stringify(event, null, 4);
+    navigator.clipboard.writeText(eventText).then(() => {
+        alert('Event erfolgreich in die Zwischenablage kopiert.');
+    }).catch(err => {
+        alert('Fehler beim Kopieren: ' + err);
+    });
+}
+function copyEventToClipboard(eventIndex) {
+    const event = events[eventIndex];
+    const eventText = JSON.stringify(event, null, 4);
+    navigator.clipboard.writeText(eventText).then(() => {
+        alert('Event erfolgreich in die Zwischenablage kopiert.');
+    }).catch(err => {
+        alert('Fehler beim Kopieren: ' + err);
+    });
+}
+
+function showPasteEventPopup() {
+    const popupHtml = `
+        <div class="popup-content">
+            <h3>Event einfügen</h3>
+            <label for="pastedEvent">Füge das kopierte JSON hier ein:</label>
+            <textarea id="pastedEvent" rows="10" cols="50"></textarea>
+            <div class="popup-buttons">
+               <button id="popup-cancel">Abbrechen</button>
+                <button id="popup-ok">OK</button>
+             
+            </div>
+        </div>
+    `;
+
+    const popup = document.createElement('div');
+    popup.className = 'popup';
+    popup.innerHTML = popupHtml;
+    document.body.appendChild(popup);
+
+    document.getElementById('popup-ok').onclick = function () {
+        const pastedEventJson = document.getElementById('pastedEvent').value;
+        try {
+            const newEvent = JSON.parse(pastedEventJson);
+            if (newEvent.hasOwnProperty('time')) {
+                events.push(newEvent);
+                renderEventList();
+                updateJsonOutput();
+                closePopup();
+            } else {
+                alert('Ungültiges JSON: ' + 'Angegebenes Event ist wohl kein Zeit Event');
+            }
+        } catch (error) {
+            alert('Ungültiges JSON: ' + error.message);
+        }
+    };
+
+    document.getElementById('popup-cancel').onclick = function () {
+        closePopup();
+    };
+
+    function closePopup() {
+        document.body.removeChild(popup);
+    }
+}
+
+function moveActionUp(eventIndex, actionIndex) {
+    const actions = events[eventIndex].actions;
+
+    // Ensure the action isn't the first one
+    if (actionIndex > 0 && actions[actionIndex] && actions[actionIndex - 1]) {
+        const temp = actions[actionIndex];
+        actions[actionIndex] = actions[actionIndex - 1];
+        actions[actionIndex - 1] = temp;
+        renderEventList();
+        updateJsonOutput();
+    } else {
+        console.error('Action cannot be moved up. Either at the start of the list or action is undefined:', actionIndex);
+    }
+}
+
+
+
+
+
+
+document.querySelectorAll('.moveActionUp').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const eventIndex = e.target.getAttribute('data-event-index');
+        const actionIndex = e.target.getAttribute('data-action-index');
+        moveActionUp(eventIndex, actionIndex);
+    });
+});
+
+document.getElementById('copyBtn').onclick = function() {
+    copyToClipboard();
+};
+
+

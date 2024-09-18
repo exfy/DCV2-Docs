@@ -149,9 +149,9 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
             break;
         case 'BlockInteractAction':
             actionForm = `
-                <label>BlockX:</label><input type="text" id="blockX" required>
-                <label>BlockY:</label><input type="text" id="blockY" required>
-                <label>BlockZ:</label><input type="text" id="blockZ" required>
+                <label>BlockX:</label><input type="number" id="blockX" required>
+                <label>BlockY:</label><input type="number" id="blockY" required>
+                <label>BlockZ:</label><input type="number" id="blockZ" required>
             `;
             break;
         case 'EmbedDiscordAction':
