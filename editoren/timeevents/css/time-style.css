@@ -360,3 +360,43 @@ li {
 #eventList {
     max-height: 900px;
 }
+
+.condition-buttons-header {
+    text-align: end;
+    margin-top: -24px;
+}
+#conditionFormContainer {
+    display: none; /* Standardmäßig ausgeblendet */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    padding: 20px;
+    background-color: #0b0a0a;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+#conditionFormContainer .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+.detailsheader-condition {
+    text-align: left;
+    background-color: #66253d;
+    margin-top: -5px;
+    padding-top: 4px;
+
+    font-size: large;
+    padding-left: 10px;
+}
+.editCondition {
+    background-color: #66253d;
+}
+.deleteCondition {
+    background-color: #6f0000;
+}

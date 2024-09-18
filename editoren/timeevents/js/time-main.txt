@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupDragAndDrop();
     setupPopupHandling();
     setupConditionButtons();
-    setupConditionDragAndDrop(); //
 });
 
 
@@ -550,16 +549,7 @@ function renderEventList() {
         eventDiv.setAttribute('data-index', index);
 
         // Rendering der Actions und Conditions, wie bereits beschrieben
-      const conditionList = document.createElement('ul');
-       /* event.conditions.forEach((condition, conditionIndex) => {
-            const conditionItem = document.createElement('li');
-            conditionItem.innerHTML = `
-                <b>${condition.displayname}</b>
-                <button class="editCondition" data-event-index="${index}" data-condition-index="${conditionIndex}">✎</button>
-                <button class="deleteCondition" data-event-index="${index}" data-condition-index="${conditionIndex}">🗑</button>
-            `;
-            conditionList.appendChild(conditionItem);
-        });*/
+
 
         // Edit button
         const editButton = document.createElement('button');
@@ -676,16 +666,16 @@ ${actionIndex > 0 ? `<button class="moveActionUp" data-event-index="${index}" da
         eventDiv.appendChild(actionList);
 
         // Liste der Conditions für dieses Event rendern
-
+        const conditionList = document.createElement('ul');
         event.conditions.forEach((condition, conditionIndex) => {
             const conditionItem = document.createElement('li');
-            let details = `<b>Bedingung:</b> ${condition.displayname}, <b>Systemname: </b> ${condition.systemname}<br>`;
+            let details = `Bedingung: ${condition.displayname}, Systemname: ${condition.systemname}, Version: ${condition.minimalReqVersion}`;
             if (condition.data && typeof condition.data === 'object') {
                 details += `, Daten: ${JSON.stringify(condition.data)}`;
             }
 
             conditionItem.innerHTML = `
-<div class="detailsheader-condition"><b>${condition.displayname}</b>
+<div class="detailsheader"><b>${condition.displayname}</b>
 <div class="condition-buttons-header">
 <button class="editCondition" data-event-index="${index}" data-condition-index="${conditionIndex}">✎</button>
 <button class="deleteCondition" data-event-index="${index}" data-condition-index="${conditionIndex}">🗑</button> </div></div>
@@ -701,7 +691,7 @@ ${actionIndex > 0 ? `<button class="moveActionUp" data-event-index="${index}" da
         eventList.appendChild(eventDiv);
 
     });
-    setupConditionDragAndDrop();
+
     setupConditionButtons();
     setupActionButtons(); // Editieren und Löschen für Actions einrichten
     setupDragAndDrop(); // Reinitialize drag-and-drop functionality
@@ -767,7 +757,24 @@ function editEvent(eventIndex) {
 }
 
 
+// Function to edit an event
+/*function editEvent(eventIndex) {
+    const event = events[eventIndex];
+    document.getElementById('displayname').value = event.displayname;
+    document.getElementById('comment').value = event.comment;
+    document.getElementById('time').value = event.time;
 
+    // When form is submitted, replace the event instead of adding new
+    document.getElementById('eventForm').onsubmit = function(e) {
+        e.preventDefault();
+        event.displayname = document.getElementById('displayname').value;
+        event.comment = document.getElementById('comment').value;
+        event.time = document.getElementById('time').value;
+        renderEventList(); // Re-render the updated list
+        updateJsonOutput();
+        document.getElementById('eventForm').reset();
+    };
+}*/
 
 // Function to copy event details to clipboard
 function copyEventToClipboard(event) {
@@ -1174,7 +1181,7 @@ function renderConditionForm(condition, eventIndex, conditionIndex) {
                 <input type="text" id="botPosition" value="${condition.data.botPosition || ''}" /><br>
             `;
             break;
-       /* case 'isOnline':
+        case 'isOnline':
             form.innerHTML += `
                 <label for="userName">Benutzername:</label>
                 <input type="text" id="userName" value="${condition.data.name || ''}" /><br>
@@ -1185,7 +1192,7 @@ function renderConditionForm(condition, eventIndex, conditionIndex) {
                 <label for="userName">Benutzername:</label>
                 <input type="text" id="userName" value="${condition.data.name || ''}" /><br>
             `;
-            break;*/
+            break;
         // Hier können weitere Cases für verschiedene Conditions hinzugefügt werden
         default:
             form.innerHTML += `<p>Keine spezifischen Daten erforderlich für ${condition.displayname}</p>`;
@@ -1200,24 +1207,18 @@ function renderConditionForm(condition, eventIndex, conditionIndex) {
     form.appendChild(saveButton);
 
     formContainer.appendChild(form);
-    showConditionPopup();
 }
 function saveConditionData(eventIndex, conditionIndex) {
     const condition = events[eventIndex].conditions[conditionIndex];
 
     // Basierend auf dem systemname die Eingabewerte übernehmen
     switch (condition.systemname) {
-        case 'isNotOnBotPos':
-           //condition.data.botPosition = document.getElementById('botPosition').value
-            break;
         case 'isOnBotPos':
             condition.data.botPosition = document.getElementById('botPosition').value;
             break;
         case 'isOnline':
-         //   condition.data.name = document.getElementById('userName').value;
-            break;
         case 'isOffline':
-         //   condition.data.name = document.getElementById('userName').value;
+            condition.data.name = document.getElementById('userName').value;
             break;
         // Weitere Cases für andere Conditions
     }
@@ -1225,7 +1226,6 @@ function saveConditionData(eventIndex, conditionIndex) {
     // Event- und JSON-Ausgabe aktualisieren
     renderEventList();
     updateJsonOutput();
-    closeConditionPopup();
 }
 
 function editCondition(eventIndex, conditionIndex) {
@@ -1234,55 +1234,3 @@ function editCondition(eventIndex, conditionIndex) {
 }
 
 
-function setupConditionDragAndDrop() {
-    const conditionItems = document.querySelectorAll('#conditions .condition');
-    const eventTargets = document.querySelectorAll('#eventList .event');
-
-    conditionItems.forEach(conditionItem => {
-        conditionItem.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('condition', e.target.getAttribute('data-action'));
-            console.log('Condition Drag started:', e.target.getAttribute('data-action'));
-        });
-    });
-
-    eventTargets.forEach(eventTarget => {
-        eventTarget.addEventListener('dragover', (e) => {
-            e.preventDefault();  // Ermöglicht das Drop
-            console.log('Dragover on Event:', eventTarget.innerText);
-        });
-
-        eventTarget.addEventListener('drop', (e) => {
-            e.preventDefault();
-
-            const conditionType = e.dataTransfer.getData('condition');
-            const eventIndex = e.target.getAttribute('data-index');
-
-            if (conditionType && eventIndex !== null) {
-                console.log('Condition dropped:', conditionType, 'on event', eventIndex);
-
-                // Hinzufügen der Condition zum Event
-                let conditionData = {
-                    systemname: conditionType,
-                    displayname: conditionType,
-                    minimalReqVersion: 1,
-                    data: {}
-                };
-
-                events[eventIndex].conditions.push(conditionData);
-
-                renderEventList(); // Neu rendern, um die geänderten Events anzuzeigen
-                updateJsonOutput();
-            }
-        });
-    });
-}
-function showConditionPopup() {
-    const conditionPopup = document.getElementById('conditionFormContainer');
-    conditionPopup.style.display = 'block'; // Zeige das Popup an
-}
-
-// Funktion zum Schließen des Condition-Popups
-function closeConditionPopup() {
-    const conditionPopup = document.getElementById('conditionFormContainer');
-    conditionPopup.style.display = 'none'; // Verstecke das Popup
-}

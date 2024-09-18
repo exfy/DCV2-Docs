@@ -63,9 +63,9 @@
         <br>
         <h2>Bedingungen</h2>
         <div class="condition" draggable="true" data-action="isOnBotPos">ist auf Bot-Position</div>
-        <div class="condition" draggable="true" data-action="isOnBotPos">ist nicht auf Bot-Position</div>
-        <div class="condition" draggable="true" data-action="isOnBotPos">ist Online</div>
-        <div class="condition" draggable="true" data-action="isOnBotPos">ist Offline</div>
+        <div class="condition" draggable="true" data-action="isOnBotPosNot">ist nicht auf Bot-Position</div>
+        <div class="condition" draggable="true" data-action="isOnline">ist Online</div>
+        <div class="condition" draggable="true" data-action="isOffline">ist Offline</div>
 
     </div>
 
@@ -106,8 +106,16 @@
                 <span id="closePopup" class="close">&times;</span>
                 <div id="actionFormContainer"></div>
             </div>
+
         </div>
     </div>
+
+
+    <div id="conditionFormContainer">
+        <span class="close" onclick="closeConditionPopup()">×</span>
+        <!-- Formular-Inhalte werden dynamisch eingefügt -->
+    </div>
+
 
 
     <!-- Right: JSON Output -->
