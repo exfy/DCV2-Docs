@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCV2 Lampen-Event Editor</title>
-    <link rel="stylesheet" href="css/lampen-style.css">
+    <title>DCV2 Zeit-Event Editor</title>
+    <link rel="stylesheet" href="css/ZeitEventEditorStyle.css">
 </head>
 <body>
 
 <div class="header">
-    <img src = "https://api.qq4.de/dcv2/dcv2-lamp-event-editor.png" alt="DCV2 Zeit-Event Editor">
+    <img src = "https://api.qq4.de/dcv2/dcv2-zeit-event-editor.png" alt="DCV2 Zeit-Event Editor">
 
     <div class="editorenchange"><label for="dropdown">Editor wechseln:</label>
-    <select id="dropdown" onchange="openURL()" >
-        <option value="">--Bitte wählen--</option>
-        <option value="https://exfy.github.io/DCV2-Docs/editoren/lampenevents/LampenEditor.html">Lampen-Events</option>
-        <option value="https://exfy.github.io/DCV2-Docs/editoren/timeevents/ZeitEditor.html">Zeit-Events</option>
-        <option value="https://exfy.github.io/DCV2-Docs/editoren/chatevents/ChatEditor.html">Chat-Events</option>
-        <option value="https://exfy.github.io/DCV2-Docs/editoren/ankaufevents/AnkaufEditor.html">Ankaufs-Events</option>
-    </select></div>
+        <select id="dropdown" onchange="openURL()" >
+            <option value="">--Bitte wählen--</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/lampen/LampenEventEditor.html">Lampen Event Editor</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/zeit/ZeitEventEditor.html">Zeit Event Editor</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/chat/ChatEventEditor.html">Chat Event Editor</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/anakuf/AnkaufEventEditor.html">Ankauf Event Editor</option>
+        </select></div>
 
     <div class="links">
         <button id="doku" onclick="window.open('https://exfy.github.io/DCV2-PublicDocs/docs/category/events', '_blank');">DCV2 Dokumentation</button>
-        <button id="lampenevent" onclick="window.open('https://exfy.github.io/DCV2-PublicDocs/docs/doc-events/LampenEvent', '_blank');">Lampen-Event Doku</button>
+
     </div>
 
     <div class="buttons">
@@ -33,12 +33,15 @@
 
     </div>
 </div>
+
 <div class="tab-menu">
     <button class="tablink" onclick="openTab('actions')">Mögliche Aktionen</button>
     <button class="tablink" onclick="openTab('conditions')">Conditions</button>
 </div>
 <div class="container">
     <!-- Left: Available Actions -->
+
+
     <div class="column" id="actionList">
         <h2>Aktionen</h2>
         <div class="action" draggable="true" data-action="ChatMessageAction">Chat Message</div>
@@ -53,17 +56,17 @@
         <div class="action" draggable="true" data-action="SystemPrintOutAction">Log Eintrag</div>
         <div class="action" draggable="true" data-action="DisplayMessageInChatAction">Ingame Chat Ausgabe</div>
         <div id="movement-block-interaktion" class="action" draggable="true" data-action="BlockInteractAction">Block Interaktion</div>
-        <div id="operation-setstring" class="action" draggable="true" data-action="SetString">Set String</div>
+        <div id="operation" class="action" draggable="true" data-action="SetString">Set String</div>
     </div>
-
+    <!-- Left: Conditions (Initially Hidden) -->
     <div id="conditions" class="tab-content" style="display:none;">
         <br>
-
         <h2>Bedingungen</h2>
         <div class="condition" draggable="true" data-action="isOnBotPos">ist auf Bot-Position</div>
-        <div class="condition" draggable="true" data-action="isOnBotPos">ist nicht auf Bot-Position</div>
-        <div class="condition" draggable="true" data-action="isOnBotPos">ist Online</div>
-        <div class="condition" draggable="true" data-action="isOnBotPos">ist Offline</div>
+        <div class="condition" draggable="true" data-action="isOnBotPosNot">ist nicht auf Bot-Position</div>
+        <div class="condition" draggable="true" data-action="isOnline">ist Online</div>
+        <div class="condition" draggable="true" data-action="isOffline">ist Offline</div>
+
     </div>
 
     <!-- Middle: Event Creation & Assignment -->
@@ -81,29 +84,16 @@
                 <label for="comment">Kommentar (optional):</label>
                 <input type="text" id="comment">
             </div>
-            <div  style="display: flex; gap: 10px;">
-                <label for="lampX">Position Lampe X:</label>
-                <input value="0" type="number" id="lampX" required>
-
-                <label for="lampY">Position Lampe Y:</label>
-                <input value="0" type="number" id="lampY" required>
-
-                <label for="lampZ">Position Lampe Z:</label>
-                <input value="0" type="number" id="lampZ" required>
-            </div><br>
-            <div style="display: flex; gap: 10px;>
-                <label for="secCooldown">Cooldown in Sekunden:</label>
-                <input type="number"  value="1" id="secCooldown" required>
-
-                <label for="allowLoop">Loop Erkennung:</label>
-                <select id="allowLoop" required>
-                    <option value="true">True</option>
-                    <option value="false">False</option>
-                </select>
+            <div>
+                <label for="time">Zeit (HH:MM):</label>
+                <input type="time" id="time" required>
             </div>
-            <button type="submit" id="createEventBtn">Lampenevent erstellen</button>
+            <button type="submit" id="createEventBtn">Zeitevent erstellen</button>
+
 
         </form>
+
+
 
         <h2>Deine Events</h2>
         <div id="eventList"></div>
@@ -116,13 +106,21 @@
                 <span id="closePopup" class="close">&times;</span>
                 <div id="actionFormContainer"></div>
             </div>
+
         </div>
     </div>
 
 
+    <div id="conditionFormContainer">
+        <span class="close" onclick="closeConditionPopup()">×</span>
+        <!-- Formular-Inhalte werden dynamisch eingefügt -->
+    </div>
+
+
+
     <!-- Right: JSON Output -->
     <div class="column">
-        <h2>LampenEvents.json</h2>
+        <h2>TimeEvents.json</h2>
         <div class="json-output" id="jsonOutput"></div>
         <button id="copyBtn">STRG + C</button>
     </div>
@@ -131,7 +129,11 @@
 </div>
 
 <!-- JavaScript Dateien -->
-<script src="js/lampen-main.js"></script>
+<script src="js/zeit-actions.js"></script>
+<script src="js/zeit-conditions.js"></script>
+<script src="js/zeit-global.js"></script>
+<script src="js/zeit-event.js"></script>
+
 
 </body>
 </html>
