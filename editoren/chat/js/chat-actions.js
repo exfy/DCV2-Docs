@@ -1,5 +1,5 @@
 // Standardmäßig den "Mögliche Aktionen"-Tab anzeigen
-document.getElementById("actions").style.display = "block";
+//document.getElementById("actions").style.display = "block";
 
 // Move Actions up and down
 document.querySelectorAll('.moveActionUp').forEach(button => {
@@ -128,9 +128,9 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 <label>BlockX:</label><input type="number" id="blockX" required>
                 <label>BlockY:</label><input type="number" id="blockY" required>
                 <label>BlockZ:</label><input type="number" id="blockZ" required>
-                <select id="blockType" required>
+                                <select id="blockType" required>
   <option value="block">Block (Knopf/Schalter)</option>
-  <!--<option value="itemframe">Itemframe</option> -->
+ <!--<option value="itemframe">Itemframe</option> -->
 </select>
             `;
             break;

@@ -128,6 +128,10 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 <label>BlockX:</label><input type="number" id="blockX" required>
                 <label>BlockY:</label><input type="number" id="blockY" required>
                 <label>BlockZ:</label><input type="number" id="blockZ" required>
+                                <select id="blockType" required>
+  <option value="block">Block (Knopf/Schalter)</option>
+ <!--<option value="itemframe">Itemframe</option> -->
+</select>
             `;
             break;
         case 'DisplayMessageInChatAction':
@@ -236,6 +240,7 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 document.getElementById('blockX').value = action.data.blockX;
                 document.getElementById('blockY').value = action.data.blockY;
                 document.getElementById('blockZ').value = action.data.blockZ;
+                document.getElementById('blockType').value = action.data.blockType;
                 break;
 
             case 'SetString':
@@ -326,7 +331,8 @@ function saveActionToEvent(actionType, eventIndex, actionIndex = null) {
             actionData = {
                 blockX: document.getElementById('blockX').value,
                 blockY: document.getElementById('blockY').value,
-                blockZ: document.getElementById('blockZ').value
+                blockZ: document.getElementById('blockZ').value,
+                blockType: document.getElementById('blockType').value
             };
             break;
         case 'SetString':

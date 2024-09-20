@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCV2 Lampen-Event Editor</title>
-    <link rel="stylesheet" href="css/LampenEventEditorStyle.css">
+    <title>DCV2 Chat-Event Editor</title>
+    <link rel="stylesheet" href="css/ChatEventEditorStyle.css">
 </head>
 <body>
 
 <div class="header">
-    <img src = "https://api.qq4.de/dcv2/dcv2-lamp-event-editor.png" alt="DCV2 Lampen Event Editor">
+    <img src = "https://api.qq4.de/dcv2/dcv2-chat-event-editor.png" alt="DCV2 Chat-Event Editor">
 
     <div class="editorenchange"><label for="dropdown">Editor wechseln:</label>
         <select id="dropdown" onchange="openURL()" >
@@ -84,25 +84,17 @@
                 <label for="comment">Kommentar (optional):</label>
                 <input type="text" id="comment">
             </div>
-            <div  style="display: flex; gap: 10px;">
-                <label for="lampX">Position Lampe X:</label>
-                <input value="0" type="number" id="lampX" required>
+            <div>
+                <label for="regexWithColorCodes">Regex mit Farbcodes:</label>
+                <select id="regexWithColorCodes" required>
+                    <option value="false">Nein</option>
+                    <option value="true">Ja</option>
+                </select>
 
-                <label for="lampY">Position Lampe Y:</label>
-                <input value="0" type="number" id="lampY" required>
+                <label for="regex">RegEx:</label>
+                <input type="text" id="regex">
 
-                <label for="lampZ">Position Lampe Z:</label>
-                <input value="0" type="number" id="lampZ" required>
-            </div><br>
-            <div style="display: flex; gap: 10px;>
-                <label for="secCooldown">Cooldown in Sekunden:</label>
-            <input type="number"  value="1" id="secCooldown" required>
 
-            <label for="allowLoop">Loop Erkennung:</label>
-            <select id="allowLoop" required>
-                <option value="true">True</option>
-                <option value="false">False</option>
-            </select>
     </div>
     <button type="submit" id="createEventBtn">Lampenevent erstellen</button>
 
@@ -110,44 +102,47 @@
 
 
 
-        <h2>Deine Events</h2>
-        <div id="eventList"></div>
+    <h2>Deine Events</h2>
+    <div id="eventList"></div>
 
 
 
-        <!-- Füge den Container für das Action-Formular hinzu -->
-        <div id="actionPopup" class="popup">
-            <div class="popup-content">
-                <span id="closePopup" class="close">&times;</span>
-                <div id="actionFormContainer"></div>
-            </div>
-
+    <!-- Füge den Container für das Action-Formular hinzu -->
+    <div id="actionPopup" class="popup">
+        <div class="popup-content">
+            <span id="closePopup" class="close">&times;</span>
+            <div id="actionFormContainer"></div>
         </div>
+
     </div>
+</div>
 
 
-    <div id="conditionFormContainer">
-        <span class="close" onclick="closeConditionPopup()">×</span>
-        <!-- Formular-Inhalte werden dynamisch eingefügt -->
-    </div>
+<div id="conditionFormContainer">
+    <span class="close" onclick="closeConditionPopup()">×</span>
+    <!-- Formular-Inhalte werden dynamisch eingefügt -->
+</div>
 
 
 
-    <!-- Right: JSON Output -->
-    <div class="column">
-        <h2>LampenEvents.json</h2>
-        <div class="json-output" id="jsonOutput"></div>
-        <button id="copyBtn">STRG + C</button>
-    </div>
+
+
+<!-- Right: JSON Output -->
+<div class="column">
+    <h2>ChatEvents.json</h2>
+    <div class="json-output" id="jsonOutput"></div>
+    <button id="copyBtn">STRG + C</button>
+</div>
 
 
 </div>
 
 <!-- JavaScript Dateien -->
-<script src="js/lampen-actions.js"></script>
-<script src="js/lampen-conditions.js"></script>
-<script src="js/lampen-global.js"></script>
-<script src="js/lampen-event.js"></script>
+<script src="js/chat-actions.js"></script>
+<script src="js/chat-conditions.js"></script>
+<script src="js/chat-global.js"></script>
+<script src="js/chat-event.js"></script>
+<script src="js/chat-variables.js"></script>
 
 
 </body>
