@@ -8,7 +8,11 @@
 </head>
 <body>
 <div class="header">
-    <h1>Variable Editor</h1>
+    <img src = "https://api.qq4.de/dcv2/variabel-editor.png" alt="DCV2 Lampen Event Editor">
+    <div class="links">
+        <button id="doku" onclick="window.open('https://exfy.github.io/DCV2-PublicDocs/docs/category/variablen', '_blank');">DCV2 Dokumentation</button>
+
+    </div>
     <div>
         <button id="copyJsonButton">JSON kopieren</button>
         <button id="saveJsonButton">Speichern als .json</button>
@@ -29,7 +33,7 @@
 
     <div class="column" id="eventEditor">
         <h3>Filter Editor</h3>
-        <img src = "https://api.qq4.de/dcv2/variabel-editor.png" alt="DCV2 Lampen Event Editor">
+        <label for="variableName">Variable Name</label>
         <input type="text" id="variableName" pattern="[a-zA-Z_]+" title="Only a-z, A-Z, and _ are allowed" placeholder="Variable Name">
 
         <label for="filterWithColorCodes">Filter mit Farbcode</label>
