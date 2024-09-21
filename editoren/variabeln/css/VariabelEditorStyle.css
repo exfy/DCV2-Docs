@@ -421,3 +421,37 @@ li {
     text-align: right;
     margin-top: -25px;
 }
+
+/* Stil für die Filterergebnisse */
+.filter-result {
+    background-color: #40444b;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Stil für die Filterelemente in der Liste */
+.filter-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: #40444b;
+    border-radius: 3px;
+}
+
+/* Buttons im Filterelement */
+.filter-item button {
+    margin-left: 5px;
+    background-color: #40444b;
+    color: white;
+    border: none;
+    padding: 3px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.filter-item button:hover {
+    background-color: #ccc;
+}

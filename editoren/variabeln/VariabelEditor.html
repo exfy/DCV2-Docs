@@ -17,10 +17,14 @@
 <div class="container">
     <div class="column" id="filters">
         <h3>Verfügbare Filter</h3>
-        <div class="event" data-filter="Filter 1">Filter 1</div>
-        <div class="event" data-filter="Filter 2">Filter 2</div>
-        <div class="event" data-filter="Filter 3">Filter 3</div>
-        <div class="event" data-filter="Filter 4">Filter 4</div>
+        <div class="event" data-filter="toLowerCase()">toLowerCase()</div>
+        <div class="event" data-filter="toUpperCase()">toUpperCase()</div>
+        <div class="event" data-filter="substring(0,5)">substring(0,5)</div>
+        <div class="event" data-filter="split( ,2)">split( ,2)</div>
+        <div class="event" data-filter="trim()">trim()</div>
+        <div class="event" data-filter="replaceAll(A,B)">replaceAll(A,B)</div>
+        <div class="event" data-filter="replaceFirst(A,B)">replaceFirst(A,B)</div>
+        <div class="event" data-filter="regExGroup(1)">regExGroup(1)</div>
     </div>
 
     <div class="column" id="eventEditor">
@@ -31,10 +35,24 @@
         <label for="filterWithColorCodes">Filter mit Farbcode</label>
         <input type="checkbox" id="filterWithColorCodes">
 
+        <h3>RegEx Eingabe</h3>
+        <input type="text" id="regexInput" placeholder="RegEx Muster">
+
+        <h3>String Eingabe</h3>
+        <input type="text" id="stringInput" placeholder="Zu filternder String" value="[GrieferGames] [138;-175] exfynation betrat dein Grundstück.">
+
         <h3>Filter Liste</h3>
         <ul id="filterList" class="drop-target">
             <!-- Hier werden die Filter hinzugefügt -->
         </ul>
+
+        <h3>Ergebnis der Filter</h3>
+        <ul id="filterResults" class="drop-target">
+            <!-- Hier werden die Ergebnisse der Filter angezeigt -->
+        </ul>
+
+        <h3>Fehlerausgabe</h3>
+        <div id="errorOutput" style="color: red;"></div>
     </div>
 
     <div class="column">
@@ -52,6 +70,6 @@
     </div>
 </div>
 
-<script src="js/variabel-global.js"></script>
+<script src="js/variabel-combined.js"></script>
 </body>
 </html>
