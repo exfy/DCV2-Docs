@@ -1,5 +1,6 @@
 let events = [];
 
+
 document.addEventListener('DOMContentLoaded', () => {
     initEventEditor();
     setupDragAndDrop();

@@ -47,9 +47,9 @@ function updateConditionsDisplay(eventElement, eventObj) {
 }
 
 // Funktion zum Aktualisieren der JSON-Ausgabe
-function updateJsonOutput() {
+/*function updateJsonOutput() {
     document.getElementById('jsonOutput').textContent = JSON.stringify(events, null, 2);
-}
+}*/
 
 // Füge Event-Listener zu bestehenden und neuen Events hinzu
 addEventListenersToEvents();

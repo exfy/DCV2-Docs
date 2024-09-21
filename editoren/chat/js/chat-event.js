@@ -41,6 +41,7 @@ function showPasteEventPopup() {
     function closePopup() {
         document.body.removeChild(popup);
     }
+    updateJsonOutput();
 }
 
 //copy event
@@ -69,13 +70,13 @@ function editEvent(eventIndex) {
             <label for="popup-comment">Kommentar:</label>
             <input type="text" id="popup-comment" value="${event.comment}">
              <label for="popup-regexWithColorCodes">Regex mit Farbcodes:</label>
-                <select id="popup-regexWithColorCodes" required>
-                    <option value="false">Nein</option>
-                    <option value="true">Ja</option>
-                </select>
+            <select id="popup-regexWithColorCodes" required>
+    <option value="false" ${event.regexWithColorCodes === 'false' ? 'selected' : ''}>Nein</option>
+    <option value="true" ${event.regexWithColorCodes === 'true' ? 'selected' : ''}>Ja</option>
+</select>
 
                 <label for="popup-regex">RegEx:</label>
-                <input type="text" id="regex">
+                <input type="text" id="popup-regex" value="${event.regex}">
                 
             <div class="popup-buttons">
                
@@ -128,7 +129,10 @@ function copyEventToClipboard(event) {
 */
 function updateJsonOutput() {
     const jsonOutput = document.getElementById('jsonOutput');
-    jsonOutput.textContent = JSON.stringify({lampenevents: events}, null, 4);
+    const outputData = { chatevents: events };
+
+    // Ausgabe als formatiertes JSON
+    jsonOutput.textContent = JSON.stringify(outputData, null, 4);
 }
 
 function initEventEditor() {
@@ -160,11 +164,13 @@ function initEventEditor() {
             actions: []
         };
 
-        events.push(newEvent);
-        renderEventList();
-        updateJsonOutput();
-        setupDeleteVariableButtons();
 
+        events.push(newEvent);
+
+        renderEventList();
+
+        setupDeleteVariableButtons();
+        updateJsonOutput();
         document.getElementById('eventForm').reset();
     });
 }
@@ -188,7 +194,7 @@ function renderEventList() {
 
         const eventDetails = document.createElement('div');
         //eventDetails.innerHTML = `<strong>${event.displayname}</strong> (${event.time}) <br> ${event.comment} `;
-        eventDiv.innerHTML = `<strong>${event.displayname}</strong> (X: ${event.lampX}, Y: ${event.lampY}, Z: ${event.lampZ}) <br> ${event.comment} <br> <br> <br> `;
+        eventDiv.innerHTML = `<strong>${event.displayname}</strong> <br> ${event.comment} <br> <br> <br> `;
 
         eventDiv.appendChild(eventDetails);
         eventDiv.setAttribute('data-index', index);
@@ -204,6 +210,15 @@ function renderEventList() {
              `;
              conditionList.appendChild(conditionItem);
          });*/
+
+        //Variable einfügen Popup
+        const varibaleButton = document.createElement('button');
+        varibaleButton.textContent = 'Variable einfügen';
+        varibaleButton.className = 'insertVariableEvent';
+        varibaleButton.onclick = () => {
+            insertChatVariable(index);
+        };
+        eventDiv.appendChild(varibaleButton);
 
         // Edit button
         const editButton = document.createElement('button');
