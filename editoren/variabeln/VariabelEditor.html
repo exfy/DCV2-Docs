@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variable Editor</title>
+    <link rel="stylesheet" href="css/VariabelEditorStyle.css">
+</head>
+<body>
+<div class="header">
+    <h1>Variable Editor</h1>
+    <div>
+        <button id="copyJsonButton">JSON kopieren</button>
+        <button id="saveJsonButton">Speichern als .json</button>
+    </div>
+</div>
+<div class="container">
+    <div class="column" id="filters">
+        <h3>Verfügbare Filter</h3>
+        <div class="event" data-filter="Filter 1">Filter 1</div>
+        <div class="event" data-filter="Filter 2">Filter 2</div>
+        <div class="event" data-filter="Filter 3">Filter 3</div>
+        <div class="event" data-filter="Filter 4">Filter 4</div>
+    </div>
+
+    <div class="column" id="eventEditor">
+        <h3>Filter Editor</h3>
+        <label for="variableName">Variable Name</label>
+        <input type="text" id="variableName" pattern="[a-zA-Z_]+" title="Only a-z, A-Z, and _ are allowed" placeholder="Variable Name">
+
+        <label for="filterWithColorCodes">Filter mit Farbcode</label>
+        <input type="checkbox" id="filterWithColorCodes">
+
+        <h3>Filter Liste</h3>
+        <ul id="filterList" class="drop-target">
+            <!-- Hier werden die Filter hinzugefügt -->
+        </ul>
+    </div>
+
+    <div class="column">
+        <h3>JSON Ausgabe</h3>
+        <pre class="json-output" id="jsonOutput"></pre>
+    </div>
+</div>
+
+<div class="popup" id="filterPopup">
+    <div class="popup-content">
+        <span class="close" id="closePopup">&times;</span>
+        <h3>Filter bearbeiten</h3>
+        <input type="text" id="filterText">
+        <button id="saveFilter">Speichern</button>
+    </div>
+</div>
+
+<script src="js/variabel-global.js"></script>
+</body>
+</html>
