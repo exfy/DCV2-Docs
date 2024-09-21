@@ -421,3 +421,6 @@ li {
     text-align: right;
     margin-top: -25px;
 }
+.chat-popup-content {
+    background-color: #26272b!important;
+}

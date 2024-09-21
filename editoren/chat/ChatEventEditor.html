@@ -92,10 +92,15 @@
                 </select>
 
                 <label for="regex">RegEx:</label>
+                <div  style="display: flex; gap: 10px;">
                 <input type="text" id="regex">
+                <button type="button" onclick="escapeJson()">Escape JSON</button>
+                <button type="button" onclick="unescapeJson()">Unescape JSON</button>
+                    </div>
 
 
-    </div>
+
+            </div>
     <button type="submit" id="createEventBtn">Chatevent erstellen</button>
 
     </form>

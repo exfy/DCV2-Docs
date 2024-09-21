@@ -194,7 +194,7 @@ function renderEventList() {
 
         const eventDetails = document.createElement('div');
         //eventDetails.innerHTML = `<strong>${event.displayname}</strong> (${event.time}) <br> ${event.comment} `;
-        eventDiv.innerHTML = `<strong>${event.displayname}</strong> <br> ${event.comment} <br> <br> <br> `;
+        eventDiv.innerHTML = `<strong>${event.displayname}</strong> <br> </br>${event.regex} <br> <i>${event.comment}</i> <br> <br> <br> `;
 
         eventDiv.appendChild(eventDetails);
         eventDiv.setAttribute('data-index', index);
@@ -388,3 +388,33 @@ ${actionIndex > 0 ? `<button class="moveActionUp" data-event-index="${index}" da
     setupDeleteVariableButtons();// Reinitialize drag-and-drop functionality
 }
 
+function manualEscape(str) {
+    return str
+        .replace(/\\/g, '\\\\')   // Backslashes escapen
+        .replace(/"/g, '\\"')     // Doppelte Anführungszeichen escapen
+        .replace(/\n/g, '\\n')    // Zeilenumbrüche escapen
+        .replace(/\r/g, '\\r')    // Wagenrückläufe escapen
+        .replace(/\t/g, '\\t');   // Tabs escapen
+}
+
+// Funktion zum Entescapen
+function manualUnescape(str) {
+    return str
+        .replace(/\\\\/g, '\\')   // Backslashes entescapen
+        .replace(/\\"/g, '"')     // Doppelte Anführungszeichen entescapen
+        .replace(/\\n/g, '\n')    // Zeilenumbrüche entescapen
+        .replace(/\\r/g, '\r')    // Wagenrückläufe entescapen
+        .replace(/\\t/g, '\t');   // Tabs entescapen
+}
+
+function escapeJson() {
+    const regexInput = document.getElementById('regex').value;
+    const escapedJson = manualEscape(regexInput);
+    document.getElementById('regex').value = escapedJson;
+}
+
+function unescapeJson() {
+    const regexInput = document.getElementById('regex').value;
+    const unescapedJson = manualUnescape(regexInput);
+    document.getElementById('regex').value = unescapedJson;
+}

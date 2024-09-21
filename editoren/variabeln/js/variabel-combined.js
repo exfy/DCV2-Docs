@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
                 if (filter.includes("regExGroup")) {
-                    // RegEx Muster aus dem Eingabefeld lesen
+                    // RegEx Muster aus dem Eingabefeld lesen (ohne Slashes)
                     let regexPatternInput = document.getElementById('regexInput').value;
                     console.log("RegEx Input:", regexPatternInput); // Debugging
 
@@ -193,15 +193,20 @@ document.addEventListener('DOMContentLoaded', function() {
                     let regexPatternString = removeJsonEscaping(regexPatternInput);
                     console.log("RegEx after JSON escaping:", regexPatternString); // Debugging
 
-                    // RegEx Muster dynamisch erstellen
+                    // Zu filternder String aus dem Eingabefeld lesen
+                    let stringInput = document.getElementById('stringInput').value;
+                    console.log("String Input:", stringInput); // Debugging
+
                     try {
+                        // RegEx Muster dynamisch erstellen (ohne umschließende Slashes)
                         let regexPattern = new RegExp(regexPatternString);
                         console.log("RegEx Object:", regexPattern); // Debugging
 
                         const groupIndex = parseInt(filter.substring(filter.indexOf("(") + 1, filter.indexOf(")")).trim());
                         console.log("Group Index:", groupIndex); // Debugging
 
-                        const regexMatch = modifiedString.match(regexPattern);
+                        // Wende den RegEx auf den zu filternden String an
+                        const regexMatch = stringInput.match(regexPattern);
                         console.log("Regex Match:", regexMatch); // Debugging
 
                         // Sicherstellen, dass ein Match existiert und die Gruppe vorhanden ist
@@ -209,13 +214,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             modifiedString = regexMatch[groupIndex];
                             console.log("Modified String (Matched Group):", modifiedString); // Debugging
                         } else {
-                            console.log("No match or group index not found.");
+                            console.log("No match or group index found.");
                             modifiedString = ""; // Rückgabe leerer String, wenn keine Übereinstimmung vorhanden ist
                         }
                     } catch (e) {
                         console.error("Error creating or applying RegEx:", e); // Fehlerbehandlung
                     }
                 }
+
 
 // Ausgabe des modifizierten Strings
                 console.log(modifiedString);
@@ -279,6 +285,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // JSON in die Zwischenablage kopieren
     copyJsonButton.addEventListener('click', function() {
+        if (!allowCopy) {
+            alert('Kopieren nicht erlaubt. Überprüfe die Eingabe.');
+            return;
+        }
+
         const jsonText = jsonOutput.textContent;
         navigator.clipboard.writeText(jsonText).then(() => {
             alert('JSON kopiert!');
@@ -299,6 +310,52 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
+
 function removeJsonEscaping(pattern) {
     return pattern.replace(/\\\\/g, "\\").replace(/\\\//g, "/");
+}
+let allowCopy = false; // Anfangs nicht erlaubt
+
+document.getElementById('variableName').addEventListener('input', function() {
+    const inputField = this;
+    const pattern = /^[a-zA-Z0-9_]+$/;
+    const isValid = pattern.test(inputField.value);
+
+    if (isValid) {
+        inputField.style.borderColor = 'green';
+        allowCopy = true; // Kopieren erlauben
+    } else {
+        inputField.style.borderColor = 'red';
+        allowCopy = false; // Kopieren verbieten
+    }
+});
+function manualEscape(str) {
+    return str
+        .replace(/\\/g, '\\\\')   // Backslashes escapen
+        .replace(/"/g, '\\"')     // Doppelte Anführungszeichen escapen
+        .replace(/\n/g, '\\n')    // Zeilenumbrüche escapen
+        .replace(/\r/g, '\\r')    // Wagenrückläufe escapen
+        .replace(/\t/g, '\\t');   // Tabs escapen
+}
+
+// Funktion zum Entescapen
+function manualUnescape(str) {
+    return str
+        .replace(/\\\\/g, '\\')   // Backslashes entescapen
+        .replace(/\\"/g, '"')     // Doppelte Anführungszeichen entescapen
+        .replace(/\\n/g, '\n')    // Zeilenumbrüche entescapen
+        .replace(/\\r/g, '\r')    // Wagenrückläufe entescapen
+        .replace(/\\t/g, '\t');   // Tabs entescapen
+}
+
+function escapeJson() {
+    const regexInput = document.getElementById('regexInput').value;
+    const escapedJson = manualEscape(regexInput);
+    document.getElementById('regexInput').value = escapedJson;
+}
+
+function unescapeJson() {
+    const regexInput = document.getElementById('regexInput').value;
+    const unescapedJson = manualUnescape(regexInput);
+    document.getElementById('regexInput').value = unescapedJson;
 }

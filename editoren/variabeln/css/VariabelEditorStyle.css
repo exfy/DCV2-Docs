@@ -444,7 +444,7 @@ li {
 /* Buttons im Filterelement */
 .filter-item button {
     margin-left: 5px;
-    background-color: #40444b;
+    background-color: #5865f2;
     color: white;
     border: none;
     padding: 3px 6px;
@@ -453,5 +453,8 @@ li {
 }
 
 .filter-item button:hover {
-    background-color: #ccc;
+    background-color: #2d347d;
+}
+#filterWithColorCodes {
+    height: 20px;
 }
