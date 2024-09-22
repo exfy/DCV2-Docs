@@ -61,6 +61,7 @@ function insertChatVariable(eventIndex) {
     const chatPopupHtml = `
         <div class="chat-popup-overlay">
             <div class="chat-popup-content">
+            <button id="chat-popup-open-editor" onclick="window.open('https://exfy.github.io/DCV2-Docs/editoren/variabeln/VariabelEditor.html', '_blank')">Variablen Editor öffnen</button>
                 <h3>Variable einfügen</h3>
                 <label for="chatPastedVariable">Füge das kopierte JSON der Variable hier ein:</label>
                 <textarea id="chatPastedVariable" rows="10" cols="50"></textarea>
@@ -141,3 +142,4 @@ document.querySelectorAll('.addVariableButton').forEach(button => {
         insertChatVariable(eventIndex);
     });
 });
+
