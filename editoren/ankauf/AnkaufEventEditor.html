@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCV2 Ankauf-Event Editor</title>
+    <link rel="stylesheet" href="css/AnkaufEventEditorStyle.css">
+</head>
+<body>
+
+<div class="header">
+    <img src = "https://api.qq4.de/dcv2/dcv2-ankauf-event-editor.png" alt="DCV2 Chat-Event Editor">
+
+    <div class="editorenchange"><label for="dropdown">Editor wechseln:</label>
+        <select id="dropdown" onchange="openURL()" >
+            <option value="">--Bitte wählen--</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/lampen/LampenEventEditor.html">Lampen Event Editor</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/zeit/ZeitEventEditor.html">Zeit Event Editor</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/chat/ChatEventEditor.html">Chat Event Editor</option>
+            <option value="https://exfy.github.io/DCV2-Docs/editoren/anakuf/AnkaufEventEditor.html">Ankauf Event Editor</option>
+        </select></div>
+
+    <div class="links">
+        <button id="doku" onclick="window.open('https://exfy.github.io/DCV2-PublicDocs/docs/category/events', '_blank');">DCV2 Dokumentation</button>
+
+    </div>
+
+    <div class="buttons">
+
+        <span>  <input type="file" id="fileInput" accept=".json"><button id="importBtn">Import JSON</button></span>
+        <span> <button id="saveBtn">Save to File</button></span>
+
+
+    </div>
+</div>
+
+<div class="tab-menu">
+    <button class="tablink" onclick="openTab('actions')">Mögliche Aktionen</button>
+    <button class="tablink" onclick="openTab('conditions')">Conditions</button>
+</div>
+<div class="container">
+    <!-- Left: Available Actions -->
+
+
+    <div class="column" id="actionList">
+        <h2>Aktionen</h2>
+        <div class="action" draggable="true" data-action="ChatMessageAction">Chat Message</div>
+        <div class="action" draggable="true" data-action="CommandAction">Command</div>
+        <div class="action" draggable="true" data-action="QuitClientAction">Quit Client</div>
+        <div class="action" draggable="true" data-action="QuitServerAction">Quit Server</div>
+        <div class="action" draggable="true" data-action="PrivateMessageAction">Private Message</div>
+        <div class="action" draggable="true" data-action="SendSimpleMessageWebhookAction">Send Webhook Message</div>
+        <div class="action" draggable="true" data-action="EmbedDiscordAction">Embed to Discord</div>
+        <div class="action" draggable="true" data-action="OfflinePayAction">Offline Pay</div>
+        <div class="action" draggable="true" data-action="OfflineMsgAction">Offline Message</div>
+        <div class="action" draggable="true" data-action="SystemPrintOutAction">Log Eintrag</div>
+        <div class="action" draggable="true" data-action="DisplayMessageInChatAction">Ingame Chat Ausgabe</div>
+        <div id="movement-block-interaktion" class="action" draggable="true" data-action="BlockInteractAction">Block Interaktion</div>
+        <div id="operation" class="action" draggable="true" data-action="SetString">Set String</div>
+    </div>
+    <!-- Left: Conditions (Initially Hidden) -->
+    <div id="conditions" class="tab-content" style="display:none;">
+        <br>
+        <h2>Bedingungen</h2>
+        <div class="condition" draggable="true" data-action="isOnBotPos">ist auf Bot-Position</div>
+        <div class="condition" draggable="true" data-action="isOnBotPosNot">ist nicht auf Bot-Position</div>
+        <div class="condition" draggable="true" data-action="isOnline">ist Online</div>
+        <div class="condition" draggable="true" data-action="isOffline">ist Offline</div>
+
+    </div>
+
+    <!-- Middle: Event Creation & Assignment -->
+    <div class="column" id="eventEditor">
+        <div style="display: flex; gap: 10px;">
+            <button id="toggleEventForm" style="cursor: pointer;">Neues Event</button>
+            <button class="pasteEvent" onclick="showPasteEventPopup()">Event einfügen</button>
+        </div>
+        <form id="eventForm">
+            <div>
+                <label for="displayname">Anzeige Name:</label>
+                <input type="text" id="displayname" required>
+            </div>
+            <div>
+                <label for="comment">Kommentar (optional):</label>
+                <input type="text" id="comment">
+            </div>
+            <div class="form-group">
+
+                <input type="checkbox" id="enableItemDisplayName" name="enableItemDisplayName">
+                <label for="itemDisplayName">Item Anzeige Name aktivieren:</label>
+                <input type="text" id="itemDisplayName" name="itemDisplayName" disabled>
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" id="enableLoreLine1" name="enableLoreLine1">
+                <label for="loreLine1">Lore-Zeile 1 aktivieren:</label>
+                <input type="text" id="loreLine1" name="loreLine1" disabled>
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" id="enableLoreLine2" name="enableLoreLine2">
+                <label for="loreLine2">Lore-Zeile 2 aktivieren:</label>
+                <input type="text" id="loreLine2" name="loreLine2" disabled>
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" id="enableMaterial" name="enableMaterial">
+                <label for="material">Material aktivieren:</label>
+
+                <select id="material"  name="material" disabled>
+                <option value="">Bitte Auswählen</option>
+                    <option value=""></option>
+                <option value="minecraft:acacia_door">minecraft:acacia_door</option>
+                <option value="minecraft:acacia_fence">minecraft:acacia_fence</option>
+                <option value="minecraft:acacia_fence_gate">minecraft:acacia_fence_gate</option>
+                <option value="minecraft:acacia_stairs">minecraft:acacia_stairs</option>
+                <option value="minecraft:activator_rail">minecraft:activator_rail</option>
+                <option value="minecraft:air">minecraft:air</option>
+                <option value="minecraft:anvil">minecraft:anvil</option>
+                <option value="minecraft:barrier">minecraft:barrier</option>
+                <option value="minecraft:beacon">minecraft:beacon</option>
+                <option value="minecraft:bed">minecraft:bed</option>
+                <option value="minecraft:bedrock">minecraft:bedrock</option>
+                <option value="minecraft:birch_door">minecraft:birch_door</option>
+                <option value="minecraft:birch_fence">minecraft:birch_fence</option>
+                <option value="minecraft:birch_fence_gate">minecraft:birch_fence_gate</option>
+                <option value="minecraft:birch_stairs">minecraft:birch_stairs</option>
+                <option value="minecraft:bookshelf">minecraft:bookshelf</option>
+                <option value="minecraft:brewing_stand">minecraft:brewing_stand</option>
+                    <option value="minecraft:blaze_rod">minecraft:blaze_rod</option>
+                <option value="minecraft:brick_block">minecraft:brick_block</option>
+                <option value="minecraft:brick_stairs">minecraft:brick_stairs</option>
+                <option value="minecraft:brown_mushroom">minecraft:brown_mushroom</option>
+                <option value="minecraft:brown_mushroom_block">minecraft:brown_mushroom_block</option>
+                <option value="minecraft:cactus">minecraft:cactus</option>
+                <option value="minecraft:cake">minecraft:cake</option>
+                <option value="minecraft:carpet">minecraft:carpet</option>
+                <option value="minecraft:carrots">minecraft:carrots</option>
+                <option value="minecraft:cauldron">minecraft:cauldron</option>
+                <option value="minecraft:chest">minecraft:chest</option>
+                <option value="minecraft:clay">minecraft:clay</option>
+                <option value="minecraft:coal_block">minecraft:coal_block</option>
+                <option value="minecraft:coal_ore">minecraft:coal_ore</option>
+                <option value="minecraft:cobblestone">minecraft:cobblestone</option>
+                <option value="minecraft:cobblestone_wall">minecraft:cobblestone_wall</option>
+                <option value="minecraft:cocoa">minecraft:cocoa</option>
+                <option value="minecraft:command_block">minecraft:command_block</option>
+                <option value="minecraft:crafting_table">minecraft:crafting_table</option>
+                <option value="minecraft:dark_oak_door">minecraft:dark_oak_door</option>
+                <option value="minecraft:dark_oak_fence">minecraft:dark_oak_fence</option>
+                <option value="minecraft:dark_oak_fence_gate">minecraft:dark_oak_fence_gate</option>
+                <option value="minecraft:dark_oak_stairs">minecraft:dark_oak_stairs</option>
+                <option value="minecraft:daylight_detector">minecraft:daylight_detector</option>
+                <option value="minecraft:daylight_detector_inverted">minecraft:daylight_detector_inverted</option>
+                <option value="minecraft:deadbush">minecraft:deadbush</option>
+                <option value="minecraft:detector_rail">minecraft:detector_rail</option>
+                <option value="minecraft:diamond_block">minecraft:diamond_block</option>
+                <option value="minecraft:diamond_ore">minecraft:diamond_ore</option>
+                <option value="minecraft:dirt">minecraft:dirt</option>
+                <option value="minecraft:dispenser">minecraft:dispenser</option>
+                <option value="minecraft:double_plant">minecraft:double_plant</option>
+                <option value="minecraft:double_stone_slab">minecraft:double_stone_slab</option>
+                <option value="minecraft:double_stone_slab2">minecraft:double_stone_slab2</option>
+                <option value="minecraft:double_wooden_slab">minecraft:double_wooden_slab</option>
+                <option value="minecraft:dragon_egg">minecraft:dragon_egg</option>
+                <option value="minecraft:dropper">minecraft:dropper</option>
+                <option value="minecraft:emerald_block">minecraft:emerald_block</option>
+                <option value="minecraft:emerald_ore">minecraft:emerald_ore</option>
+                <option value="minecraft:enchanting_table">minecraft:enchanting_table</option>
+                <option value="minecraft:end_portal">minecraft:end_portal</option>
+                <option value="minecraft:end_portal_frame">minecraft:end_portal_frame</option>
+                <option value="minecraft:end_stone">minecraft:end_stone</option>
+                <option value="minecraft:ender_chest">minecraft:ender_chest</option>
+                <option value="minecraft:farmland">minecraft:farmland</option>
+                <option value="minecraft:fence">minecraft:fence</option>
+                <option value="minecraft:fence_gate">minecraft:fence_gate</option>
+                <option value="minecraft:fire">minecraft:fire</option>
+                <option value="minecraft:flower_pot">minecraft:flower_pot</option>
+                <option value="minecraft:flowing_lava">minecraft:flowing_lava</option>
+                <option value="minecraft:flowing_water">minecraft:flowing_water</option>
+                <option value="minecraft:furnace">minecraft:furnace</option>
+                <option value="minecraft:glass">minecraft:glass</option>
+                <option value="minecraft:glass_pane">minecraft:glass_pane</option>
+                <option value="minecraft:glowstone">minecraft:glowstone</option>
+                <option value="minecraft:gold_block">minecraft:gold_block</option>
+                <option value="minecraft:gold_ore">minecraft:gold_ore</option>
+                <option value="minecraft:golden_rail">minecraft:golden_rail</option>
+                <option value="minecraft:grass">minecraft:grass</option>
+                <option value="minecraft:gravel">minecraft:gravel</option>
+                <option value="minecraft:hardened_clay">minecraft:hardened_clay</option>
+                <option value="minecraft:hay_block">minecraft:hay_block</option>
+                <option value="minecraft:heavy_weighted_pressure_plate">minecraft:heavy_weighted_pressure_plate</option>
+                <option value="minecraft:hopper">minecraft:hopper</option>
+                <option value="minecraft:ice">minecraft:ice</option>
+                <option value="minecraft:iron_bars">minecraft:iron_bars</option>
+                <option value="minecraft:iron_block">minecraft:iron_block</option>
+                <option value="minecraft:iron_door">minecraft:iron_door</option>
+                <option value="minecraft:iron_ore">minecraft:iron_ore</option>
+                <option value="minecraft:iron_trapdoor">minecraft:iron_trapdoor</option>
+                <option value="minecraft:jukebox">minecraft:jukebox</option>
+                <option value="minecraft:jungle_door">minecraft:jungle_door</option>
+                <option value="minecraft:jungle_fence">minecraft:jungle_fence</option>
+                <option value="minecraft:jungle_fence_gate">minecraft:jungle_fence_gate</option>
+                <option value="minecraft:jungle_stairs">minecraft:jungle_stairs</option>
+                <option value="minecraft:ladder">minecraft:ladder</option>
+                <option value="minecraft:lapis_block">minecraft:lapis_block</option>
+                <option value="minecraft:lapis_ore">minecraft:lapis_ore</option>
+                <option value="minecraft:lava">minecraft:lava</option>
+                <option value="minecraft:leaves">minecraft:leaves</option>
+                <option value="minecraft:leaves2">minecraft:leaves2</option>
+                <option value="minecraft:lever">minecraft:lever</option>
+                <option value="minecraft:light_weighted_pressure_plate">minecraft:light_weighted_pressure_plate</option>
+                <option value="minecraft:lit_furnace">minecraft:lit_furnace</option>
+                <option value="minecraft:lit_pumpkin">minecraft:lit_pumpkin</option>
+                <option value="minecraft:lit_redstone_lamp">minecraft:lit_redstone_lamp</option>
+                <option value="minecraft:lit_redstone_ore">minecraft:lit_redstone_ore</option>
+                <option value="minecraft:log">minecraft:log</option>
+                <option value="minecraft:log2">minecraft:log2</option>
+                <option value="minecraft:melon_block">minecraft:melon_block</option>
+                <option value="minecraft:melon_stem">minecraft:melon_stem</option>
+                <option value="minecraft:mob_spawner">minecraft:mob_spawner</option>
+                <option value="minecraft:monster_egg">minecraft:monster_egg</option>
+                <option value="minecraft:mossy_cobblestone">minecraft:mossy_cobblestone</option>
+                <option value="minecraft:mycelium">minecraft:mycelium</option>
+                <option value="minecraft:nether_brick">minecraft:nether_brick</option>
+                <option value="minecraft:nether_brick_fence">minecraft:nether_brick_fence</option>
+                <option value="minecraft:nether_brick_stairs">minecraft:nether_brick_stairs</option>
+                <option value="minecraft:nether_wart">minecraft:nether_wart</option>
+                <option value="minecraft:netherrack">minecraft:netherrack</option>
+                <option value="minecraft:noteblock">minecraft:noteblock</option>
+                <option value="minecraft:oak_stairs">minecraft:oak_stairs</option>
+                <option value="minecraft:obsidian">minecraft:obsidian</option>
+                <option value="minecraft:packed_ice">minecraft:packed_ice</option>
+                <option value="minecraft:piston">minecraft:piston</option>
+                <option value="minecraft:piston_extension">minecraft:piston_extension</option>
+                <option value="minecraft:piston_head">minecraft:piston_head</option>
+                <option value="minecraft:planks">minecraft:planks</option>
+                <option value="minecraft:portal">minecraft:portal</option>
+                <option value="minecraft:potatoes">minecraft:potatoes</option>
+                <option value="minecraft:powered_comparator">minecraft:powered_comparator</option>
+                <option value="minecraft:powered_repeater">minecraft:powered_repeater</option>
+                <option value="minecraft:prismarine">minecraft:prismarine</option>
+                <option value="minecraft:pumpkin">minecraft:pumpkin</option>
+                <option value="minecraft:pumpkin_stem">minecraft:pumpkin_stem</option>
+                <option value="minecraft:quartz_block">minecraft:quartz_block</option>
+                <option value="minecraft:quartz_ore">minecraft:quartz_ore</option>
+                <option value="minecraft:quartz_stairs">minecraft:quartz_stairs</option>
+                <option value="minecraft:rail">minecraft:rail</option>
+                <option value="minecraft:red_flower">minecraft:red_flower</option>
+                <option value="minecraft:red_mushroom">minecraft:red_mushroom</option>
+                <option value="minecraft:red_mushroom_block">minecraft:red_mushroom_block</option>
+                <option value="minecraft:red_sandstone">minecraft:red_sandstone</option>
+                <option value="minecraft:red_sandstone_stairs">minecraft:red_sandstone_stairs</option>
+                <option value="minecraft:redstone_block">minecraft:redstone_block</option>
+                <option value="minecraft:redstone_lamp">minecraft:redstone_lamp</option>
+                <option value="minecraft:redstone_ore">minecraft:redstone_ore</option>
+                <option value="minecraft:redstone_torch">minecraft:redstone_torch</option>
+                <option value="minecraft:redstone_wire">minecraft:redstone_wire</option>
+                <option value="minecraft:reeds">minecraft:reeds</option>
+                <option value="minecraft:sand">minecraft:sand</option>
+                <option value="minecraft:sandstone">minecraft:sandstone</option>
+                <option value="minecraft:sandstone_stairs">minecraft:sandstone_stairs</option>
+                <option value="minecraft:sapling">minecraft:sapling</option>
+                <option value="minecraft:sea_lantern">minecraft:sea_lantern</option>
+                <option value="minecraft:skull">minecraft:skull</option>
+                <option value="minecraft:slime">minecraft:slime</option>
+                <option value="minecraft:snow">minecraft:snow</option>
+                <option value="minecraft:snow_layer">minecraft:snow_layer</option>
+                <option value="minecraft:soul_sand">minecraft:soul_sand</option>
+                <option value="minecraft:sponge">minecraft:sponge</option>
+                <option value="minecraft:spruce_door">minecraft:spruce_door</option>
+                <option value="minecraft:spruce_fence">minecraft:spruce_fence</option>
+                <option value="minecraft:spruce_fence_gate">minecraft:spruce_fence_gate</option>
+                <option value="minecraft:spruce_stairs">minecraft:spruce_stairs</option>
+                <option value="minecraft:stained_glass">minecraft:stained_glass</option>
+                <option value="minecraft:stained_glass_pane">minecraft:stained_glass_pane</option>
+                <option value="minecraft:stained_hardened_clay">minecraft:stained_hardened_clay</option>
+                <option value="minecraft:standing_banner">minecraft:standing_banner</option>
+                <option value="minecraft:standing_sign">minecraft:standing_sign</option>
+                <option value="minecraft:sticky_piston">minecraft:sticky_piston</option>
+                <option value="minecraft:stone">minecraft:stone</option>
+                <option value="minecraft:stone_brick_stairs">minecraft:stone_brick_stairs</option>
+                <option value="minecraft:stone_button">minecraft:stone_button</option>
+                <option value="minecraft:stone_pressure_plate">minecraft:stone_pressure_plate</option>
+                <option value="minecraft:stone_slab">minecraft:stone_slab</option>
+                <option value="minecraft:stone_slab2">minecraft:stone_slab2</option>
+                <option value="minecraft:stone_stairs">minecraft:stone_stairs</option>
+                <option value="minecraft:stonebrick">minecraft:stonebrick</option>
+                <option value="minecraft:tallgrass">minecraft:tallgrass</option>
+                <option value="minecraft:tnt">minecraft:tnt</option>
+                <option value="minecraft:torch">minecraft:torch</option>
+                <option value="minecraft:trapdoor">minecraft:trapdoor</option>
+                <option value="minecraft:trapped_chest">minecraft:trapped_chest</option>
+                <option value="minecraft:tripwire">minecraft:tripwire</option>
+                <option value="minecraft:tripwire_hook">minecraft:tripwire_hook</option>
+                <option value="minecraft:unlit_redstone_torch">minecraft:unlit_redstone_torch</option>
+                <option value="minecraft:unpowered_comparator">minecraft:unpowered_comparator</option>
+                <option value="minecraft:unpowered_repeater">minecraft:unpowered_repeater</option>
+                <option value="minecraft:vine">minecraft:vine</option>
+                <option value="minecraft:wall_banner">minecraft:wall_banner</option>
+                <option value="minecraft:wall_sign">minecraft:wall_sign</option>
+                <option value="minecraft:water">minecraft:water</option>
+                <option value="minecraft:waterlily">minecraft:waterlily</option>
+                <option value="minecraft:web">minecraft:web</option>
+                <option value="minecraft:wheat">minecraft:wheat</option>
+                <option value="minecraft:wooden_button">minecraft:wooden_button</option>
+                <option value="minecraft:wooden_door">minecraft:wooden_door</option>
+                <option value="minecraft:wooden_pressure_plate">minecraft:wooden_pressure_plate</option>
+                <option value="minecraft:wooden_slab">minecraft:wooden_slab</option>
+                <option value="minecraft:wool">minecraft:wool</option>
+                <option value="minecraft:yellow_flower">minecraft:yellow_flower</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" id="enableSignUser" name="enableSignUser">
+                <label for="signUser">Benutzer anzeigen aktivieren:</label>
+                <input type="text" id="signUser" name="signUser" disabled>
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" id="enableSignDate" name="enableSignDate">
+                <label for="signDate">Datum anzeigen aktivieren:</label>
+                <input type="date" id="signDate" name="signDate" disabled>
+            </div>
+
+
+
+            <button type="submit" id="createEventBtn">Ankaufsevent erstellen</button>
+
+        </form>
+
+
+
+        <h2>Deine Events</h2>
+        <div id="eventList"></div>
+
+
+
+        <!-- Füge den Container für das Action-Formular hinzu -->
+        <div id="actionPopup" class="popup">
+            <div class="popup-content">
+                <span id="closePopup" class="close">&times;</span>
+                <div id="actionFormContainer"></div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="conditionFormContainer">
+        <span class="close" onclick="closeConditionPopup()">×</span>
+        <!-- Formular-Inhalte werden dynamisch eingefügt -->
+    </div>
+
+
+
+
+
+    <!-- Right: JSON Output -->
+    <div class="column">
+        <h2>AfterPurchaseEvent.json</h2>
+        <div class="json-output" id="jsonOutput"></div>
+        <button id="copyBtn">STRG + C</button>
+    </div>
+
+
+</div>
+
+<!-- JavaScript Dateien -->
+<script src="js/ankauf-actions.js"></script>
+<script src="js/ankauf-conditions.js"></script>
+<script src="js/ankauf-global.js"></script>
+<script src="js/ankauf-event.js"></script>
+<script src="js/ankauf-variables.js"></script>
+
+
+</body>
+</html>
+<script>
+    window.addEventListener('beforeunload', function (e) {
+        var confirmationMessage = 'Durch den Reload der Seite geht der aktuelle Stand verloren. Exporiere die Daten oben mit speichern.';
+
+        e.returnValue = confirmationMessage; // Standard für ältere Browser
+        return confirmationMessage;          // Für neuere Browser
+    });
+</script>

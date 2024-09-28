@@ -186,4 +186,18 @@ function closePopup() {
     const popup = document.getElementById('actionPopup');
     popup.style.display = 'none';
 }
+document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        const inputField = this.nextElementSibling.nextElementSibling;
+        if (this.checked) {
+            inputField.disabled = false;
+        } else {
+            inputField.disabled = true;
+            inputField.value = ''; // Inhalt löschen
+            if (inputField.tagName === 'TEXTAREA') {
+                inputField.value = ''; // Inhalt bei Textarea löschen
+            }
+        }
+    });
+});
 
