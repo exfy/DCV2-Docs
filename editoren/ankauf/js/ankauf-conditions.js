@@ -142,12 +142,87 @@ function renderConditionForm(condition, eventIndex, conditionIndex) {
 
     // Dynamisches Rendering basierend auf systemname
     switch (condition.systemname) {
-        case 'isOnBotPos':
+        case 'isWeekDay':
             form.innerHTML += `
-                <label for="botPosition">Bot Position:</label>
-                <input type="text" id="botPosition" value="${condition.data.botPosition || ''}" /><br>
+                <label for="day">Wochentag:</label>
+               <select id="day">
+  <option value="Montag" ${condition.data.day === 'Montag' ? 'selected' : ''}>Montag</option>
+  <option value="Dienstag" ${condition.data.day === 'Dienstag' ? 'selected' : ''}>Dienstag</option>
+  <option value="Mittwoch" ${condition.data.day === 'Mittwoch' ? 'selected' : ''}>Mittwoch</option>
+  <option value="Donnerstag" ${condition.data.day === 'Donnerstag' ? 'selected' : ''}>Donnerstag</option>
+  <option value="Freitag" ${condition.data.day === 'Freitag' ? 'selected' : ''}>Freitag</option>
+  <option value="Samstag" ${condition.data.day === 'Samstag' ? 'selected' : ''}>Samstag</option>
+  <option value="Sonntag" ${condition.data.day === 'Sonntag' ? 'selected' : ''}>Sonntag</option>
+</select><br>
             `;
             break;
+        case "isTPS":
+            form.innerHTML += `
+            <label for="tps">TPS (Ganzzahl):</label>
+            <input type="number" id="tps" value="${condition.data.tps || 0}" min="1" max="20" /><br>
+                   
+                   <label for="check">Prüfung auf:</label>
+             <select id="check">
+              <option value=">" ${condition.data.check === '>' ? 'selected' : ''}>größer als</option>
+                <option value="<" ${condition.data.check === '<' ? 'selected' : ''}>kleiner als</option>
+              </select><br>
+             `;
+            break;
+        case "isOnServer":
+            form.innerHTML += `
+                <label for="server">auf CB?:</label>
+               <select id="server">
+  <option value="CB1" ${condition.data.server === 'CB1' ? 'selected' : ''}>CB1</option>
+  <option value="CB2" ${condition.data.server === 'CB2' ? 'selected' : ''}>CB2</option>
+  <option value="CB3" ${condition.data.server === 'CB3' ? 'selected' : ''}>CB3</option>
+  <option value="CB4" ${condition.data.server === 'CB4' ? 'selected' : ''}>CB4</option>
+  <option value="CB5" ${condition.data.server === 'CB5' ? 'selected' : ''}>CB5</option>
+  <option value="CB6" ${condition.data.server === 'CB6' ? 'selected' : ''}>CB6</option>
+  <option value="CB7" ${condition.data.server === 'CB7' ? 'selected' : ''}>CB7</option>
+    <option value="CB8" ${condition.data.server === 'CB8' ? 'selected' : ''}>CB8</option>
+    <option value="CB9" ${condition.data.server === 'CB9' ? 'selected' : ''}>CB9</option>
+    <option value="CB10" ${condition.data.server === 'CB10' ? 'selected' : ''}>CB10</option>
+    <option value="CB11" ${condition.data.server === 'CB11' ? 'selected' : ''}>CB11</option>
+    <option value="CB12" ${condition.data.server === 'CB12' ? 'selected' : ''}>CB12</option>
+    <option value="CB13" ${condition.data.server === 'CB13' ? 'selected' : ''}>CB13</option>
+    <option value="CB14" ${condition.data.server === 'CB14' ? 'selected' : ''}>CB14</option>
+    <option value="CB15" ${condition.data.server === 'CB15' ? 'selected' : ''}>CB15</option>
+    <option value="CB16" ${condition.data.server === 'CB16' ? 'selected' : ''}>CB16</option>
+    <option value="CB17" ${condition.data.server === 'CB17' ? 'selected' : ''}>CB17</option>
+    <option value="CB18" ${condition.data.server === 'CB18' ? 'selected' : ''}>CB18</option>
+    <option value="CB19" ${condition.data.server === 'CB19' ? 'selected' : ''}>CB19</option>
+    <option value="CB20" ${condition.data.server === 'CB20' ? 'selected' : ''}>CB20</option>
+    <option value="CB21" ${condition.data.server === 'CB21' ? 'selected' : ''}>CB21</option>
+    <option value="CB22" ${condition.data.server === 'CB22' ? 'selected' : ''}>CB22</option>
+    <option value="Nature" ${condition.data.server === 'Nature' ? 'selected' : ''}>Nature</option>
+    <option value="Extreme" ${condition.data.server === 'Extreme' ? 'selected' : ''}>Extreme</option>
+    <option value="Event" ${condition.data.server === 'Event' ? 'selected' : ''}>Event</option>
+    <option value="CBE" ${condition.data.server === 'CBE' ? 'selected' : ''}>CBE</option>
+</select><br>
+            `;
+
+            break;
+        case "isMoney":
+            form.innerHTML += `
+            <label for="value">Geld (Ganzzahl):</label>
+            <input type="number" id="value" value="${condition.data.value || 0}" min="1" /><br>
+            
+               <label for="check">Geld (Ganzzahl):</label>
+             <select id="check">
+              <option value=">" ${condition.data.check === '>' ? 'selected' : ''}>größer als</option>
+                <option value="<" ${condition.data.check === '<' ? 'selected' : ''}>kleiner als</option>
+              </select><br>
+              
+                  <label for="mode">Modus:</label>
+             <select id="mode">
+              <option value="bank" ${condition.data.mode === '>' ? 'selected' : ''}>Bank Money</option>
+                <option value="money" ${condition.data.mode === '<' ? 'selected' : ''}>Hand Money</option>
+              </select><br>
+              
+               
+             `;
+            break;
+
         /* case 'isOnline':
              form.innerHTML += `
                  <label for="userName">Benutzername:</label>
@@ -185,13 +260,28 @@ function saveConditionData(eventIndex, conditionIndex) {
             //condition.data.botPosition = document.getElementById('botPosition').value
             break;
         case 'isOnBotPos':
-            condition.data.botPosition = document.getElementById('botPosition').value;
+          //  condition.data.botPosition = document.getElementById('botPosition').value;
             break;
         case 'isOnline':
             //   condition.data.name = document.getElementById('userName').value;
             break;
         case 'isOffline':
             //   condition.data.name = document.getElementById('userName').value;
+            break;
+        case "isWeekDay":
+            condition.data.day = document.getElementById('day').value;
+            break;
+        case "isTPS":
+            condition.data.check = document.getElementById('check').value;
+            condition.data.tps = document.getElementById('tps').value;
+            break;
+        case "isOnServer":
+            condition.data.server = document.getElementById('server').value;
+            break;
+        case "isMoney":
+            condition.data.mode = document.getElementById('mode').value;
+            condition.data.check = document.getElementById('check').value;
+            condition.data.value = document.getElementById('value').value;
             break;
         // Weitere Cases für andere Conditions
     }
