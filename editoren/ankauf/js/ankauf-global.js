@@ -94,8 +94,8 @@ function importJsonFile() {
             const importedData = JSON.parse(e.target.result);
 
             // Überprüfen, ob das importierte JSON das richtige Format hat
-            if (importedData && importedData.timeevents) {
-                events = importedData.timeevents; // Importierte Events in das events-Array laden
+            if (importedData && importedData.ankaufevents) {
+                events = importedData.ankaufevents; // Importierte Events in das events-Array laden
                 renderEventList(); // Liste der Events neu rendern
                 updateJsonOutput(); // Aktualisiere die JSON-Ausgabe
                 // alert('JSON erfolgreich importiert.');
@@ -121,7 +121,7 @@ function saveToFile() {
     }
 
     // Konvertiere die Events in das richtige JSON-Format
-    const data = JSON.stringify({timeevents: events}, null, 4);
+    const data = JSON.stringify({ankaufevents: events}, null, 4);
 
     // Erstelle ein Blob-Objekt mit den JSON-Daten
     const blob = new Blob([data], {type: 'application/json'});

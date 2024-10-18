@@ -21,7 +21,7 @@ function showPasteEventPopup() {
         const pastedEventJson = document.getElementById('pastedEvent').value;
         try {
             const newEvent = JSON.parse(pastedEventJson);
-            if (newEvent.hasOwnProperty('regex')) {
+            if (newEvent.hasOwnProperty('loreLine1')) {
                 events.push(newEvent);
                 renderEventList();
                 updateJsonOutput();
@@ -297,17 +297,18 @@ function editEvent(eventIndex) {
 
             <div class="form-group">
                 <input type="checkbox" id="popup-enableSignUser" name="enableSignUser" ${event.enableSignUser ? "checked" : undefined}>
-                <label for="signUser">Benutzer anzeigen aktivieren:</label>
+                <label for="signUser">Sign User aktivieren:</label>
                 <input type="text" id="popup-signUser" name="signUser" value="${event.signUser}">
             </div>
 
             <div class="form-group">
                 <input type="checkbox" id="popup-enableSignDate" name="enableSignDate" ${event.enableSignDate ? "checked" : undefined}>
-                <label for="signDate">Datum anzeigen aktivieren:</label>
+                <label for="signDate">Sign Datum aktivieren:</label>
                 <input type="date" id="popup-signDate" name="signDate"  value="${event.signDate}">
             </div>
                 
             <div class="popup-buttons">
+               
                
                 <button id="popup-cancel">Abbrechen</button>
                  <button id="popup-save">Speichern</button>
