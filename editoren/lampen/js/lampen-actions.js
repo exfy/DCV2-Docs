@@ -174,6 +174,40 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
                 <label>Value:</label><input type="text" id="value" required>
             `;
             break;
+        case 'SetInt':
+            actionForm = `
+                <label>Variable Name:</label><input type="text" id="varname" required> 
+                <label>Value:</label><input type="number" id="value" required>
+            `;
+            break;
+        case 'SetBoolean':
+            actionForm = `
+                <label>Variable Name:</label><input type="text" id="varname" required>
+                <label>Value:</label><input type="text" id="value" required>
+            `;
+            break;
+        case 'AddToInt':
+            actionForm = `
+                <label>Variable Name:</label><input type="text" id="varname" required>
+                <label>Value:</label><input type="number" id="value" required>
+            `;
+            break;
+        case 'RemoveFromInt':
+            actionForm = `
+                <label>Variable Name:</label><input type="text" id="varname" required> 
+                <label>Value:</label><input type="number" id="value" required>
+            `;
+            break;
+        case 'IntMM':
+            actionForm = `
+                <label>Variable Name:</label><input type="text" id="varname" required>
+            `;
+            break;
+        case 'IntPP':
+            actionForm = `
+                <label>Variable Name:</label><input type="text" id="varname" required>
+            `;
+            break;
         default:
             console.error(`Unknown Action Type: ${actionType}`);
             return;
@@ -246,6 +280,28 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
             case 'SetString':
                 document.getElementById('varname').value = action.data.varname;
                 document.getElementById('value').value = action.data.value;
+                break;
+            case 'SetInt':
+                document.getElementById('varname').value = action.data.varname;
+                document.getElementById('value').value = action.data.value;
+                break;
+            case 'SetBoolean':
+                document.getElementById('varname').value = action.data.varname;
+                document.getElementById('value').value = action.data.value;
+                break;
+            case 'AddToInt':
+                document.getElementById('varname').value = action.data.varname;
+                document.getElementById('value').value = action.data.value;
+                break;
+            case 'RemoveFromInt':
+                document.getElementById('varname').value = action.data.varname;
+                document.getElementById('value').value = action.data.value;
+                break;
+            case 'IntMM':
+                document.getElementById('varname').value = action.data.varname;
+                break;
+            case 'IntPP':
+                document.getElementById('varname').value = action.data.varname;
                 break;
             // Weitere Aktionen falls erforderlich...
         }
@@ -341,6 +397,41 @@ function saveActionToEvent(actionType, eventIndex, actionIndex = null) {
                 value: document.getElementById('value').value
             };
             break;
+        case 'SetInt':
+            actionData = {
+                varname: document.getElementById('varname').value,
+                value: document.getElementById('value').value
+            };
+            break;
+        case 'SetBoolean':
+            actionData = {
+                varname: document.getElementById('varname').value,
+                value: document.getElementById('value').value
+            };
+            break;
+        case 'AddToInt':
+            actionData = {
+                varname: document.getElementById('varname').value,
+                value: document.getElementById('value').value
+            };
+            break
+        case 'RemoveFromInt':
+            actionData = {
+                varname: document.getElementById('varname').value,
+                value: document.getElementById('value').value
+            };
+            break
+        case 'IntMM':
+            actionData = {
+                varname: document.getElementById('varname').value
+
+            };
+            break
+        case 'IntPP':
+            actionData = {
+                varname: document.getElementById('varname').value
+            };
+            break
         default:
             console.error(`Unknown Action Type: ${actionType}`);
             return;

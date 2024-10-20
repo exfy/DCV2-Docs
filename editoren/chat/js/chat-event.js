@@ -300,7 +300,31 @@ function renderEventList() {
                         break;
                     case 'SetString':
                         details = `<b>Variable Name:</b> ${action.data.varname}, <b>Value:</b> ${action.data.value}`;
-                        detailActionName = "Variable setzen";
+                        detailActionName = "String setzen";
+                        break;
+                    case 'SetInt':
+                        details = `<b>Variable Name:</b> ${action.data.varname}, <b>Value:</b> ${action.data.value}`;
+                        detailActionName = "Int(Ganzzahl) setzen";
+                        break;
+                    case 'SetBoolean':
+                        details = `<b>Variable Name:</b> ${action.data.varname}, <b>Value:</b> ${action.data.value}`;
+                        detailActionName = "Boolean setzen";
+                        break;
+                    case 'AddToInt':
+                        details = `<b>Variable Name:</b> ${action.data.varname}, <b>Value:</b> ${action.data.value}`;
+                        detailActionName = "Add X to Int";
+                        break;
+                    case 'RemoveFromInt':
+                        details = `<b>Variable Name:</b> ${action.data.varname}, <b>Value:</b> ${action.data.value}`;
+                        detailActionName = "Remove X from Int";
+                        break;
+                    case 'IntPP':
+                        details = `<b>Variable Name:</b> ${action.data.varname}`;
+                        detailActionName = "Int+1";
+                        break;
+                    case 'IntMM':
+                        details = `<b>Variable Name:</b> ${action.data.varname}`;
+                        detailActionName = "Int-1 ";
                         break;
                     case "QuitClientAction":
                         detailActionName = "Client beenden";
