@@ -94,7 +94,7 @@ function editEvent(eventIndex) {
         event.displayname = document.getElementById('popup-displayname').value;
         event.comment = document.getElementById('popup-comment').value;
         event.regexWithColorCodes = document.getElementById('popup-regexWithColorCodes').value;
-        event.regex = document.getElementById('popup-regex').value;
+        event.regex = [document.getElementById('popup-regex').value];
 
 
         renderEventList(); // Re-render the updated list

@@ -33,7 +33,8 @@ function updateConditionsDisplay(eventElement, eventObj) {
         conditionElement.querySelector('.delete-condition').addEventListener('click', function() {
             eventObj.conditions.splice(index, 1);
             updateConditionsDisplay(eventElement, eventObj);  // Aktualisiere die Anzeige
-            updateJsonOutput();  // Aktualisiere die JSON-Ausgabe
+            updateJsonOutput();
+           // Aktualisiere die JSON-Ausgabe
         });
 
         // Bearbeiten der Condition (hier kann eine Modalfunktion eingebaut werden)
@@ -125,7 +126,8 @@ function addEventListenersToEvents() {
 function deleteCondition(eventIndex, conditionIndex) {
     // Condition löschen
     events[eventIndex].conditions.splice(conditionIndex, 1);
-    renderEventList(); // Liste neu rendern
+    renderEventList();
+    updateJsonOutput();// Liste neu rendern
 }
 
 function renderConditionForm(condition, eventIndex, conditionIndex) {

@@ -125,7 +125,8 @@ function addEventListenersToEvents() {
 function deleteCondition(eventIndex, conditionIndex) {
     // Condition löschen
     events[eventIndex].conditions.splice(conditionIndex, 1);
-    renderEventList(); // Liste neu rendern
+    renderEventList();
+    updateJsonOutput();// Liste neu rendern
 }
 
 function renderConditionForm(condition, eventIndex, conditionIndex) {
