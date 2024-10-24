@@ -177,7 +177,7 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
         case 'SetInt':
             actionForm = `
                 <label>Variable Name:</label><input type="text" id="varname" required> 
-                <label>Value:</label><input type="number" id="value" required>
+                <label>Value:</label><input type="text" id="value" required>
             `;
             break;
         case 'SetBoolean':
@@ -189,13 +189,13 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
         case 'AddToInt':
             actionForm = `
                 <label>Variable Name:</label><input type="text" id="varname" required>
-                <label>Value:</label><input type="number" id="value" required>
+                <label>Value:</label><input type="text" id="value" required>
             `;
             break;
         case 'RemoveFromInt':
             actionForm = `
                 <label>Variable Name:</label><input type="text" id="varname" required> 
-                <label>Value:</label><input type="number" id="value" required>
+                <label>Value:</label><input type="text" id="value" required>
             `;
             break;
         case 'IntMM':
