@@ -132,7 +132,7 @@ function saveToFile() {
     // Erstelle ein verstecktes Download-Element
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'ChatEvents.json';  // Name der exportierten Datei
+    a.download = 'AfterPurchaseEvent.json';  // Name der exportierten Datei
 
     // Füge das Download-Element zum DOM hinzu, klicke es, und entferne es dann
     document.body.appendChild(a);
