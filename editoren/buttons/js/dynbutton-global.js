@@ -202,6 +202,12 @@ document.getElementById('dynButtonType').addEventListener('change', updateButton
 
 function updatePermission() {
     const permissionInput = document.getElementById('permission');
-    const userInput = permissionInput.value.replace(/^main\.botctl\.dyn\./, ''); // Entferne den Prefix, falls vorhanden
+    let userInput = permissionInput.value.trim();
+
+    // Entferne alle möglichen Varianten des Prefix, inklusive einer Version ohne Punkt am Ende
+    userInput = userInput.replace(/^main\.botctl\.dyn\.?/, '');
+
+    // Setze den Prefix sicher hinzu
     permissionInput.value = `main.botctl.dyn.${userInput}`;
 }
+
