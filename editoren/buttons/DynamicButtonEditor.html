@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCV2 Lampen-Event Editor</title>
-    <link rel="stylesheet" href="css/LampenEventEditorStyle.css">
+    <title>DCV2 Dynamic Buttons Editor</title>
+    <link rel="stylesheet" href="css/DynamicEventEditoStyle.css">
 </head>
 <body>
 
 <div class="header">
-    <img src = "https://api.qq4.de/dcv2/dcv2-lamp-event-editor.png" alt="DCV2 Lampen Event Editor">
+    <img src = "https://api.qq4.de/dcv2/dcv2-dyn-event-editor.png" alt="DCV2 Button Event Editor">
 
     <div class="editorenchange"><label for="dropdown">Editor wechseln:</label>
         <select id="dropdown" onchange="openURL()" >
@@ -93,76 +93,76 @@
         <form id="eventForm">
             <div>
                 <label for="displayname">Anzeige Name:</label>
-                <input type="text" id="displayname" required>
+                <input type="text" id="displayname" required oninput="updateButtonPreview()">
             </div>
             <div>
                 <label for="comment">Kommentar (optional):</label>
                 <input type="text" id="comment">
             </div>
-            <div  style="display: flex; gap: 10px;">
-                <label for="lampX">Position Lampe X:</label>
-                <input value="0" type="number" id="lampX" required>
 
-                <label for="lampY">Position Lampe Y:</label>
-                <input value="0" type="number" id="lampY" required>
 
-                <label for="lampZ">Position Lampe Z:</label>
-                <input value="0" type="number" id="lampZ" required>
-            </div><br>
-            <div style="display: flex; gap: 10px;>
-                <label for="secCooldown">Cooldown in Sekunden:</label>
-            <input type="number" min="1"  value="1" id="secCooldown" required>
+            <div>
 
-            <label for="allowLoop">erlaube Loop:</label>
-            <select id="allowLoop" required>
-                <option value="true">True</option>
-                <option value="false">False</option>
+                <label for="permission">Permission:</label>
+                <input type="text" id="permission" oninput="updatePermission()" placeholder="botctl.dyn.">
+
+
+            <label for="dynButtonType">Button Type</label>
+            <select id="dynButtonType" required>
+                <option value="primary">primary</option>
+                <option value="secondary">secondary</option>
+                <option value="success">success</option>
+                <option value="danger">danger</option>
             </select>
+                <label for="buttonPreview">Vorschau:</label>
+                <button id="buttonPreview" class="discord-button primary" disabled>button</button>
+
+                <br>  <br>
     </div>
-    <button type="submit" id="createEventBtn">Lampenevent erstellen</button>
+    <button type="submit" id="createEventBtn">Button Event erstellen</button>
 
     </form>
 
 
 
-        <h2>Deine Events</h2>
-        <div id="eventList"></div>
+    <h2>Deine Events</h2>
+    <div id="eventList"></div>
 
 
 
-        <!-- Füge den Container für das Action-Formular hinzu -->
-        <div id="actionPopup" class="popup">
-            <div class="popup-content">
-                <span id="closePopup" class="close">&times;</span>
-                <div id="actionFormContainer"></div>
-            </div>
-
+    <!-- Füge den Container für das Action-Formular hinzu -->
+    <div id="actionPopup" class="popup">
+        <div class="popup-content">
+            <span id="closePopup" class="close">&times;</span>
+            <div id="actionFormContainer"></div>
         </div>
+
     </div>
+</div>
 
 
-    <div id="conditionFormContainer">
-        <span class="close" onclick="closeConditionPopup()">×</span>
-        <!-- Formular-Inhalte werden dynamisch eingefügt -->
-    </div>
+<div id="conditionFormContainer">
+    <span class="close" onclick="closeConditionPopup()">×</span>
+    <!-- Formular-Inhalte werden dynamisch eingefügt -->
+</div>
 
 
 
-    <!-- Right: JSON Output -->
-    <div class="column">
-        <h2>LampenEvents.json</h2>
-        <div class="json-output" id="jsonOutput"></div>
-        <button id="copyBtn">STRG + C</button>
-    </div>
+<!-- Right: JSON Output -->
+<div class="column">
+    <h2>DynamicButtonEvent.json</h2>
+    <div class="json-output" id="jsonOutput"></div>
+    <button id="copyBtn">STRG + C</button>
+</div>
 
 
 </div>
 
 <!-- JavaScript Dateien -->
-<script src="js/lampen-actions.js"></script>
-<script src="js/lampen-conditions.js"></script>
-<script src="js/lampen-global.js"></script>
-<script src="js/lampen-event.js"></script>
+<script src="js/dynbutton-actions.js"></script>
+<script src="js/dynbutton-conditions.js"></script>
+<script src="js/dynbutton-global.js"></script>
+<script src="js/dynbutton-event.js"></script>
 
 
 </body>
