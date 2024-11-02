@@ -223,6 +223,56 @@ function renderConditionForm(condition, eventIndex, conditionIndex) {
                
              `;
             break;
+
+        case "isStringVarXVar":
+            form.innerHTML += `
+            <label for="var1">Variable 1:</label>
+               <input type="text" id="var1" value="${condition.data.var1 || ''}" /><br>
+               
+                <label for="var2">Variable 2:</label>
+               <input type="text" id="var2" value="${condition.data.var2 || ''}" /><br>
+               
+               <label for="stringoperation">Operation:</label>
+                <select id="stringoperation">
+                <option value="equals" ${condition.data.operation === 'equals' ? 'selected' : ''}>gleich</option>
+                <option value="notEquals" ${condition.data.operation === 'notEquals' ? 'selected' : ''}>ungleich</option>
+                <option value="equalsIgnoreCase" ${condition.data.operation === 'equalsIgnoreCase' ? 'selected' : ''}>equalsIgnoreCase</option>
+                <option value="contains" ${condition.data.operation === 'contains' ? 'selected' : ''}>enthällt</option>
+                <option value="startsWith" ${condition.data.operation === 'startsWith' ? 'selected' : ''}>startsWith</option>
+            
+                </select><br>
+            `;
+            break;
+        case "isIntVarXVar":
+            form.innerHTML += `
+            <label for="var1">Variable 1:</label>
+                <input type="text" id="var1" value="${condition.data.var1 || 0}" /><br>
+                
+                <label for="var2">Variable 2:</label>
+                <input type="text" id="var2" value="${condition.data.var2 || 0}" /><br>
+                
+                <label for="intoperation">Operation:</label>
+                <select id="intoperation">
+                <option value="equals" ${condition.data.operation === 'equals' ? 'selected' : ''}>gleich</option>
+                <option value="bigger" ${condition.data.operation === 'bigger' ? 'selected' : ''}>größer</option>
+                <option value="smaller" ${condition.data.operation === 'smaller' ? 'selected' : ''}>kleiner</option>
+                <option value="notEquals" ${condition.data.operation === 'notEquals' ? 'selected' : ''}>ungleich</option>
+                </select><br>
+            `;
+            break;
+
+        case "isBooleanVarX":
+            form.innerHTML += `
+            <label for="var1">Variable:</label>
+                <input type="text" id="var1" value="${condition.data.var1 || ''}" /><br>
+                
+                <label for="requiredValue">Benötigter Wert:</label>
+                <select id="requiredValue">
+                <option value="true" ${condition.data.requiredValue === 'true' ? 'selected' : ''}>true</option>
+                <option value="false" ${condition.data.requiredValue === 'false' ? 'selected' : ''}>false</option>
+                </select><br>
+            `;
+            break;
         /* case 'isOnline':
              form.innerHTML += `
                  <label for="userName">Benutzername:</label>
@@ -282,6 +332,20 @@ function saveConditionData(eventIndex, conditionIndex) {
             condition.data.mode = document.getElementById('mode').value;
             condition.data.check = document.getElementById('check').value;
             condition.data.value = document.getElementById('value').value;
+            break;
+        case "isStringVarXVar":
+            condition.data.var1 = document.getElementById('var1').value;
+            condition.data.var2 = document.getElementById('var2').value;
+            condition.data.operation = document.getElementById('stringoperation').value;
+            break;
+        case "isIntVarXVar":
+            condition.data.var1 = document.getElementById('var1').value;
+            condition.data.var2 = document.getElementById('var2').value;
+            condition.data.operation = document.getElementById('intoperation').value;
+            break;
+        case "isBooleanVarX":
+            condition.data.var1 = document.getElementById('var1').value;
+            condition.data.requiredValue = document.getElementById('requiredValue').value;
             break;
         // Weitere Cases für andere Conditions
     }
