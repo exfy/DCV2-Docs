@@ -32,7 +32,8 @@
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            width: 400px;
+            max-width: 800px;
+            width: 90%;
         }
 
         img {
@@ -40,39 +41,79 @@
             margin-bottom: 30px;
         }
 
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .category {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+        }
+
         a {
-            display: inline-block;
-            margin: 15px 0;
-            padding: 15px 30px;
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
             text-decoration: none;
             color: #ffffff;
-            font-size: 18px;
+            font-size: 16px;
             background-color: #333333;
-            border: 2px solid #f4734e
+            border: 2px solid #4a4a4a;
             border-radius: 8px;
             transition: all 0.3s ease;
-            min-width: 300px;
         }
 
         a:hover {
-            background-color: #61dafb;
-            color: #1e1e1e;
+            background-color: #464646;
+            color: #fff;
             transform: translateY(-5px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            .categories {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <img src="https://dcv2.qq4.de/dcv2-docs2.png" alt="DCV2 Logo"><br>
-    <a href="https://exfy.github.io/DCV2-PublicDocs/docs/category/events" target="_blank">DCV2 DOCS</a><br>
-    <a href="https://discord.gg/dGEhqWtSmJ" target="_blank">DCV2 Discord</a><br>
-    <a href="https://exfy.github.io/DCV2-Docs/editoren/permissions/Permissions-Editor.html" target="_blank">Permissions Editor</a><br>
-    <a href="https://exfy.github.io/DCV2-Docs/editoren/variabeln/VariabelEditor.html" target="_blank">Variabel Editor</a><br>
-    <a href="https://exfy.github.io/DCV2-Docs/editoren/chat/ChatEventEditor.html" target="_blank">Chat-Event Editor</a><br>
-    <a href="https://exfy.github.io/DCV2-Docs/editoren/lampen/LampenEventEditor.html" target="_blank">Lampen-Event Editor</a><br>
-    <a href="https://exfy.github.io/DCV2-Docs/editoren/zeit/ZeitEventEditor.html" target="_blank">Zeit-Event Editor</a><br>
-    <a href="https://exfy.github.io/DCV2-Docs/editoren/ankauf/AnkaufEventEditor.html" target="_blank">Ankauf-Event Editor</a><br>
+    <img src="https://dcv2.qq4.de/dcv2-docs2.png" alt="DCV2 Logo"><br><br>
+
+    <div class="categories">
+        <div class="category">
+            <h3>Wiki</h3>
+            <a href="https://exfy.github.io/DCV2-PublicDocs/docs/category/events" target="_blank">DCV2 DOCS</a>
+        </div>
+
+        <div class="category">
+            <h3>Community</h3>
+            <a href="https://discord.gg/dGEhqWtSmJ" target="_blank">DCV2 Discord</a>
+        </div>
+
+        <div class="category">
+            <h3>Config Editoren</h3>
+            <a href="https://exfy.github.io/DCV2-Docs/editoren/permissions/Permissions-Editor.html" target="_blank">Permissions Editor</a>
+            <a href="https://exfy.github.io/DCV2-Docs/editoren/variabeln/VariabelEditor.html" target="_blank">Variabel Editor</a>
+        </div>
+
+        <div class="category">
+            <h3>Event Editoren</h3>
+            <a href="https://exfy.github.io/DCV2-Docs/editoren/chat/ChatEventEditor.html" target="_blank">Chat-Event Editor</a>
+            <a href="https://exfy.github.io/DCV2-Docs/editoren/lampen/LampenEventEditor.html" target="_blank">Lampen-Event Editor</a>
+            <a href="https://exfy.github.io/DCV2-Docs/editoren/zeit/ZeitEventEditor.html" target="_blank">Zeit-Event Editor</a>
+            <a href="https://exfy.github.io/DCV2-Docs/editoren/ankauf/AnkaufEventEditor.html" target="_blank">Ankauf-Event Editor</a>
+            <a href="https://exfy.github.io/DCV2-Docs/editoren/buttons/DynamicButtonEditor.html" target="_blank">Dynamic Button-Event Editor</a>
+        </div>
+    </div>
 </div>
 </body>
 </html>
