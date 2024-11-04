@@ -140,10 +140,10 @@ function copyEventToClipboard(event) {
     });
 }
 */
-function updateJsonOutput() {
+/*function updateJsonOutput() {
     const jsonOutput = document.getElementById('jsonOutput');
     jsonOutput.textContent = JSON.stringify({lampenevents: events}, null, 4);
-}
+}*/
 
 function initEventEditor() {
     document.getElementById('eventForm').addEventListener('submit', function (event) {
