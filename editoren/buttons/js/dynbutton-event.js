@@ -134,10 +134,7 @@ function copyEventToClipboard(event) {
     });
 }
 */
-function updateJsonOutput() {
-    const jsonOutput = document.getElementById('jsonOutput');
-    jsonOutput.textContent = JSON.stringify({dynamicbuttonevents: events}, null, 4);
-}
+
 
 function initEventEditor() {
     document.getElementById('eventForm').addEventListener('submit', function (event) {

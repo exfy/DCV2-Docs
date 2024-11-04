@@ -210,4 +210,133 @@ function updatePermission() {
     // Setze den Prefix sicher hinzu
     permissionInput.value = `main.botctl.dyn.${userInput}`;
 }
+/*
+// Event Listener Editor
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    // Entferne die erneute Initialisierung von events
+    // events ist bereits global definiert
 
+    let editor = null;
+    let isValidJson = true;
+
+    // Finde das jsonOutput-Element und ersetze es durch eine Textarea für den Editor
+    const jsonOutputDiv = document.getElementById('jsonOutput');
+    const textarea = document.createElement('textarea');
+    textarea.style.display = "none"; // Verstecke das Textarea-Element
+    jsonOutputDiv.appendChild(textarea);
+
+    // Hinweistext für ungültiges JSON hinzufügen
+    const warningText = document.createElement('div');
+    warningText.style.color = 'red';
+    warningText.style.display = 'none';
+    warningText.textContent = 'Ungültiges JSON! Bitte korrigieren.';
+    jsonOutputDiv.insertBefore(warningText, textarea);
+
+    // Knopf zum Formatieren des JSON hinzufügen
+    const formatButton = document.createElement('button');
+    formatButton.textContent = 'JSON Formatieren';
+    formatButton.onclick = () => {
+        try {
+            const formattedJson = JSON.stringify(JSON.parse(editor.getValue()), null, 2);
+            editor.setValue(formattedJson);
+            warningText.style.display = 'none'; // Verstecke den Warnhinweis
+        } catch (e) {
+            warningText.style.display = 'block'; // Zeige den Warnhinweis an
+        }
+    };
+    jsonOutputDiv.insertBefore(formatButton, textarea);
+
+    // Knopf zum Kopieren des JSON hinzufügen
+    const copyButton = document.createElement('button');
+    copyButton.textContent = 'JSON Kopieren';
+    copyButton.onclick = () => {
+        navigator.clipboard.writeText(editor.getValue())
+            .then(() => {
+                alert('JSON wurde in die Zwischenablage kopiert!');
+            })
+            .catch(err => {
+                console.error('Fehler beim Kopieren:', err);
+                alert('Fehler beim Kopieren des JSON.');
+            });
+    };
+    jsonOutputDiv.insertBefore(copyButton, textarea);
+
+    // Initialisiere CodeMirror mit dem Textarea-Element und dem Dark Theme
+    editor = CodeMirror.fromTextArea(textarea, {
+        mode: { name: 'javascript', json: true },
+        lineNumbers: true,
+        theme: 'material', // Dark Theme verwenden
+        tabSize: 2,
+        autoCloseBrackets: true
+    });
+
+    // Setze den initialen Inhalt von CodeMirror
+    editor.setValue(JSON.stringify({ dynamicbuttonevents: events }, null, 2));
+
+    // Funktion zum Ermitteln der Fehlerdetails
+    function getJsonErrorDetails(jsonString, error) {
+        const errorMessage = error.message;
+        const lineMatch = errorMessage.match(/line (\d+)/);
+        const lineNumber = lineMatch ? parseInt(lineMatch[1], 10) : null;
+        return lineNumber ? `Fehler in Zeile ${lineNumber}: ${errorMessage}` : `JSON-Fehler: ${errorMessage}`;
+    }
+
+    // Ereignislistener, um events zu aktualisieren, wenn der Editor geändert wird
+    editor.on('change', () => {
+        try {
+            // Parse den Inhalt des Editors und extrahiere dynamicbuttonevents
+            const updatedContent = JSON.parse(editor.getValue());
+
+            // Aktualisiere events mit dem geänderten Inhalt
+            if (updatedContent && Array.isArray(updatedContent.dynamicbuttonevents)) {
+                events = updatedContent.dynamicbuttonevents; // Aktualisiere die bestehende events-Variable
+                renderEventList(); // Aktualisiert die Anzeige der Event-Liste
+                warningText.style.display = 'none'; // Verstecke den Warnhinweis
+                isValidJson = true;
+            } else {
+                throw new Error('Ungültiges JSON-Format: dynamicbuttonevents ist kein Array oder fehlt.');
+            }
+        } catch (e) {
+            console.error('Fehler beim Parsen des JSON:', e); // Fehler beim Parsen
+            warningText.style.display = 'block'; // Zeige den Warnhinweis an
+            warningText.textContent = getJsonErrorDetails(editor.getValue(), e);
+            isValidJson = false;
+        }
+    });
+
+    // Funktion zum Aktualisieren des Editors mit der aktuellen events-Variable
+    function updateJsonOutput() {
+        editor.setValue(JSON.stringify({ dynamicbuttonevents: events }, null, 2));
+    }
+
+    // Initialisiere die Event-Liste bei Laden der Seite
+    renderEventList();
+
+    // Mach updateJsonOutput global verfügbar, falls erforderlich
+    window.updateJsonOutput = updateJsonOutput;
+});
+
+
+
+
+function updateJsonOutput() {
+    // Aktualisiere den JSON-Text im HTML-Element
+    const jsonOutput = document.getElementById('jsonOutput');
+    //jsonOutput.textContent = JSON.stringify({ dynamicbuttonevents: events }, null, 4);
+
+    // Stelle sicher, dass der editor global verfügbar ist und aktualisiere ihn
+    if (window.editor) {
+        window.editor.setValue(JSON.stringify({dynamicbuttonevents: events}, null, 2));
+        renderEventList();
+    } else {
+        console.error("Editor ist nicht definiert.");
+    }
+}
+
+/*
+function updateJsonOutput() {
+    const jsonOutput = document.getElementById('jsonOutput');
+   jsonOutput.textContent = JSON.stringify({dynamicbuttonevents: events}, null, 4);
+    editor.setValue(JSON.stringify(events, null, 2));
+}*/
