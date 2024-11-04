@@ -33,6 +33,7 @@ body {
     justify-content: space-between;
     flex-grow: 1;
     padding: 20px 20px 20px 20px; /* adjust padding to account for the fixed header */
+    height: 80vh;
 }
 
 .column {
@@ -52,7 +53,7 @@ body {
     padding: 10px;
     border: 1px solid #202225;
     background-color: #2f3136;
-    max-height: 1100px;
+
 }
 
 #eventEditor {
@@ -70,7 +71,7 @@ body {
     overflow-y: auto;
     color: #b9bbbe;
     font-size: 12px;
-    max-height: 910px;
+    height: 100vh;
 }
 
 /* Style for form elements */
@@ -358,7 +359,7 @@ li {
     user-select: none;
 }
 #eventList {
-    max-height: 900px;
+    height: 50vh;
 }
 
 .condition-buttons-header {
