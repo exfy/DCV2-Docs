@@ -424,3 +424,10 @@ li {
 .chat-popup-content {
     background-color: #26272b!important;
 }
+.CodeMirror {
+    height: auto!important;
+}
+
+#copyBtn {
+    display: none;
+}

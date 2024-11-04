@@ -400,3 +400,10 @@ li {
 .deleteCondition {
     background-color: #6f0000;
 }
+.CodeMirror {
+    height: auto!important;
+}
+
+#copyBtn {
+    display: none;
+}

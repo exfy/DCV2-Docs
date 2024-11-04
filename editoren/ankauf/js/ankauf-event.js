@@ -368,13 +368,13 @@ function copyEventToClipboard(event) {
     });
 }
 */
-function updateJsonOutput() {
+/*function updateJsonOutput() {
     const jsonOutput = document.getElementById('jsonOutput');
     const outputData = { ankaufevents: events };
 
     // Ausgabe als formatiertes JSON
     jsonOutput.textContent = JSON.stringify(outputData, null, 4);
-}
+}*/
 
 function initEventEditor() {
     document.getElementById('eventForm').addEventListener('submit', function (event) {

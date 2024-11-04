@@ -108,19 +108,19 @@ function editEvent(eventIndex) {
 
 
 // Function to copy event details to clipboard
-function copyEventToClipboard(event) {
+/*function copyEventToClipboard(event) {
     const eventText = `Event: ${event.displayname}\\nTime: ${event.time}\\nComment: ${event.comment}`;
     navigator.clipboard.writeText(eventText).then(() => {
         alert('Event details copied to clipboard');
     }).catch(err => {
         alert('Failed to copy: ' + err);
     });
-}
+}*/
 
-function updateJsonOutput() {
+/*function updateJsonOutput() {
     const jsonOutput = document.getElementById('jsonOutput');
     jsonOutput.textContent = JSON.stringify({timeevents: events}, null, 4);
-}
+}*/
 
 function initEventEditor() {
     document.getElementById('eventForm').addEventListener('submit', function (event) {

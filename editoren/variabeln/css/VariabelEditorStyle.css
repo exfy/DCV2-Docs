@@ -458,3 +458,10 @@ li {
 #filterWithColorCodes {
     height: 20px;
 }
+.CodeMirror {
+    height: auto!important;
+}
+
+#copyBtn {
+    display: none;
+}

@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DCV2 Ankauf-Event Editor</title>
     <link rel="stylesheet" href="css/AnkaufEventEditorStyle.css">
+
 </head>
 <body>
 
 <div class="header">
     <img src = "https://api.qq4.de/dcv2/dcv2-ankauf-event-editor.png" alt="DCV2 Chat-Event Editor">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/material.min.css">
 
     <div class="editorenchange"><label for="dropdown">Editor wechseln:</label>
         <select id="dropdown" onchange="openURL()" >
@@ -382,9 +387,10 @@
 </div>
 
 <!-- JavaScript Dateien -->
+<script src="js/ankauf-global.js"></script>
 <script src="js/ankauf-actions.js"></script>
 <script src="js/ankauf-conditions.js"></script>
-<script src="js/ankauf-global.js"></script>
+
 <script src="js/ankauf-event.js"></script>
 <script src="js/ankauf-variables.js"></script>
 

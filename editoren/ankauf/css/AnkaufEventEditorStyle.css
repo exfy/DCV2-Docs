@@ -530,3 +530,11 @@ input[type="checkbox"]:not(:checked) + label + textarea {
 #popup-signDate {
     width: 80%;
 }
+
+.CodeMirror {
+    height: auto!important;
+}
+
+#copyBtn {
+    display: none;
+}
