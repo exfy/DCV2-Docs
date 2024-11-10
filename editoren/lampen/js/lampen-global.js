@@ -305,3 +305,40 @@ function updateJsonOutput() {
         console.error("Editor ist nicht definiert.");
     }
 }
+
+function toggleMenu() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('active');
+}
+
+// Event-Listener zum Schließen des Sidebars bei Klick außerhalb
+document.addEventListener('click', function(event) {
+    const sidebar = document.getElementById('sidebar');
+    const toggleButton = document.querySelector('.menu-toggle');
+
+    // Überprüfen, ob Sidebar aktiv ist, und ob der Klick außerhalb des Sidebar und des Buttons ist
+    if (sidebar.classList.contains('active') && !sidebar.contains(event.target) && event.target !== toggleButton) {
+        sidebar.classList.remove('active');
+    }
+});
+
+
+
+
+
+// Untermenü anzeigen/verstecken
+function toggleSubmenu(id) {
+    document.getElementById(id).classList.toggle('active');
+}
+
+function checkWidth() {
+    const warning = document.getElementById("mobileWarning");
+    if (window.innerWidth < 1000) {
+        warning.style.display = "flex";
+    } else {
+        warning.style.display = "none";
+    }
+}
+
+window.addEventListener("load", checkWidth);
+window.addEventListener("resize", checkWidth);

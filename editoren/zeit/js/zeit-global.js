@@ -331,3 +331,15 @@ document.addEventListener('click', function(event) {
 function toggleSubmenu(id) {
     document.getElementById(id).classList.toggle('active');
 }
+
+function checkWidth() {
+    const warning = document.getElementById("mobileWarning");
+    if (window.innerWidth < 1000) {
+        warning.style.display = "flex";
+    } else {
+        warning.style.display = "none";
+    }
+}
+
+window.addEventListener("load", checkWidth);
+window.addEventListener("resize", checkWidth);
