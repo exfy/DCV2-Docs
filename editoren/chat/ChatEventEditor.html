@@ -9,36 +9,45 @@
 <body>
 
 <div class="header">
-    <img src = "https://api.qq4.de/dcv2/dcv2-chat-event-editor.png" alt="DCV2 Chat-Event Editor">
+    <img  class="logo" src = "https://api.qq4.de/dcv2/dcv2-chat-event-editor.png" alt="DCV2 Chat-Event Editor">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/material.min.css">
 
-    <div class="editorenchange"><label for="dropdown">Editor wechseln:</label>
-        <select id="dropdown" onchange="openURL()" >
-            <option value="">--Bitte wählen--</option>
-            <option value="https://exfy.github.io/DCV2-Docs/editoren/lampen/LampenEventEditor.html">Lampen Event Editor</option>
-            <option value="https://exfy.github.io/DCV2-Docs/editoren/zeit/ZeitEventEditor.html">Zeit Event Editor</option>
-            <option value="https://exfy.github.io/DCV2-Docs/editoren/chat/ChatEventEditor.html">Chat Event Editor</option>
-            <option value="https://exfy.github.io/DCV2-Docs/editoren/ankauf/AnkaufEventEditor.html">Ankauf Event Editor</option>
-            <option value="https://exfy.github.io/DCV2-Docs/editoren/buttons/DynamicButtonEditor.html">Dynamic Button Editor</option>
-        </select></div>
 
-    <div class="links">
-        <button id="doku" onclick="window.open('https://exfy.github.io/DCV2-PublicDocs/docs/category/events', '_blank');">DCV2 Dokumentation</button>
-
-    </div>
 
     <div class="buttons">
-
-        <span>  <input type="file" id="fileInput" accept=".json"><button id="importBtn">Import JSON</button></span>
-        <span> <button id="saveBtn">Save to File</button></span>
+        <span class="menu-toggle" onclick="toggleMenu()">☰</span>
 
 
     </div>
 </div>
+<div class="sidebar" id="sidebar">
+    <div class="menu-toggle-open" onclick="toggleMenu()"> ✖ </div>
+    <div class="sidebar-imexport">
+        <span>  <input type="file" id="fileInput" accept=".json"><button id="importBtn">Import</button></span>
+        <span> <button id="saveBtn">Export</button></span>
+    </div>
+    <a href="#" onclick="toggleSubmenu('submenu1')">⤷ Editoren</a>
 
+    <div class="submenu" id="submenu1">
+        <a class="submenu-link" target="_blank" href="#">Zeit-Event</a>
+        <a class="submenu-link" target="_blank" href="#">Ankaufs-Event</a>
+        <a class="submenu-link" target="_blank" href="#">Chat-Event</a>
+        <a class="submenu-link" target="_blank"  href="#">DC-DynButton-Event</a>
+        <a class="submenu-link"target="_blank"  href="#">Lampen-Event</a>
+    </div>
+    <a href="#" onclick="toggleSubmenu('submenu2')">⤷ Hilfe</a>
+    <div class="submenu" id="submenu2">
+        <a class="submenu-link" target="_blank" href="https://dcv2docs.qq4.de/docs/category/chat-event">Chat Event Wiki</a>
+        <a class="submenu-link" target="_blank" href="https://dcv2docs.qq4.de/docs/category/events">DCV2 Wiki</a>
+    </div>
+    <div class="sidemenu-footer">
+        <a class="submenu-footerlink" target="_blank" href="https://dcv2.qq4.de/impressum/impressum.html">Impressum</a>
+        <a class="submenu-footerlink" target="_blank" href="https://dcv2.qq4.de/impressum/datenschutz.html">Datenschutzerklärung</a>
+    </div>
+</div>
 <div class="tab-menu">
     <button class="tablink" onclick="openTab('actions')">Mögliche Aktionen</button>
     <button class="tablink" onclick="openTab('conditions')">Conditions</button>
