@@ -44,6 +44,8 @@ body {
     width: 30%;
     background-color: #2f3136;
     overflow-y: auto;
+    resize: horizontal;
+    flex-grow: 1;
 }
 
 #actionList {
