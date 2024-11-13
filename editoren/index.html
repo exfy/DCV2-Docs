@@ -82,6 +82,41 @@
                 flex-direction: column;
             }
         }
+        .footer-link {
+            background: none;
+            border: none;
+        }
+
+        .footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(30, 30, 30, 0.9);
+            color: #aaaaaa;
+            text-align: right;
+            padding: 10px 20px;
+            font-size: 14px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .footer-bar a {
+            color: #aaaaaa;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bar a:hover {
+            color: #ffffff;
+        }
+        .footer-bar a {
+            color: #aaaaaa!important;;
+            text-decoration: none!important;;
+            margin-left: 0 !important;
+            transition: color 0.3s ease!important;;
+            display: inline;
+        }
     </style>
 </head>
 <body>
@@ -116,4 +151,8 @@
     </div>
 </div>
 </body>
+<div class="footer-bar">
+    <a class="footer-link" href="https://dcv2.qq4.de/impressum/impressum.html" target="_blank">Impressum</a> |
+    <a class="footer-link" href="https://dcv2.qq4.de/impressum/datenschutz.html" target="_blank">Datenschutzerklärung</a>
+</div>
 </html>
