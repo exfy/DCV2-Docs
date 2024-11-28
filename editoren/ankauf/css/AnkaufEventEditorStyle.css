@@ -674,3 +674,7 @@ input[type="checkbox"]:not(:checked) + label + textarea {
     font-size: 16px;
     padding-left: 30px;
 }
+
+.top-row {
+    margin-top: -35px;
+}

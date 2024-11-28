@@ -540,3 +540,6 @@ background: #1b4162;
     text-align: center;
     z-index: 1000;
 }
+.top-row {
+    margin-top: -35px;
+}

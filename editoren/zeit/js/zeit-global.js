@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
     warningText.style.color = 'red';
     warningText.style.display = 'none';
     warningText.textContent = 'Ungültiges JSON! Bitte korrigieren.';
-    jsonOutputDiv.insertBefore(warningText, textarea);
+    //jsonOutputDiv.insertBefore(warningText, textarea);
 
     // Knopf zum Formatieren des JSON hinzufügen
     const formatButton = document.createElement('button');
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             warningText.style.display = 'block'; // Zeige den Warnhinweis an
         }
     };
-    jsonOutputDiv.insertBefore(formatButton, textarea);
+    //jsonOutputDiv.insertBefore(formatButton, textarea);
 
     // Knopf zum Kopieren des JSON hinzufügen
     const copyButton = document.createElement('button');
@@ -232,7 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Fehler beim Kopieren des JSON.');
             });
     };
-    jsonOutputDiv.insertBefore(copyButton, textarea);
+   // jsonOutputDiv.insertBefore(copyButton, textarea);
+    const topRowDiv = document.createElement('div');
+    topRowDiv.style.position = 'absolute';
+    topRowDiv.className = 'top-row';
+    topRowDiv.style.zIndex = '100';
+
+    topRowDiv.appendChild(formatButton);
+    topRowDiv.appendChild(copyButton);
+    topRowDiv.appendChild(warningText);
+    jsonOutputDiv.insertBefore(topRowDiv, textarea);
 
     // Initialisiere CodeMirror mit dem Textarea-Element und dem Dark Theme
     editor = CodeMirror.fromTextArea(textarea, {
