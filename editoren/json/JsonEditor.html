@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Editor Standalone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/material.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #36393f;
+            color: #dcddde;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #menuBar {
+            background-color: #2f3136;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end; /* Sorgt für rechtsbündige Anordnung */
+            align-items: center;
+            border-bottom: 1px solid #202225;
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        #menuBar button {
+            background-color: #5865f2;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 10px; /* Abstand zwischen Buttons */
+        }
+
+        #menuBar button:hover {
+            background-color: #4752c4;
+        }
+
+        #editorContainer {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 50px; /* Offset for menu bar */
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 250px;
+            height: 100%;
+            background-color: #1c364d;
+            color: #fff;
+            transition: right 0.3s ease;
+            padding: 10px;
+            z-index: 1100;
+            box-shadow: -4px 0 8px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .menu-toggle-open {
+            font-size: 20px;
+            padding: 10px;
+            background-color: #5865f2;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .menu-toggle-open:hover {
+            background-color: #4752c4;
+        }
+
+        /* Seitenleiste */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px; /* Startposition außerhalb des Bildschirms auf der rechten Seite */
+            width: 370px;
+            height: 100%;
+            background-color: #1c364d;
+            color: #fff;
+            transition: right 0.3s ease;
+            padding-top: 20px;
+            z-index: 1000;
+        }
+
+        /* Sichtbare Seitenleiste */
+        .sidebar.active {
+            right: 0; /* Seitenleiste sichtbar auf der rechten Seite */
+        }
+
+        /* Menülinks */
+        .sidebar a {
+            display: block;
+            color: #fff;
+            padding: 15px;
+            text-decoration: none;
+            font-size: 18px;
+
+        }
+
+        .submenu-link {
+            background: #1b4162;
+        }
+
+        /* Hover-Effekt */
+        .sidebar a:hover {
+            background-color: #162d42;
+        }
+
+        /* Untermenü */
+        .submenu {
+            display: none;
+            background-color: #444;
+        }
+
+        /* Untermenü anzeigen */
+        .submenu.active {
+            display: block;
+        }
+
+        /* Untermenü-Links */
+        .submenu a {
+            font-size: 16px;
+            padding-left: 30px;
+        }
+
+        .top-row {
+            margin-top: -35px;
+        }
+
+        .CodeMirror {
+            height: 100%;
+            width: 100%;
+        }
+
+        #controls {
+            background-color: #2f3136;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            border-top: 1px solid #202225;
+        }
+
+        #errorOutput {
+            color: #f04747;
+            font-weight: bold;
+            margin-right: auto;
+        }
+        .CodeMirror.cm-s-material {
+            margin-top: 40px;
+        }
+
+        .footer-right {
+            display: inline;
+        }
+        .footer-center {
+            display: inline;
+        }
+        .sidemenu-footer {
+            color: #aaa;
+            text-decoration: none;
+            float: right;
+            padding-left: 5px;
+            padding-right: 23px;
+            margin-bottom: 5px;
+            position: fixed;
+            bottom: 0;
+            display: inline-flex;
+        }
+        .submenu-footerlink {
+            font-size: 12px !important;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+</head>
+<body>
+<div id="menuBar">
+
+
+    <button id="formatJson">Format JSON</button>
+    <div class="right-controls">
+    <button id="toggleSidebar" class="menu-toggle-open" style="margin-right: auto;">☰</button>
+
+        </div>
+
+</div>
+
+<div class="sidebar" id="sidebar">
+    <div class="menu-toggle-open" onclick="toggleMenu()"> ✖ </div>
+
+    <a href="#" onclick="toggleSubmenu('submenu1')">⤷ Editoren</a>
+
+    <div class="submenu" id="submenu1">
+        <a class="submenu-link" href="https://editoren.qq4.de/editoren/chat/ChatEventEditor.html" target="_blank">Chat-Event Editor</a>
+        <a class="submenu-link" href="https://editoren.qq4.de/editoren/lampen/LampenEventEditor.html" target="_blank">Lampen-Event Editor</a>
+        <a class="submenu-link" href="https://editoren.qq4.de/editoren/zeit/ZeitEventEditor.html" target="_blank">Zeit-Event Editor</a>
+        <a class="submenu-link" href="https://editoren.qq4.de/editoren/ankauf/AnkaufEventEditor.html" target="_blank">Ankauf-Event Editor</a>
+        <a class="submenu-link" href="https://editoren.qq4.de/editoren/buttons/DynamicButtonEditor.html" target="_blank">Dynamic Button-Event Editor</a>
+        <a class="submenu-link" href="https://editoren.qq4.de/editoren/json/JsonEditor.html" target="_blank">JSON Editor</a>
+    </div>
+    <a href="#" onclick="toggleSubmenu('submenu2')">⤷ Hilfe</a>
+    <div class="submenu" id="submenu2">
+        <a class="submenu-link" target="_blank" href="https://dcv2docs.qq4.de/docs/category/events">DCV2 Wiki</a>
+    </div>
+    <div class="sidemenu-footer">
+        <a class="submenu-footerlink" target="_blank" href="https://dcv2.qq4.de/impressum/impressum.html">Impressum</a>
+        <a class="submenu-footerlink" target="_blank" href="https://dcv2.qq4.de/impressum/datenschutz.html">Datenschutzerklärung</a>
+    </div>
+</div>
+
+<div id="editorContainer">
+    <textarea id="jsonEditor"></textarea>
+</div>
+<script>
+    const editor = CodeMirror.fromTextArea(document.getElementById("jsonEditor"), {
+        lineNumbers: true,
+        mode: "application/json",
+        theme: "material",
+    });
+
+    editor.on("change", () => {
+        const errorOutput = document.getElementById("errorOutput");
+        try {
+            JSON.parse(editor.getValue());
+            errorOutput.textContent = "Valid JSON";
+            errorOutput.style.color = "#43b581"; // Grün für valid
+        } catch (error) {
+            errorOutput.textContent = "Invalid JSON: " + error.message;
+            errorOutput.style.color = "#f04747"; // Rot für Fehler
+        }
+    });
+
+    document.getElementById("formatJson").addEventListener("click", () => {
+        try {
+            const json = JSON.parse(editor.getValue());
+            editor.setValue(JSON.stringify(json, null, 2));
+        } catch (error) {
+            // Error is already displayed in the live checker
+        }
+    });
+
+    function toggleMenu() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('active');
+    }
+
+    function toggleSubmenu(id) {
+        const submenu = document.getElementById(id);
+        submenu.classList.toggle('active');
+    }
+
+    const toggleSidebar = document.getElementById("toggleSidebar");
+
+    toggleSidebar.addEventListener("click", toggleMenu);
+</script>
+<div id="errorOutputx">
+<div id="errorOutput"></div>
+</div>
+</body>
+</html>
