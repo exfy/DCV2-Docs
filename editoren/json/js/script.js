@@ -192,6 +192,7 @@ function createDropdownMenu(data, editor) {
         allContents.forEach(content => {
             content.style.display = 'none';
             optionsContainer.style.display = 'none';
+            optionsContainer2.style.display = 'none';
         });
     }
     function formatSystemName(name) {
@@ -404,23 +405,23 @@ const eventariablen = [
     ];
 
 function createDropdown2() {
-    const dropdownContainer = document.getElementById('dropdown-container2');
+    const dropdownContainer2 = document.getElementById('dropdown-container2');
 
     // Container für die Optionen erstellen und initial verstecken
-    const optionsContainer = document.createElement('div');
-    optionsContainer.setAttribute('id', 'optionsContainer');
-    optionsContainer.style.display = 'none'; // Optionen initial verstecken
-    optionsContainer.style.position = 'absolute'; // Positionierung relativ zum Container
-    optionsContainer.style.zIndex = '1000'; // Damit es über anderen Elementen angezeigt wird
-    optionsContainer.style.backgroundColor = 'white'; // Hintergrundfarbe
+    const optionsContainer2 = document.createElement('div');
+    optionsContainer2.setAttribute('id', 'optionsContainer2');
+    optionsContainer2.style.display = 'none'; // Optionen initial verstecken
+    optionsContainer2.style.position = 'absolute'; // Positionierung relativ zum Container
+    optionsContainer2.style.zIndex = '1000'; // Damit es über anderen Elementen angezeigt wird
+    optionsContainer2.style.backgroundColor = 'white'; // Hintergrundfarbe
     //  optionsContainer.style.border = '1px solid #ccc'; // Rand
-    optionsContainer.style.minWidth = '200px'; // Minimale Breite
-    optionsContainer.style.padding = '5px'; // Innenabstand
+    optionsContainer2.style.minWidth = '200px'; // Minimale Breite
+    optionsContainer2.style.padding = '5px'; // Innenabstand
 
     // Optionen hinzufügen
     eventariablen.forEach(item => {
         const option = document.createElement('div');
-        option.setAttribute('id', 'optionsContainerElement');
+        option.setAttribute('id', 'optionsContainerElement2');
         option.textContent = item.name; // Der Name der Variable wird angezeigt
         option.style.padding = '5px';
         option.style.cursor = 'pointer';
@@ -429,32 +430,32 @@ function createDropdown2() {
         // Klick-Event für jede Option
         option.addEventListener('click', function() {
             insertAtCursor(`%${item.name}%`); // Einfügen mit einem einzigen %
-            optionsContainer.style.display = 'none'; // Optionen nach Auswahl ausblenden
+            optionsContainer2.style.display = 'none'; // Optionen nach Auswahl ausblenden
         });
 
-        optionsContainer.appendChild(option);
+        optionsContainer2.appendChild(option);
     });
 
     // Eventlistener für das Öffnen/Schließen der Optionen
-    dropdownContainer.addEventListener('click', function(event) {
+    dropdownContainer2.addEventListener('click', function(event) {
         // Verhindern, dass der Klick auf die Optionen den Button-Click auslöst
         event.stopPropagation();
 
         // Position der Optionen unterhalb des Buttons
-        const rect = dropdownContainer.getBoundingClientRect();
-        optionsContainer.style.top = `${rect.bottom + 5}px`; // 5px unter dem Button
-        optionsContainer.style.left = `${rect.left}px`; // Links ausgerichtet mit dem Button
+        const rect = dropdownContainer2.getBoundingClientRect();
+        optionsContainer2.style.top = `${rect.bottom + 5}px`; // 5px unter dem Button
+        optionsContainer2.style.left = `${rect.left}px`; // Links ausgerichtet mit dem Button
 
         // Sichtbarkeit der Optionen ändern
-        if (optionsContainer.style.display === 'none') {
-            optionsContainer.style.display = 'block'; // Optionen anzeigen
+        if (optionsContainer2.style.display === 'none') {
+            optionsContainer2.style.display = 'block'; // Optionen anzeigen
         } else {
-            optionsContainer.style.display = 'none'; // Optionen ausblenden
+            optionsContainer2.style.display = 'none'; // Optionen ausblenden
         }
     });
 
     // Die Optionen in den Body einfügen
-    document.body.appendChild(optionsContainer);
+    document.body.appendChild(optionsContainer2);
 }
 
 // Initialisieren der Optionen
