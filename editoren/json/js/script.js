@@ -76,7 +76,7 @@ let cookiesAccepted = false;
 function setCookie(name, value, days) {
     const date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    document.cookie = `${name}=${encodeURIComponent(value)};expires=${date.toUTCString()};path=/`;
+    document.cookie = `${name}=${encodeURIComponent(value)};expires=${date.toUTCString()};path=/;SameSite=None;Secure`;
 }
 
 // Funktion zum Abrufen von Cookies
@@ -87,7 +87,10 @@ function getCookie(name) {
 
 // Funktion zum Löschen von Cookies
 function deleteCookie(name) {
-    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+    document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;SameSite=None;Secure`;
+   // document.cookie = `${name}=${encodeURIComponent(value)};expires=${date.toUTCString()};path=/;SameSite=None;Secure`;
+
+
 }
 
 // Cookie-Akzeptanz prüfen
@@ -179,7 +182,7 @@ async function loadJsonFromUrl(url) {
 }
 
 // Funktion zur Erstellung des Dropdown-Menüs
-function createDropdownMenu(data, editor) {
+/*function createDropdownMenu(data, editor) {
     const container = document.getElementById('menu-container'); // ID des gewünschten div
 
     function closeAllMenus() {
@@ -270,6 +273,119 @@ function createDropdownMenu(data, editor) {
                 });
 
                // buttonContainer.appendChild(copyButton);
+                buttonContainer.appendChild(insertButton);
+                option.appendChild(buttonContainer);
+                contentContainer.appendChild(option);
+            });
+
+            categoryContainer.appendChild(contentContainer);
+            container.appendChild(categoryContainer);
+        }
+    });
+
+    document.addEventListener('click', closeAllMenus);
+}*/
+// Funktion zur Erstellung des Dropdown-Menüs
+// Funktion zur Erstellung des Dropdown-Menüs
+function createDropdownMenu(data, editor) {
+    const container = document.getElementById('menu-container'); // ID des gewünschten div
+
+    function closeAllMenus() {
+        const allContents = container.querySelectorAll('.category-content');
+        allContents.forEach(content => {
+            content.style.display = 'none';
+        });
+    }
+
+    function formatSystemName(name) {
+        return name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    ["actions", "conditions", "events", "varactions"].forEach(category => {
+        if (data[category]) {
+            const categoryContainer = document.createElement('div');
+            categoryContainer.classList.add('category-container');
+            categoryContainer.style.position = 'relative';
+
+            const button = document.createElement('button');
+            button.classList.add('category-button');
+            button.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const content = categoryContainer.querySelector('.category-content');
+                const isOpen = content.style.display === 'block';
+                closeAllMenus();
+                if (!isOpen) {
+                    content.style.display = 'block';
+                }
+            });
+            categoryContainer.appendChild(button);
+
+            const contentContainer = document.createElement('div');
+            contentContainer.classList.add('category-content');
+            contentContainer.style.display = 'none';
+            contentContainer.style.position = 'absolute';
+            contentContainer.style.left = '0';
+            contentContainer.style.top = '100%';
+            contentContainer.style.zIndex = '1000';
+            contentContainer.style.backgroundColor = 'white';
+            contentContainer.style.border = '0';
+            contentContainer.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+
+
+            data[category].forEach(item => {
+                const itemName = Object.keys(item)[0];
+                let itemData;
+
+                if (category === "actions" || category === "varactions") {
+                    itemData = { ...item[itemName], actionname: itemName, actiondisplayname: itemName, minimalReqVersion: 1 };
+                } else if (category === "conditions") {
+                    itemData = { ...item[itemName], systemname: formatSystemName(itemName), displayname: itemName, minimalReqVersion: 1 };
+                } else {
+                    itemData = { ...item[itemName], systemname: formatSystemName(itemName) };
+                }
+
+                const option = document.createElement('div');
+                option.classList.add('option');
+                option.style.display = 'flex';
+                option.style.justifyContent = 'space-between';
+                option.style.alignItems = 'center';
+                option.style.padding = '5px 10px';
+
+                const span = document.createElement('span');
+                span.textContent = itemName;
+                span.classList.add('item-name');
+                option.appendChild(span);
+
+                const buttonContainer = document.createElement('div');
+                buttonContainer.style.display = 'flex';
+                buttonContainer.style.gap = '10px';
+
+                const copyButton = document.createElement('button');
+                copyButton.classList.add('dropdown-button-in');
+                copyButton.textContent = 'Kopieren';
+                copyButton.addEventListener('click', () => {
+                    navigator.clipboard.writeText(JSON.stringify(itemData, null, 2));
+                    alert(`${itemName} wurde kopiert!`);
+                    closeAllMenus();
+                });
+
+                const insertButton = document.createElement('button');
+                insertButton.classList.add('dropdown-button-in');
+                insertButton.textContent = 'Einfügen';
+                insertButton.addEventListener('click', () => {
+                    if (editor) {
+                        const doc = editor.getDoc();
+                        const cursor = doc.getCursor();
+                        const currentContent = JSON.stringify(itemData, null, 2);
+                        doc.replaceRange(currentContent, cursor);
+                        closeAllMenus();
+                    } else {
+                        alert('CodeMirror-Editor nicht gefunden!');
+                    }
+                });
+
+                buttonContainer.appendChild(copyButton);
                 buttonContainer.appendChild(insertButton);
                 option.appendChild(buttonContainer);
                 contentContainer.appendChild(option);
