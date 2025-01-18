@@ -181,110 +181,7 @@ async function loadJsonFromUrl(url) {
     return await response.json();
 }
 
-// Funktion zur Erstellung des Dropdown-Menüs
-/*function createDropdownMenu(data, editor) {
-    const container = document.getElementById('menu-container'); // ID des gewünschten div
 
-    function closeAllMenus() {
-        const allContents = container.querySelectorAll('.category-content');
-        allContents.forEach(content => {
-            content.style.display = 'none';
-        });
-    }
-
-    ["actions", "conditions", "events", "varactions"].forEach(category => {
-        if (data[category]) {
-            const categoryContainer = document.createElement('div');
-            categoryContainer.classList.add('category-container');
-            categoryContainer.style.position = 'relative';
-
-            const button = document.createElement('button');
-            button.classList.add('category-button');
-            button.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const content = categoryContainer.querySelector('.category-content');
-                const isOpen = content.style.display === 'block';
-                closeAllMenus();
-                if (!isOpen) {
-                    content.style.display = 'block';
-                }
-            });
-            categoryContainer.appendChild(button);
-
-            const contentContainer = document.createElement('div');
-            contentContainer.classList.add('category-content');
-            contentContainer.style.display = 'none';
-            contentContainer.style.position = 'absolute';
-            contentContainer.style.left = '0';
-            contentContainer.style.top = '100%';
-            contentContainer.style.zIndex = '1000';
-            contentContainer.style.backgroundColor = 'white';
-            contentContainer.style.border = '1px solid rgb(30, 121, 100);';
-            contentContainer.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-
-            data[category].forEach(item => {
-                const itemName = Object.keys(item)[0];
-                const itemData = { ...item[itemName], systemname: itemName };
-                const option = document.createElement('div');
-                option.classList.add('option');
-                option.style.display = 'flex';
-                option.style.justifyContent = 'space-between';
-                option.style.alignItems = 'center';
-                option.style.padding = '5px 10px';
-
-                const span = document.createElement('span');
-                span.textContent = itemName;
-                span.classList.add('item-name');
-                option.appendChild(span);
-
-                const buttonContainer = document.createElement('div');
-                buttonContainer.style.display = 'flex';
-                buttonContainer.style.gap = '10px';
-
-                const copyButton = document.createElement('button');
-                copyButton.classList.add('dropdown-button-in');
-                copyButton.textContent = 'Kopieren';
-                copyButton.addEventListener('click', () => {
-                    navigator.clipboard.writeText(JSON.stringify(itemData, null, 2));
-                    alert(`${itemName} wurde kopiert!`);
-                    closeAllMenus();
-                });
-
-                const insertButton = document.createElement('button');
-                insertButton.classList.add('dropdown-button-in');
-                insertButton.textContent = 'Einfügen';
-                insertButton.addEventListener('click', () => {
-                    if (editor) {
-                        const doc = editor.getDoc();
-                        const cursor = doc.getCursor();
-                        const currentContent = JSON.stringify(itemData, null, 2);
-                        doc.replaceRange(currentContent, cursor);
-                        closeAllMenus();
-                        try {
-                            const json = JSON.parse(editor.getValue());
-                            editor.setValue(JSON.stringify(json, null, 2));
-                        } catch (error) {
-                            // Error is already displayed in the live checker
-                        }
-                    } else {
-                        alert('CodeMirror-Editor nicht gefunden!');
-                    }
-                });
-
-               // buttonContainer.appendChild(copyButton);
-                buttonContainer.appendChild(insertButton);
-                option.appendChild(buttonContainer);
-                contentContainer.appendChild(option);
-            });
-
-            categoryContainer.appendChild(contentContainer);
-            container.appendChild(categoryContainer);
-        }
-    });
-
-    document.addEventListener('click', closeAllMenus);
-}*/
 // Funktion zur Erstellung des Dropdown-Menüs
 // Funktion zur Erstellung des Dropdown-Menüs
 function createDropdownMenu(data, editor) {
@@ -294,6 +191,7 @@ function createDropdownMenu(data, editor) {
         const allContents = container.querySelectorAll('.category-content');
         allContents.forEach(content => {
             content.style.display = 'none';
+            optionsContainer.style.display = 'none';
         });
     }
     function formatSystemName(name) {
@@ -414,3 +312,269 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Fehler beim Laden der JSON-Daten:', error);
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const eventariablen = [
+    {
+        "name": "event_zeitHHMM",
+        "desc": "ZeitEvent: Zeitpunkt des Events in HH:MM"
+    },
+    {
+        "name": "event_lamppos",
+        "desc": "LampenEvent: Gibt die XYZ Koordinaten der Lampe mit"
+    },
+    {
+        "name": "event_chatWithColorCodes",
+        "desc": "ChatEvent: Chat mit Colorcodes"
+    },
+
+
+    {
+        "name": "event_ankaufItemDisplayName",
+        "desc": "AnkaufEvent: Item Display Name"
+    },
+    {
+        "name": "event_ankaufMaterial",
+        "desc": "AnkaufEvent: Item Material"
+    },
+    {
+        "name": "event_ankaufLoreLine1",
+        "desc": "AnkaufEvent: Sign Lore 1 (sign)"
+    },
+    {
+        "name": "event_ankaufLoreLine2",
+        "desc": "AnkaufEvent: Sign Lore 2 (addsign)"
+    },
+    {
+        "name": "event_ankaufSignDate",
+        "desc": "AnkaufEvent: Sign Datum"
+    },
+    {
+        "name": "event_ankaufSignUser",
+        "desc": "AnkaufEvent: Sign Username"
+    },
+    {
+        "name": "event_ankaufPlayerName",
+        "desc": "AnkaufEvent: Event Username"
+    },
+    {
+        "name": "event_ankaufPlayerUUID",
+        "desc": "AnkaufEvent: Event UUID"
+    },
+    {
+        "name": "event_ankaufItemCount",
+        "desc": "AnkaufEvent: Menge des Items"
+    },
+
+
+
+    {
+        "name": "event_verkaufstart_payamount",
+        "desc": "VerkaufsEvent: Vom User gezahlter Betrag (Double als String)"
+    },
+    {
+        "name": "event_verkaufstart_player",
+        "desc": "VerkaufsEvent: Bot Verkauf, Username"
+    },
+    {
+        "name": "event_verkaufstart_uuid",
+        "desc": "VerkaufsEvent: Bot Verkauf, User-UUID"
+    },
+
+    {
+        "name": "event_interval",
+        "desc": "Scheduler: Interval in Mullisekunden des Schedulers"
+    },
+    {
+        "name": "event_id",
+        "desc": "Scheduler: Name des Schedulers"
+    }
+    ];
+
+function createDropdown2() {
+    const dropdownContainer = document.getElementById('dropdown-container2');
+
+    // Container für die Optionen erstellen und initial verstecken
+    const optionsContainer = document.createElement('div');
+    optionsContainer.setAttribute('id', 'optionsContainer');
+    optionsContainer.style.display = 'none'; // Optionen initial verstecken
+    optionsContainer.style.position = 'absolute'; // Positionierung relativ zum Container
+    optionsContainer.style.zIndex = '1000'; // Damit es über anderen Elementen angezeigt wird
+    optionsContainer.style.backgroundColor = 'white'; // Hintergrundfarbe
+    //  optionsContainer.style.border = '1px solid #ccc'; // Rand
+    optionsContainer.style.minWidth = '200px'; // Minimale Breite
+    optionsContainer.style.padding = '5px'; // Innenabstand
+
+    // Optionen hinzufügen
+    eventariablen.forEach(item => {
+        const option = document.createElement('div');
+        option.setAttribute('id', 'optionsContainerElement');
+        option.textContent = item.name; // Der Name der Variable wird angezeigt
+        option.style.padding = '5px';
+        option.style.cursor = 'pointer';
+        option.setAttribute('title', item.desc); // Beschreibung als Tooltip
+
+        // Klick-Event für jede Option
+        option.addEventListener('click', function() {
+            insertAtCursor(`%${item.name}%`); // Einfügen mit einem einzigen %
+            optionsContainer.style.display = 'none'; // Optionen nach Auswahl ausblenden
+        });
+
+        optionsContainer.appendChild(option);
+    });
+
+    // Eventlistener für das Öffnen/Schließen der Optionen
+    dropdownContainer.addEventListener('click', function(event) {
+        // Verhindern, dass der Klick auf die Optionen den Button-Click auslöst
+        event.stopPropagation();
+
+        // Position der Optionen unterhalb des Buttons
+        const rect = dropdownContainer.getBoundingClientRect();
+        optionsContainer.style.top = `${rect.bottom + 5}px`; // 5px unter dem Button
+        optionsContainer.style.left = `${rect.left}px`; // Links ausgerichtet mit dem Button
+
+        // Sichtbarkeit der Optionen ändern
+        if (optionsContainer.style.display === 'none') {
+            optionsContainer.style.display = 'block'; // Optionen anzeigen
+        } else {
+            optionsContainer.style.display = 'none'; // Optionen ausblenden
+        }
+    });
+
+    // Die Optionen in den Body einfügen
+    document.body.appendChild(optionsContainer);
+}
+
+// Initialisieren der Optionen
+createDropdown2();
+
+// Die JSON-Daten
+const systemVariablen = [
+    {
+        "name": "system_zeitHHMM",
+        "desc": "Aktueller Zeitpunkt als HH:MM"
+    },
+    {
+        "name": "system_zeitHHMMSS",
+        "desc": "Aktueller Zeitpunkt als HH:MM:SS"
+    },
+    {
+        "name": "system_datumDDMM",
+        "desc": "Aktueller Zeitpunkt als DD.MM"
+    },
+    {
+        "name": "system_datumDDMMYYYY",
+        "desc": "Aktueller Zeitpunkt als DD.MM.YYYY"
+    },
+    {
+        "name": "system_username",
+        "desc": "Bot Username"
+    },
+    {
+        "name": "system_uuid",
+        "desc": "Bot-UUID"
+    },
+    {
+        "name": "system_server",
+        "desc": "Aktueller CB des Bots"
+    },
+    {
+        "name": "system_bank",
+        "desc": "Spieler in Verkaufszone"
+    },
+    {
+        "name": "system_playerInZoneUuid",
+        "desc": "UUID des Spieleres in Verkaufszone"
+    },
+    {
+        "name": "system_wochentagNummer",
+        "desc": "Wochentag (Montag = 1, Sonntag = 7)"
+    },
+
+    {
+        "name": "system_kw",
+        "desc": "Kalenderwoche als Zahl"
+    },
+    {
+        "name": "system_currenttimestamp",
+        "desc": "Unix Timestamp in MS"
+    }
+];
+
+
+// Funktion zur Erstellung des Dropdown-Menüs
+function createDropdown() {
+    const dropdownContainer = document.getElementById('dropdown-container');
+
+    // Container für die Optionen erstellen und initial verstecken
+    const optionsContainer = document.createElement('div');
+    optionsContainer.setAttribute('id', 'optionsContainer');
+    optionsContainer.style.display = 'none'; // Optionen initial verstecken
+    optionsContainer.style.position = 'absolute'; // Positionierung relativ zum Container
+    optionsContainer.style.zIndex = '1000'; // Damit es über anderen Elementen angezeigt wird
+    optionsContainer.style.backgroundColor = 'white'; // Hintergrundfarbe
+  //  optionsContainer.style.border = '1px solid #ccc'; // Rand
+    optionsContainer.style.minWidth = '200px'; // Minimale Breite
+    optionsContainer.style.padding = '5px'; // Innenabstand
+
+    // Optionen hinzufügen
+    systemVariablen.forEach(item => {
+        const option = document.createElement('div');
+        option.setAttribute('id', 'optionsContainerElement');
+        option.textContent = item.name; // Der Name der Variable wird angezeigt
+        option.style.padding = '5px';
+        option.style.cursor = 'pointer';
+        option.setAttribute('title', item.desc); // Beschreibung als Tooltip
+
+        // Klick-Event für jede Option
+        option.addEventListener('click', function() {
+            insertAtCursor(`%${item.name}%`); // Einfügen mit einem einzigen %
+            optionsContainer.style.display = 'none'; // Optionen nach Auswahl ausblenden
+        });
+
+        optionsContainer.appendChild(option);
+    });
+
+    // Eventlistener für das Öffnen/Schließen der Optionen
+    dropdownContainer.addEventListener('click', function(event) {
+        // Verhindern, dass der Klick auf die Optionen den Button-Click auslöst
+        event.stopPropagation();
+
+        // Position der Optionen unterhalb des Buttons
+        const rect = dropdownContainer.getBoundingClientRect();
+        optionsContainer.style.top = `${rect.bottom + 5}px`; // 5px unter dem Button
+        optionsContainer.style.left = `${rect.left}px`; // Links ausgerichtet mit dem Button
+
+        // Sichtbarkeit der Optionen ändern
+        if (optionsContainer.style.display === 'none') {
+            optionsContainer.style.display = 'block'; // Optionen anzeigen
+        } else {
+            optionsContainer.style.display = 'none'; // Optionen ausblenden
+        }
+    });
+
+    // Die Optionen in den Body einfügen
+    document.body.appendChild(optionsContainer);
+}
+
+// Funktion zum Einfügen des Texts an die Cursor-Position im CodeMirror-Editor
+function insertAtCursor(text) {
+    const doc = editor.getDoc();
+    const cursor = doc.getCursor();
+    doc.replaceRange(text, cursor);
+}
+
+// Initialisieren der Optionen
+createDropdown();

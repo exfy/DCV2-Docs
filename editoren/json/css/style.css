@@ -316,3 +316,9 @@ asdasd
     padding: 5px;
     color: #fff;
 }
+#optionsContainer {
+    background-color: #255966 !important;
+}
+#optionsContainerElement:hover {
+    background-color: #18404a;
+}
