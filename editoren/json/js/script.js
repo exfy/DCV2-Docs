@@ -296,9 +296,8 @@ function createDropdownMenu(data, editor) {
             content.style.display = 'none';
         });
     }
-
     function formatSystemName(name) {
-        return name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        return name.toLowerCase().replace(/[^a-z]/g, '');
     }
 
     ["actions", "conditions", "events", "varactions"].forEach(category => {
@@ -337,8 +336,9 @@ function createDropdownMenu(data, editor) {
                 const itemName = Object.keys(item)[0];
                 let itemData;
 
+
                 if (category === "actions" || category === "varactions") {
-                    itemData = { ...item[itemName], actionname: itemName, actiondisplayname: itemName, minimalReqVersion: 1 };
+                    itemData = { ...item[itemName], actionname: formatSystemName(itemName), actiondisplayname: itemName, minimalReqVersion: 1 };
                 } else if (category === "conditions") {
                     itemData = { ...item[itemName], systemname: formatSystemName(itemName), displayname: itemName, minimalReqVersion: 1 };
                 } else {
@@ -380,6 +380,12 @@ function createDropdownMenu(data, editor) {
                         const currentContent = JSON.stringify(itemData, null, 2);
                         doc.replaceRange(currentContent, cursor);
                         closeAllMenus();
+                        try {
+                            const json = JSON.parse(editor.getValue());
+                            editor.setValue(JSON.stringify(json, null, 2));
+                        } catch (error) {
+                            // Error is already displayed in the live checker
+                        }
                     } else {
                         alert('CodeMirror-Editor nicht gefunden!');
                     }
