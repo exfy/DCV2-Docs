@@ -228,6 +228,30 @@ function renderEventList() {
             var detailActionName = "?";
             if (action !== null) {
                 switch (action.actionname) {
+                    case `CommandDelayAction`:
+                        details = `<b>Command:</b> ${action.data.command}, <br><b>Delay:</b> ${action.data.delay}`;
+                        detailActionName = "Command Delay";
+                        break;
+                    case 'CommandHoloAction':
+                        details = `<b>Command:</b> ${action.data.command}}`;
+                        detailActionName = "Command Holo Queue";
+                        break;
+                    case `MessageWithDelayAction`:
+                        details = `<b>Message:</b> ${action.data.message}, <br><b>Delay:</b> ${action.data.delay}`;
+                        detailActionName = "Message mit Delay";
+                        break;
+                    case `RandomMessageFromListAction`:
+                        details = `<b>Message:</b> ${action.data.message}, <br><b>cmdPrio:</b> ${action.data.cmdPrio}`;
+                        detailActionName = "Zufallsnachricht";
+                        break;
+                    case `JoinerStatusAction`:
+                        details = `<b>Status:</b> ${action.data.status}`;
+                        detailActionName = "Joiner Status";
+                        break;
+                    case `VeloStatusAction`:
+                        details = `<b>Mode:</b> ${action.data.mode}, <br><b>Status:</b> ${action.data.status}`;
+                        detailActionName = "Velo Status";
+                        break;
                     case 'PrivateMessageAction':
                         details = `<b>Player:</b> ${action.data.player}, <br><b>Message:</b></b> ${action.data.message}`;
                         detailActionName = "Private Nachricht";

@@ -50,8 +50,8 @@
     </div>
 </div>
 <div class="tab-menu">
-    <button class="tablink" onclick="openTab('actions')">Mögliche Aktionen</button>
-    <button class="tablink" onclick="openTab('conditions')">Conditions</button>
+    <button class="tablink" onclick="openTab('actions')">Actions/Aktionen</button>
+    <button class="tablink" onclick="openTab('conditions')">Conditions/Bedingung</button>
 </div>
 <div class="container">
     <!-- Left: Available Actions -->
@@ -61,6 +61,12 @@
         <h2>Aktionen</h2>
         <div class="action" draggable="true" data-action="ChatMessageAction">Chat Message</div>
         <div class="action" draggable="true" data-action="CommandAction">Command</div>
+        <div class="action" draggable="true" data-action="CommandDelayAction">Command verzögert</div>
+        <div class="action" draggable="true" data-action="CommandHoloAction">Command in Holo Queue</div>
+        <div class="action" draggable="true" data-action="MessageWithDelayAction">Nachricht verzögert</div>
+        <div class="action" draggable="true" data-action="RandomMessageFromListAction">Random Nachricht</div>
+        <div class="action" draggable="true" data-action="JoinerStatusAction">Joiner an/aus</div>
+        <div class="action" draggable="true" data-action="VeloStatusAction">Velo an/aus</div>
         <div class="action" draggable="true" data-action="QuitClientAction">Quit Client</div>
         <div class="action" draggable="true" data-action="QuitServerAction">Quit Server</div>
         <div class="action" draggable="true" data-action="PrivateMessageAction">Private Message</div>

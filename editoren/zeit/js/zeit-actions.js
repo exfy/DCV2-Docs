@@ -53,6 +53,53 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
 
     // Basierend auf dem Action-Typ das entsprechende Formular erstellen
     switch (actionType) {
+        case 'CommandDelayAction':
+            actionForm = `
+                <label>Command:</label><input type="text" id="command" required>
+                 <label>Delay in ms (1000ms = sek):</label><input type="number" id="delay" required>
+                `;
+            break;
+        case `CommandHoloAction`:
+            actionForm = `
+                <label>Command:</label><input type="text" id="command" required>
+                `;
+            break;
+        case `MessageWithDelayAction`:
+            actionForm = `
+                <label>Message:</label><input type="text" id="message" required>
+                <label>Delay in ms (1000ms = sek):</label><input type="number" id="delay" required>
+                `;
+            break;
+        case `RandomMessageFromListAction`:
+            actionForm = `
+                 <label>Nachrichten je Zeile:</label><textarea id="messages" required></textarea>
+               <select id="cmdPrio" required>
+  <option value="NORMAL">NORMAL</option>
+  <option value="HIGH">HIGH</option>
+  <option value="LOW">LOW</option>
+</select>
+                `;
+            break;
+        case `JoinerStatusAction`:
+            actionForm = `
+                <select id="joinerStatus" required>
+  <option value="true">An</option>
+  <option value="false">Aus</option>
+</select>
+                `;
+            break;
+        case `VeloStatusAction`:
+            actionForm = `
+               <select id="status" required>
+  <option value="true">An/Verkauf ist aus</option>
+  <option value="false">An/Verkauf ist an</option>
+</select>
+              <select id="mode" required>
+  <option value="ankauf">Ankauf</option>
+  <option value="verkauf">Verkauf</option>
+</select>
+                `;
+            break;
         case 'PrivateMessageAction':
             actionForm = `
                 <label>Player:</label><input type="text" id="player" required>
@@ -229,7 +276,29 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
     // Wenn die Aktion bereits existiert (bearbeiten), Felder mit den vorhandenen Werten füllen
     if (actionIndex !== null) {
         const action = events[eventIndex].actions[actionIndex];
-        switch (actionType) {
+        switch (actionType) { case 'CommandDelayAction':
+            document.getElementById('command').value = action.data.command;
+            document.getElementById('delay').value = action.data.delay;
+            break;
+            case 'CommandHoloAction':
+                document.getElementById('command').value = action.data.command;
+                break;
+            case 'MessageWithDelayAction':
+                document.getElementById('message').value = action.data.message;
+                document.getElementById('delay').value = action.data.delay;
+                break;
+            case 'RandomMessageFromListAction':
+                document.getElementById('messages').value = action.data.messages.join('\n');
+                document.getElementById('cmdPrio').value = action.data.cmdPrio;
+                break;
+            case 'JoinerStatusAction':
+                document.getElementById('joinerStatus').value = action.data.joinerStatus;
+                break;
+            case 'VeloStatusAction':
+                document.getElementById('status').value = action.data.status;
+                document.getElementById('mode').value = action.data.mode;
+                break;
+
             case 'PrivateMessageAction':
                 document.getElementById('player').value = action.data.player;
                 document.getElementById('message').value = action.data.message;
@@ -319,6 +388,42 @@ function renderActionForm(actionType, eventIndex, actionIndex = null) {
 function saveActionToEvent(actionType, eventIndex, actionIndex = null) {
     let actionData = {};
     switch (actionType) {
+        case 'CommandDelayAction':
+            actionData = {
+                command: document.getElementById('command').value,
+                delay: document.getElementById('delay').value
+
+            };
+            break;
+        case 'CommandHoloAction':
+            actionData = {
+                command: document.getElementById('command').value
+            };
+            break;
+        case 'MessageWithDelayAction':
+            actionData = {
+                message: document.getElementById('message').value,
+                delay: document.getElementById('delay').value
+            };
+            break;
+        case 'RandomMessageFromListAction':
+            const messages = document.querySelector('textarea').value.split('\n');
+            actionData = {
+                messages: messages,
+                cmdPrio: document.getElementById('cmdPrio').value
+            };
+            break;
+        case 'JoinerStatusAction':
+            actionData = {
+                joinerStatus: document.getElementById('joinerStatus').value
+            };
+            break;
+        case 'VeloStatusAction':
+            actionData = {
+                status: document.getElementById('status').value,
+                mode: document.getElementById('mode').value
+            };
+            break;
         case 'PrivateMessageAction':
             actionData = {
                 player: document.getElementById('player').value,
