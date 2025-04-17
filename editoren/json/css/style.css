@@ -171,6 +171,7 @@ body {
 }
 .CodeMirror.cm-s-material {
     margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .footer-right {
@@ -318,12 +319,14 @@ asdasd
 }
 #optionsContainer {
     background-color: #255966 !important;
+    position: fixed!important;
 }
 #optionsContainerElement:hover {
     background-color: #18404a;
 }
 #optionsContainer2 {
     background-color: #255966 !important;
+    position: fixed!important;
 }
 #optionsContainerElement2:hover {
     background-color: #18404a;

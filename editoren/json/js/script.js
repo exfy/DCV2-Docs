@@ -72,6 +72,82 @@ document.getElementById("redoButton").addEventListener("click", () => {
 
 let cookiesAccepted = false;
 
+// Funktion zum Setzen in Local Storage
+function setLocalStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+// Funktion zum Abrufen aus Local Storage
+function getLocalStorage(key) {
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(item) : null;
+}
+
+// Funktion zum Löschen aus Local Storage
+function deleteLocalStorage(key) {
+    localStorage.removeItem(key);
+}
+
+// Cookie-Akzeptanz prüfen
+const cookieConsent = getLocalStorage("cookiesAccepted");
+if (cookieConsent === null) {
+    document.getElementById("cookieBanner").style.display = "block";
+} else {
+    cookiesAccepted = cookieConsent === true;
+    if (cookiesAccepted) {
+        loadEditorContent();
+    }
+}
+
+// Akzeptanz-Logik
+document.getElementById("acceptCookies").addEventListener("click", () => {
+    setLocalStorage("cookiesAccepted", true);
+    cookiesAccepted = true;
+    document.getElementById("cookieBanner").style.display = "none";
+    loadEditorContent();
+});
+
+// Ablehnung-Logik
+document.getElementById("rejectCookies").addEventListener("click", () => {
+    setLocalStorage("cookiesAccepted", false);
+    cookiesAccepted = false;
+    deleteLocalStorage("editorContent"); // Löscht gespeicherte Inhalte
+    document.getElementById("cookieBanner").style.display = "none";
+});
+
+// Automatische Speicherung bei Änderungen
+if (typeof editor !== "undefined") {
+    editor.on("change", () => {
+        if (cookiesAccepted) {
+            const content = editor.getValue();
+            setLocalStorage("editorContent", content); // Speichert Inhalt in Local Storage
+        }
+    });
+}
+
+// Laden des Inhalts aus Local Storage
+function loadEditorContent() {
+    if (cookiesAccepted) {
+        const content = getLocalStorage("editorContent");
+        if (content) {
+            editor.setValue(content);
+        } else {
+            editor.setValue(""); // Fallback: Leerer Inhalt, wenn nichts gespeichert ist
+        }
+        document.getElementById("cookieBanner").style.display = "none";
+    }
+}
+
+// Cookie-Einstellungen erneut öffnen
+document.getElementById("manageCookies").addEventListener("click", (e) => {
+    e.preventDefault();
+    document.getElementById("cookieBanner").style.display = "block";
+});
+
+
+/*
+let cookiesAccepted = false;
+
 // Funktion zum Setzen von Cookies
 function setCookie(name, value, days) {
     const date = new Date();
@@ -145,7 +221,7 @@ document.getElementById("manageCookies").addEventListener("click", (e) => {
     e.preventDefault();
     document.getElementById("cookieBanner").style.display = "block";
 });
-
+*/
 
 
 
@@ -222,7 +298,7 @@ function createDropdownMenu(data, editor) {
             const contentContainer = document.createElement('div');
             contentContainer.classList.add('category-content');
             contentContainer.style.display = 'none';
-            contentContainer.style.position = 'absolute';
+            contentContainer.style.position = 'fixed!important';
             contentContainer.style.left = '0';
             contentContainer.style.top = '100%';
             contentContainer.style.zIndex = '1000';
@@ -411,7 +487,7 @@ function createDropdown2() {
     const optionsContainer2 = document.createElement('div');
     optionsContainer2.setAttribute('id', 'optionsContainer2');
     optionsContainer2.style.display = 'none'; // Optionen initial verstecken
-    optionsContainer2.style.position = 'absolute'; // Positionierung relativ zum Container
+    optionsContainer2.style.position = 'fixed!important'; // Positionierung relativ zum Container
     optionsContainer2.style.zIndex = '1000'; // Damit es über anderen Elementen angezeigt wird
     optionsContainer2.style.backgroundColor = 'white'; // Hintergrundfarbe
     //  optionsContainer.style.border = '1px solid #ccc'; // Rand
