@@ -274,7 +274,7 @@ function renderEventList() {
                         detailActionName = "Zufallsnachricht";
                         break;
                     case `JoinerStatusAction`:
-                        details = `<b>Status:</b> ${action.data.status}`;
+                        details = `<b>Status:</b> ${action.data.joinerStatus}`;
                         detailActionName = "Joiner Status";
                         break;
                     case `VeloStatusAction`:
