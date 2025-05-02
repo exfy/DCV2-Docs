@@ -313,9 +313,34 @@ function createDropdownMenu(data, editor) {
 
 
                 if (category === "actions" || category === "varactions") {
-                    itemData = { ...item[itemName], actionname: formatSystemName(itemName), actiondisplayname: itemName, minimalReqVersion: 1 };
+                    itemData = {
+                        actionname: itemName.replace(/Data$/, "Action"),
+                        actiondisplayname: itemName.replace(/Data$/, "Action"),
+                        minimalReqVersion: 1,
+                        data: item[itemName]
+                    };
                 } else if (category === "conditions") {
-                    itemData = { ...item[itemName], systemname: formatSystemName(itemName), displayname: itemName, minimalReqVersion: 1 };
+                    itemData = {
+                        systemname: itemName.replace(/Data$/, ""),
+                        displayname: itemName.replace(/Data$/, ""),
+                        minimalReqVersion: 1,
+                        data: item[itemName]
+                    };
+                } else if (category === "events") {
+                    const raw = item[itemName];
+
+                    itemData = {
+                        systemname: "",
+                        comment: raw.comment || "",
+                        displayname: "",
+                        minimalReqVersion: 1,
+                        conditions: [],
+                        actions: [],
+                        ...Object.fromEntries(Object.entries(raw).filter(([k]) => ![
+                            "systemname", "comment", "displayname", "minimalReqVersion", "conditions", "actions"
+                        ].includes(k)))
+                    };
+
                 } else {
                     itemData = { ...item[itemName], systemname: formatSystemName(itemName) };
                 }
