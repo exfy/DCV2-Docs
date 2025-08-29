@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCV2 Zeit-Event Editor</title>
-    <link rel="stylesheet" href="css/ZeitEventEditorStyle.css">
+    <title>DCV2 ChatReactor-Event Editor</title>
+    <link rel="stylesheet" href="css/ChatEventEditorStyle.css">
 </head>
 <body>
 
 <div class="header">
-    <img class="logo" src = "https://api.qq4.de/dcv2/dcv2-zeit-event-editor.png" alt="DCV2 Zeit-Event Editor">
+    <img  class="logo" src = "https://api.qq4.de/dcv2/chat-reactor.png" alt="DCV2 Chat-Event Editor">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/theme/material.min.css">
 
+
+
     <div class="buttons">
-
-
-
         <span class="menu-toggle" onclick="toggleMenu()">☰</span>
 
 
@@ -27,34 +26,30 @@
 <div class="sidebar" id="sidebar">
     <div class="menu-toggle-open" onclick="toggleMenu()"> ✖ </div>
     <div class="sidebar-imexport">
-    <span>  <input type="file" id="fileInput" accept=".json"><button id="importBtn">Import</button></span>
-    <span> <button id="saveBtn">Export</button></span>
+        <span>  <input type="file" id="fileInput" accept=".json"><button id="importBtn">Import</button></span>
+        <span> <button id="saveBtn">Export</button></span>
     </div>
     <a href="#" onclick="toggleSubmenu('submenu1')">⤷ Editoren</a>
 
     <div class="submenu" id="submenu1">
         <a class="submenu-link" href="https://editoren.qq4.de/editoren/chat/ChatEventEditor.html" target="_blank">Chat-Event Editor</a>
-         <a class="submenu-link" href="https://editoren.qq4.de/editoren/chatreactor/ChatReactorEventEditor.html" target="_blank">ChatReactor-Event Editor</a>
+        <a class="submenu-link" href="https://editoren.qq4.de/editoren/chatreactor/ChatReactorEventEditor.html" target="_blank">ChatReactor-Event Editor</a>
         <a class="submenu-link" href="https://editoren.qq4.de/editoren/lampen/LampenEventEditor.html" target="_blank">Lampen-Event Editor</a>
         <a class="submenu-link" href="https://editoren.qq4.de/editoren/zeit/ZeitEventEditor.html" target="_blank">Zeit-Event Editor</a>
         <a class="submenu-link" href="https://editoren.qq4.de/editoren/ankauf/AnkaufEventEditor.html" target="_blank">Ankauf-Event Editor</a>
         <a class="submenu-link" href="https://editoren.qq4.de/editoren/buttons/DynamicButtonEditor.html" target="_blank">Dynamic Button-Event Editor</a>
         <a class="submenu-link" href="https://editoren.qq4.de/editoren/json/JsonEditor.html" target="_blank">JSON Editor</a>
-
     </div>
     <a href="#" onclick="toggleSubmenu('submenu2')">⤷ Hilfe</a>
     <div class="submenu" id="submenu2">
-        <a class="submenu-link" target="_blank" href="https://dcv2docs.qq4.de/docs/doc-events/ZeitEvent">Zeit Event Wiki</a>
+        <a class="submenu-link" target="_blank" href="https://dcv2docs.qq4.de/docs/category/chatreactor-event">ChatReactor Event Wiki</a>
         <a class="submenu-link" target="_blank" href="https://dcv2docs.qq4.de/docs/category/events">DCV2 Wiki</a>
     </div>
     <div class="sidemenu-footer">
         <a class="submenu-footerlink" target="_blank" href="https://dcv2.qq4.de/impressum/impressum.html">Impressum</a>
         <a class="submenu-footerlink" target="_blank" href="https://dcv2.qq4.de/impressum/datenschutz.html">Datenschutzerklärung</a>
-        </div>
+    </div>
 </div>
-
-
-
 <div class="tab-menu">
     <button class="tablink" onclick="openTab('actions')">Actions/Aktionen</button>
     <button class="tablink" onclick="openTab('conditions')">Conditions/Bedingung</button>
@@ -90,6 +85,7 @@
         <div id="operation" class="action" draggable="true" data-action="RemoveFromInt">RemoveFromInt</div>
         <div id="operation" class="action" draggable="true" data-action="IntPP">IntPlusPlus</div>
         <div id="operation" class="action" draggable="true" data-action="IntMM">IntMinusMinus</div>
+
     </div>
     <!-- Left: Conditions (Initially Hidden) -->
     <div id="conditions" class="tab-content" style="display:none;">
@@ -125,57 +121,93 @@
                 <input type="text" id="comment">
             </div>
             <div>
-                <label for="time">Zeit (HH:MM):</label>
-                <input type="time" id="time" required>
+                <label for="textIsWithColorCodes">Chat mit Farb-Codes</label>
+                <a href="https://exfy.gitxx" target="_blank" style="text-decoration: none;">
+                        <button type="button" style="border-radius: 50%; background-color: #5865f2; color: white; border: none; margin-bottom: 5px; width: 23px; height: 23px; font-size: 13px; line-height: 25px; text-align: center; padding: 0;font-weight: bold;" title="Hilfe zum erstellen von RegEx findest du hier!">?</button>
+                    </a>
+                <select id="textIsWithColorCodes" required>
+                    <option value="false">Nein</option>
+                    <option value="true">Ja</option>
+                </select>
+
+                  <label for="textIsCaseSensitive">Groß und Kleinschreibung beachten</label>
+                  <a href="https://exfy.xxxs" target="_blank" style="text-decoration: none;">
+                        <button type="button" style="border-radius: 50%; background-color: #5865f2; color: white; border: none; margin-bottom: 5px; width: 23px; height: 23px; font-size: 13px; line-height: 25px; text-align: center; padding: 0;font-weight: bold;" title="Hilfe zum erstellen von RegEx findest du hier!">?</button>
+                    </a>
+                <select id="textIsCaseSensitive" required>
+                    <option value="false">Nein</option>
+                    <option value="true">Ja</option>
+                </select>
+
+                <label for="searchText">Suche Text:
+                    <a href="https://xxx" target="_blank" style="text-decoration: none;">
+                        <button type="button" style="border-radius: 50%; background-color: #5865f2; color: white; border: none; margin-bottom: 5px; width: 23px; height: 23px; font-size: 13px; line-height: 25px; text-align: center; padding: 0;font-weight: bold;" title="Hilfe zum erstellen von RegEx findest du hier!">?</button>
+                    </a>
+                </label>
+           
+                <input type="text" id="searchText">
+    
+                <label for="chatReactorMode">ChatReactor Modus:</label>
+                <select id="chatReactorMode" required>
+                    <option value="STARTWITH">Beginnt mit (STARTWITH)</option>
+                    <option value="CONTAINS">Enthält (CONTAINS)</option>
+                    <option value="NOTCONTAINS">Enthält nicht (NOTCONTAINS)</option>
+                    <option value="ENDSWITH">Endet mit (ENDSWITH)</option>
+                    <option value="EQUALS">Ist gleich (EQUALS)</option>
+                    <option value="NOTEQUALS">Ist nicht gleich (NOTEQUALS)</option>
+                    <option value="EMPTY">Ist leer (EMPTY)</option>
+                </select>
+
+
+
             </div>
-            <button type="submit" id="createEventBtn">Zeitevent erstellen</button>
+    <button type="submit" id="createEventBtn">Chatevent erstellen</button>
 
-
-        </form>
-
-
-
-        <h2>Deine Events</h2>
-        <div id="eventList"></div>
+    </form>
 
 
 
-        <!-- Füge den Container für das Action-Formular hinzu -->
-        <div id="actionPopup" class="popup">
-            <div class="popup-content">
-                <span id="closePopup" class="close">&times;</span>
-                <div id="actionFormContainer"></div>
-            </div>
+    <h2>Deine Events</h2>
+    <div id="eventList"></div>
 
+
+
+    <!-- Füge den Container für das Action-Formular hinzu -->
+    <div id="actionPopup" class="popup">
+        <div class="popup-content">
+            <span id="closePopup" class="close">&times;</span>
+            <div id="actionFormContainer"></div>
         </div>
+
     </div>
-
-
-    <div id="conditionFormContainer">
-        <span class="close" onclick="closeConditionPopup()">×</span>
-        <!-- Formular-Inhalte werden dynamisch eingefügt -->
-    </div>
-
-
-
-    <!-- Right: JSON Output -->
-    <div class="column">
-        <h2>TimeEvents.json</h2>
-        <div class="json-output" id="jsonOutput"></div>
-        <button id="copyBtn">STRG + C</button>
-    </div>
-
-
 </div>
-<div id="mobileWarning">
-    Der Editor ist nur im Desktop-Modus verfügbar. Bitte verwenden Sie ein größeres Gerät oder vergrößern Sie das Fenster.
+
+
+<div id="conditionFormContainer">
+    <span class="close" onclick="closeConditionPopup()">×</span>
+    <!-- Formular-Inhalte werden dynamisch eingefügt -->
+</div>
+
+
+
+
+
+<!-- Right: JSON Output -->
+<div class="column">
+    <h2>ChatEvents.json</h2>
+    <div class="json-output" id="jsonOutput"></div>
+    <button id="copyBtn">STRG + C</button>
+</div>
+
+
 </div>
 
 <!-- JavaScript Dateien -->
-<script src="js/zeit-actions.js"></script>
-<script src="js/zeit-conditions.js"></script>
-<script src="js/zeit-global.js"></script>
-<script src="js/zeit-event.js"></script>
+<script src="js/chat-actions.js"></script>
+<script src="js/chat-conditions.js"></script>
+<script src="js/chat-global.js"></script>
+<script src="js/chat-event.js"></script>
+<script src="js/chat-variables.js"></script>
 
 
 </body>
